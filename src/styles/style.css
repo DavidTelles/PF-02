@@ -1,0 +1,118 @@
+/* IMPORT FONT */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+/* ROOT */
+:root {
+    --black: #0e0e0e;
+    --gold: #F2CA50;
+    --blur: #d0c5afa6;
+
+    --font: 'Space Grotesk', sans-serif;
+}
+
+/* RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* =========================
+    HEADER
+========================= */
+header {
+    display: flex;
+    min-height: 100vh;
+    max-width: 230px;
+
+    background-color: var(--black);
+
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: space-around;
+}
+
+/* NAV */
+nav {
+    display: block;
+    width: 100%;
+    min-height: 350px;
+}
+
+/* TITLE */
+h1 {
+    line-height: 28px;
+    text-align: center;
+    color: var(--gold);
+}
+
+.septem {
+    display: block;
+    padding: 40px;
+    padding-left: 10px;
+}
+
+/* =========================
+    LINKS
+========================= */
+a {
+    position: relative;
+    text-decoration: none;
+    color: var(--blur);
+    transition: color 0.7s;
+}
+
+a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0%;
+    height: 2px;
+    background-color: var(--gold);
+    transition: width 0.7s ease;
+}
+
+a:hover {
+    color: var(--gold);
+}
+
+a:hover::after {
+    width: 100%;
+}
+
+/* =========================
+    LISTAS HEADER
+========================= */
+ul {
+    font-family: var(--font);
+}
+
+.h-list li {
+    display: block;
+    list-style: none;
+    padding: 5px;
+    padding-left: 35px;
+}
+
+.h-list li span {
+    color: var(--gold);
+}
+
+/* =========================
+    FOOTER LIST (HEADER)
+========================= */
+.f-list {
+    display: flex;
+    justify-content: space-between;
+}
+
+.f-list li {
+    list-style: none;
+    padding: 10px;
+}
+
+.f-list img {
+    height: 12px;
+    width: 12px;
+}
