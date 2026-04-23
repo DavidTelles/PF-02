@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro | Septem Racing</title>
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <h1 class="septem">SEPTEM RACING</h1>
+            <ul class="h-list">
+                <li><a href="dashboard.html"><span>Dashboard</span></a></li>
+                <li><a href="#">Cars</a></li>
+                <li><a href="#">Racings</a></li>
+                <li><a href="#">Teams</a></li>
+            </ul>
+        </nav>
+
+        <section class="h-footer">
+            <ul class="f-list">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </section>
+    </header>
+
+    <main class="register-container">
+        <div class="register-card">
+            <h2>Criar Conta</h2>
+            <p>Entre no grid da <span>Septem Racing</span></p>
+
+            <form>
+                <div class="input-group">
+                    <label>Nome</label>
+                    <input type="text" placeholder="Seu nome" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="seu@email.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Senha</label>
+                    <input type="password" placeholder="********" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Confirmar Senha</label>
+                    <input type="password" placeholder="********" required>
+                </div>
+
+                <button type="submit">Cadastrar</button>
+            </form>
+
+            <p class="login-link">
+                Já tem conta? <a href="#">Entrar</a>
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <nav>
+            <h1 class="footer"><span>MORE</span></h1>
+            <ul>
+                <li class="li-footer">LOGAR</li>
+                <li class="li-footer"><a href="#">CADASTRAR</a></li>
+                <li class="li-footer">FAQ</li>
+            </ul>
+            <div class="config"></div>
+        </nav>
+    </footer>
+
+    <script>
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const inputs = form.querySelectorAll("input");
+
+            const data = {
+                name: inputs[0].value,
+                email: inputs[1].value,
+                password: inputs[2].value
+            };
+
+            try {
+                const response = await fetch("http://localhost:3000/users/create", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert("Conta criada com sucesso!");
+                    form.reset();
+                } else {
+                    alert(result.error);
+                }
+
+            } catch (error) {
+                console.error(error);
+                alert("Erro ao conectar com o servidor");
+            }
+        });
+    </script>
+</body>
+
+</html>

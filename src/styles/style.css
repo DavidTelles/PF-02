@@ -80,6 +80,7 @@ a {
     text-decoration: none;
     color: var(--blur);
     transition: color 0.7s;
+    font-family: var(--font);
 }
 
 a::after {
@@ -296,4 +297,93 @@ footer li:hover::after {
     height: 20px;
     background: #141414;
     border-radius: 50%;
+}
+
+/* =========================
+   REGISTER PAGE
+========================= */
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.register-card {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+
+    padding: 40px;
+    border-radius: 12px;
+    width: 350px;
+
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+.register-card h2 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.register-card p {
+    margin-bottom: 20px;
+}
+
+/* INPUTS */
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    color: var(--blur);
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.input-group input {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+
+    background: #1a1a1a;
+    color: white;
+
+    outline: none;
+    transition: 0.7s;
+}
+
+.input-group input:focus {
+    border: 1px solid var(--gold);
+}
+
+/* BUTTON */
+
+.register-card button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+
+    background: var(--gold);
+    color: black;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: 0.7s;
+}
+
+.register-card button:hover {
+    background: #b8962e;
+}
+
+/* LINK */
+
+.login-link {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
 }
