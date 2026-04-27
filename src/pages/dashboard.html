@@ -13,19 +13,20 @@
         <nav>
             <h1 class="septem">SEPTEM RACING</h1>
             <ul class="h-list">
-                <li><a href="#"><span>Dashboard</span></a></li>
-                <li><a href="#">Cars</a></li>
-                <li><a href="#">Racings</a></li>
-                <li><a href="#">Teams</a></li>
+                <li><a href="dashboard.html"><span>Dashboard</span></a></li>
+                <li><a href="carros.html">Cars</a></li>
+                <li><a href="corrida.html">Racings</a></li>
+                <li><a href="time.html">Teams</a></li>
             </ul>
         </nav>
         <section class="h-footer">
             <ul class="f-list">
-                <li><a href="#"> <img src="../../icons/about.png" alt="About"> About</a></li>
+                <li><a href="#"><img src="../../icons/about.png" alt="About"> About</a></li>
                 <li><a href="#"><img src="../../icons/logout.png" alt="Logout"> Logout</a></li>
             </ul>
         </section>
     </header>
+
     <main>
         <div class="m-header">
             <section class="mh-status">
@@ -38,7 +39,7 @@
             <section class="s-status">
                 <div class="race">
                     <h6>RACE PROGRESS</h6>
-                    <p><span class="r-status">3</span>/ 20</p>
+                    <p><span class="r-status">3</span> / 20</p>
                 </div>
                 <div class="gap">
                     <h6>GAP TO LEADER</h6>
@@ -46,6 +47,7 @@
                 </div>
             </section>
         </div>
+
         <div class="bottom-data">
             <section>
                 <div class="card">
@@ -66,24 +68,121 @@
                 </div>
             </section>
         </div>
+
         <div class="m-main">
             <section>
-                <h3>CIRCUIT MAP</h3> <img src="" alt="circuit map">
+                <h3>CIRCUIT MAP</h3>
+
+                <!-- SVG do circuito animado -->
+                <svg class="circuit-svg" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="400" height="180" fill="rgba(0,0,0,0.2)" rx="8"/>
+                    <!-- sombra do traçado -->
+                    <path d="M60,140 Q60,40 140,40 L260,40 Q340,40 340,90 Q340,140 260,140 Q200,140 200,110 Q200,80 160,80 Q100,80 100,110 Q100,140 60,140 Z"
+                        fill="none" stroke="rgba(212,175,55,0.1)" stroke-width="18"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- traçado principal animado -->
+                    <path class="circuit-track"
+                        d="M60,140 Q60,40 140,40 L260,40 Q340,40 340,90 Q340,140 260,140 Q200,140 200,110 Q200,80 160,80 Q100,80 100,110 Q100,140 60,140 Z"
+                        fill="none" stroke="#d4af37" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+                    <!-- marcadores de setor -->
+                    <circle cx="200" cy="40" r="4" fill="rgba(212,175,55,0.5)"/>
+                    <circle cx="340" cy="90" r="4" fill="rgba(212,175,55,0.5)"/>
+                    <!-- ponto do carro (posição inicial, JS anima) -->
+                    <circle id="car-dot"  cx="245" cy="140" r="5"  fill="#d4af37" class="circuit-dot"/>
+                    <circle id="car-glow" cx="245" cy="140" r="12" fill="rgba(212,175,55,0.15)" class="circuit-dot"/>
+                    <!-- labels de setor -->
+                    <text x="185" y="30"  fill="rgba(212,175,55,0.6)" font-size="10" font-family="'Space Grotesk',sans-serif" letter-spacing="1">S1</text>
+                    <text x="50"  y="100" fill="rgba(212,175,55,0.6)" font-size="10" font-family="'Space Grotesk',sans-serif" letter-spacing="1">S2</text>
+                    <text x="290" y="100" fill="rgba(212,175,55,0.6)" font-size="10" font-family="'Space Grotesk',sans-serif" letter-spacing="1">S3</text>
+                </svg>
+
                 <p class="map">SECTOR 3</p>
                 <p class="h6">VEL: 284 KM/H | G-LAP: 3.2G</p>
             </section>
         </div>
     </main>
+
     <footer>
         <nav>
             <h1 class="footer"><span>MORE</span></h1>
             <ul>
-                <li class="li-footer">LOGAR</li>
+                <li class="li-footer"><a href="login.html">LOGAR</a></li>
                 <li class="li-footer"><a href="cadastro.html">CADASTRAR</a></li>
-                <li class="li-footer">FAQ</li>
+                <li class="li-footer"><a href="faq.html">FAQ</a></li>
             </ul>
             <div class="config"></div>
         </nav>
     </footer>
+
+    <script>
+        /* =========================================
+           3D TILT — cards e status boxes
+        ========================================= */
+        document.querySelectorAll('.card, .race, .gap').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const r = card.getBoundingClientRect();
+                const x = (e.clientX - r.left) / r.width  - 0.5;
+                const y = (e.clientY - r.top)  / r.height - 0.5;
+                card.style.transform =
+                    `rotateX(${-y * 14}deg) rotateY(${x * 14}deg) translateY(-6px) scale(1.03)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transition =
+                    'transform 0.5s cubic-bezier(.23,1.01,.32,1), border-color 0.4s, box-shadow 0.4s';
+                card.style.transform = '';
+            });
+
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = 'border-color 0.4s, box-shadow 0.4s';
+            });
+        });
+
+        /* =========================================
+           CARRO ANIMADO no circuito SVG
+        ========================================= */
+        (function () {
+            const track = document.querySelector('.circuit-track');
+            const dot   = document.getElementById('car-dot');
+            const glow  = document.getElementById('car-glow');
+            let t = 0;
+
+            function animateCar() {
+                try {
+                    const len = track.getTotalLength();
+                    t = (t + 0.003) % 1;
+                    const pt = track.getPointAtLength(t * len);
+                    dot.setAttribute('cx',  pt.x);
+                    dot.setAttribute('cy',  pt.y);
+                    glow.setAttribute('cx', pt.x);
+                    glow.setAttribute('cy', pt.y);
+                } catch (e) { /* SVG ainda não pintado */ }
+                requestAnimationFrame(animateCar);
+            }
+
+            // Aguarda o traçado terminar de ser desenhado (2.5 s + 0.5 s delay = 3 s)
+            setTimeout(animateCar, 4000);
+        })();
+
+        /* =========================================
+           COUNTER animado — Race Progress
+        ========================================= */
+        (function () {
+            const el = document.querySelector('.r-status');
+            if (!el) return;
+            let v = 0;
+            const target = 3;
+
+            const step = () => {
+                v = Math.min(v + 0.12, target);
+                el.textContent = Math.floor(v);
+                if (v < target) requestAnimationFrame(step);
+                else el.textContent = target;
+            };
+
+            setTimeout(step, 600);
+        })();
+    </script>
 </body>
 </html>
