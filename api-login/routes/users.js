@@ -2,6 +2,8 @@ const express = require('express');
 const userRouters = express.Router();
 const db = require('../db');
 const bcrypt = require('bcrypt');
+const cors = require("cors");
+userRouters.use(cors());
 
 // GET usuários
 userRouters.get('/get', (req, res) => {

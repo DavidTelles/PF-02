@@ -1,9 +1,16 @@
 const express = require('express');
+const cors = require('cors');
+
 const app = express();
+
+app.use(cors());
 app.use(express.json());
 
-//Rotas
-const userRouter = require('./routes/users');
-app.use('/users', userRouter);
+const userRouters = require("./routes/users");
+app.use("/users", userRouters);
+
+app.get("/", (req, res) => {
+    res.send("API funcionando 🚀");
+});
 
 module.exports = app;
