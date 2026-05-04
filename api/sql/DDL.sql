@@ -21,7 +21,7 @@ USE `corrida_db` ;
 DROP TABLE IF EXISTS `corrida_db`.`users` ;
 
 CREATE TABLE IF NOT EXISTS `corrida_db`.`users` (
-    `id` INT NOT NULL,
+    `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `email` VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
@@ -48,7 +48,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `corrida_db`.`laps` ;
 
 CREATE TABLE IF NOT EXISTS `corrida_db`.`laps` (
-    `id` INT NOT NULL,
+    `id` INT NOT NULL AUTO_INCREMENT,
     `time` DECIMAL(10,2) NULL,
     `date` TIMESTAMP NULL,
     `runners_id` INT NOT NULL,
