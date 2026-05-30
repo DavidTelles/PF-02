@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cars | Septem Racing</title>
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+<div class="page-wrapper">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="brand-name">Septem</span>
+      <span class="brand-sub">Racing Management</span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="nav-label">Main</p>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">⬡</span> Dashboard</a>
+      <a href="carros.html" class="nav-item active"><span class="nav-icon">◈</span> Cars</a>
+      <a href="corrida.html" class="nav-item"><span class="nav-icon">◎</span> Racings</a>
+      <a href="time.html" class="nav-item"><span class="nav-icon">◇</span> Teams</a>
+      <div class="nav-divider"></div>
+      <p class="nav-label">System</p>
+      <a href="faq.html" class="nav-item"><span class="nav-icon">?</span> FAQ</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../../index.html" class="nav-item"><span class="nav-icon">⬡</span> Home</a>
+      <a href="login.html" class="nav-item"><span class="nav-icon">→</span> Login</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Cars</h1>
+        <p class="page-subtitle">Gerenciamento de veículos — Frota da equipe</p>
+      </div>
+      <div class="topbar-right">
+        <span class="badge badge-gold">14 Carros</span>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="stat-card">
+        <div class="stat-label">Total de Carros</div>
+        <div class="stat-value gold">14</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Em Corrida</div>
+        <div class="stat-value">2</div>
+        <div class="stat-delta up">● Ativos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Em Manutenção</div>
+        <div class="stat-value">3</div>
+        <div class="stat-delta" style="color:var(--orange)">● Manutenção</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Disponíveis</div>
+        <div class="stat-value">9</div>
+        <div class="stat-delta">● Stand-by</div>
+      </div>
+    </div>
+
+    <!-- Cars Table -->
+    <div class="panel mt-3">
+      <div class="panel-header">
+        <span class="panel-title">Frota Completa</span>
+        <button class="btn btn-ghost btn-sm">+ Adicionar Carro</button>
+      </div>
+      <div class="table-wrapper" style="border:none;border-radius:0">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Chassis</th>
+              <th>Modelo</th>
+              <th>Motor</th>
+              <th>Piloto</th>
+              <th>Status</th>
+              <th>Última Corrida</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="pos-badge p1">7</span></td>
+              <td class="td-primary">SR-001</td>
+              <td class="td-primary">Septem MK7</td>
+              <td class="text-muted">V8 4.0L</td>
+              <td class="td-gold">Hamilton Jr.</td>
+              <td><span class="badge badge-green" style="font-size:10px">Ativo</span></td>
+              <td class="text-muted">GP Brasil 2025</td>
+            </tr>
+            <tr>
+              <td><span class="pos-badge p2">3</span></td>
+              <td class="td-primary">SR-002</td>
+              <td class="td-primary">Septem MK7</td>
+              <td class="text-muted">V8 4.0L</td>
+              <td class="td-gold">Verstappini</td>
+              <td><span class="badge badge-green" style="font-size:10px">Ativo</span></td>
+              <td class="text-muted">GP Brasil 2025</td>
+            </tr>
+            <tr>
+              <td><span class="pos-badge">11</span></td>
+              <td class="td-primary">SR-003</td>
+              <td class="td-primary">Septem MK6</td>
+              <td class="text-muted">V6 3.0L</td>
+              <td class="text-muted">—</td>
+              <td><span class="badge" style="background:rgba(249,115,22,.1);color:var(--orange);border:1px solid rgba(249,115,22,.3);font-size:10px">Manutenção</span></td>
+              <td class="text-muted">GP Japão 2025</td>
+            </tr>
+            <tr>
+              <td><span class="pos-badge">44</span></td>
+              <td class="td-primary">SR-004</td>
+              <td class="td-primary">Septem MK6</td>
+              <td class="text-muted">V6 3.0L</td>
+              <td class="text-muted">—</td>
+              <td><span class="badge badge-gold" style="font-size:10px">Stand-by</span></td>
+              <td class="text-muted">GP Monaco 2024</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">
+  <span class="footer-brand"><span>Septem</span> Racing</span>
+  <nav class="footer-links">
+    <a href="login.html">Login</a>
+    <a href="cadastro.html">Cadastro</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+  <span class="footer-brand" style="font-size:11px">© 2025</span>
+</footer>
+
+<script>
+  document.getElementById('sidebarToggle').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('mobile-open');
+    document.getElementById('sidebarOverlay').classList.toggle('active');
+  });
+  document.getElementById('sidebarOverlay').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('mobile-open');
+    document.getElementById('sidebarOverlay').classList.remove('active');
+  });
+</script>
+</body>
+</html>

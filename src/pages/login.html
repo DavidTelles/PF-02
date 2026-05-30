@@ -1,118 +1,115 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro | Septem Racing</title>
-    <link rel="stylesheet" href="../styles/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Septem Racing</title>
+  <link rel="stylesheet" href="../styles/style.css">
 </head>
 
 <body>
-    <header>
-        <nav>
-            <h1 class="septem">SEPTEM RACING</h1>
-            <ul class="h-list">
-                <li><a href="dashboard.html"><span>Dashboard</span></a></li>
-                <li><a href="carros.html">Cars</a></li>
-                <li><a href="corrida.html">Racings</a></li>
-                <li><a href="time.html">Teams</a></li>
-            </ul>
-        </nav>
+  <div class="center-page" style="background:var(--black);position:relative;overflow:hidden">
+    <!-- Background decoration -->
+    <div
+      style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 50% 50%, rgba(212,175,55,0.05) 0%, transparent 70%);pointer-events:none">
+    </div>
+    <div
+      style="position:absolute;inset:0;background-image:linear-gradient(rgba(212,175,55,0.03) 1px, transparent 1px),linear-gradient(90deg,rgba(212,175,55,0.03) 1px,transparent 1px);background-size:50px 50px;pointer-events:none;mask-image:radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 70%)">
+    </div>
 
-        <section class="h-footer">
-            <ul class="f-list">
-                <li><a href="#">About</a></li>
-                <li><a href="#">Logout</a></li>
-            </ul>
-        </section>
-    </header>
+    <div style="position:relative;z-index:2;width:100%;display:flex;flex-direction:column;align-items:center">
+      <!-- Back link -->
+      <a href="../../index.html"
+        style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:32px;display:inline-flex;align-items:center;gap:6px;transition:color .25s"
+        onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">
+        ← Voltar ao início
+      </a>
 
-    <main class="register-container">
-        <div class="register-card">
-            <h2>Criar Conta</h2>
-            <p>Entre no grid da <span>Septem Racing</span></p>
-
-            <form>
-                <div class="input-group">
-                    <label>Nome</label>
-                    <input type="text" placeholder="Seu nome" required>
-                </div>
-
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" placeholder="seu@email.com" required>
-                </div>
-
-                <div class="input-group">
-                    <label>Senha</label>
-                    <input type="password" placeholder="********" required>
-                </div>
-
-                <div class="input-group">
-                    <label>Confirmar Senha</label>
-                    <input type="password" placeholder="********" required>
-                </div>
-
-                <button type="submit">Cadastrar</button>
-            </form>
-
-            <p class="login-link">
-                Já tem conta? <a href="#">Entrar</a>
-            </p>
+      <div class="form-card">
+        <div class="form-card-header">
+          <div
+            style="font-family:var(--font-display);font-size:13px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:12px">
+            Septem Racing</div>
+          <h2>Entrar</h2>
+          <p>Bem-vindo de volta ao grid</p>
         </div>
-    </main>
 
-    <footer>
-        <nav>
-            <h1 class="footer"><span>MORE</span></h1>
-            <ul>
-                <li class="li-footer"><a href="#">LOGAR</a></li>
-                <li class="li-footer"><a href="cadastro.html">CADASTRAR</a></li>
-                <li class="li-footer"><a href="faq.html">FAQ</a></li>
-            </ul>
-            <div class="config"></div>
-        </nav>
-    </footer>
+        <form id="loginForm">
+          <div class="input-group">
+            <label>Nome de Usuário</label>
+            <input type="text" id="name" placeholder="seu nome" required>
+          </div>
+          <div class="input-group">
+            <label>Senha</label>
+            <input type="password" id="password" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full" style="margin-top:8px">
+            Entrar no Grid
+          </button>
+        </form>
 
-    <script>
-        const form = document.querySelector("form");
+        <div style="margin-top:20px;display:flex;align-items:center;gap:12px">
+          <div style="flex:1;height:1px;background:var(--border)"></div>
+          <span style="font-size:11px;color:var(--text-muted)">ou</span>
+          <div style="flex:1;height:1px;background:var(--border)"></div>
+        </div>
 
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
+        <p style="margin-top:16px;font-size:13px;text-align:center;color:var(--text-secondary)">
+          Não tem conta?
+          <a href="cadastro.html" style="color:var(--gold);font-weight:600;transition:opacity .2s"
+            onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">
+            Criar conta
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
 
-            const inputs = form.querySelectorAll("input");
+  <div class="toast-container" id="toastContainer"></div>
 
-            const data = {
-                name: inputs[0].value,
-                email: inputs[1].value,
-                password: inputs[2].value
-            };
+  <script>
+    function showToast(msg, type = 'success') {
+      const c = document.getElementById('toastContainer');
+      const t = document.createElement('div');
+      t.className = `toast ${type}`;
+      t.innerHTML = `<span>${type === 'success' ? '✓' : '✕'}</span> ${msg}`;
+      c.appendChild(t);
+      setTimeout(() => t.remove(), 3800);
+    }
 
-            try {
-                const response = await fetch("http://localhost:3000/users/create", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                });
+    document.getElementById('loginForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type=submit]');
+      btn.textContent = 'Entrando...';
+      btn.disabled = true;
 
-                const result = await response.json();
+      const data = {
+        name: document.getElementById('name').value,
+        password: document.getElementById('password').value
+      };
 
-                if (response.ok) {
-                    alert("Conta criada com sucesso!");
-                    form.reset();
-                } else {
-                    alert(result.error);
-                }
-
-            } catch (error) {
-                console.error(error);
-                alert("Erro ao conectar com o servidor");
-            }
+      try {
+        const res = await fetch('http://localhost:3000/users/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
         });
-    </script>
+        const result = await res.json();
+        if (res.ok) {
+          showToast('Login realizado! Redirecionando...', 'success');
+          setTimeout(() => window.location.href = 'dashboard.html', 1200);
+        } else {
+          showToast(result.error || 'Credenciais inválidas', 'error');
+        }
+      } catch (err) {
+        showToast('Erro ao conectar com o servidor', 'error');
+      } finally {
+        btn.textContent = 'Entrar no Grid';
+        btn.disabled = false;
+      }
+    });
+  </script>
 </body>
 
 </html>

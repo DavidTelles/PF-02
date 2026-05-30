@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ | Septem Racing</title>
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+<div class="page-wrapper">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="brand-name">Septem</span>
+      <span class="brand-sub">Racing Management</span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="nav-label">Main</p>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">⬡</span> Dashboard</a>
+      <a href="carros.html" class="nav-item"><span class="nav-icon">◈</span> Cars</a>
+      <a href="corrida.html" class="nav-item"><span class="nav-icon">◎</span> Racings</a>
+      <a href="time.html" class="nav-item"><span class="nav-icon">◇</span> Teams</a>
+      <div class="nav-divider"></div>
+      <p class="nav-label">System</p>
+      <a href="faq.html" class="nav-item active"><span class="nav-icon">?</span> FAQ</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../../index.html" class="nav-item"><span class="nav-icon">⬡</span> Home</a>
+      <a href="login.html" class="nav-item"><span class="nav-icon">→</span> Login</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>FAQ</h1>
+        <p class="page-subtitle">Perguntas frequentes sobre o sistema</p>
+      </div>
+    </div>
+
+    <div style="max-width:720px">
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            O que é o Septem Racing?
+            <span class="faq-chevron">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              O Septem Racing é um sistema de gestão voltado para equipes de automobilismo. Permite gerenciar carros, corridas, pilotos e equipes em uma única plataforma digital integrada e intuitiva.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Como criar uma conta?
+            <span class="faq-chevron">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Acesse a página de <a href="cadastro.html" style="color:var(--gold)">Cadastro</a>, preencha seus dados (nome, email e senha) e clique em "Cadastrar". Após o cadastro, você poderá acessar todas as funcionalidades do sistema.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Como cadastrar um novo carro?
+            <span class="faq-chevron">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Acesse a seção <a href="carros.html" style="color:var(--gold)">Cars</a> no menu lateral e clique em "+ Adicionar Carro". Preencha o chassis, modelo, motor e piloto associado. Os dados ficam disponíveis em tempo real no sistema.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Como acompanhar uma corrida em tempo real?
+            <span class="faq-chevron">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              O <a href="dashboard.html" style="color:var(--gold)">Dashboard</a> exibe dados ao vivo durante uma corrida: tempo de volta, gap para o líder, posição no circuito, velocidade por setor e muito mais. Mantenha a página aberta para atualizações em tempo real.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            O sistema funciona no celular?
+            <span class="faq-chevron">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Sim! O Septem Racing foi desenvolvido com design totalmente responsivo. Funciona em smartphones, tablets e desktops, adaptando o layout automaticamente para cada dispositivo.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Quais tecnologias são utilizadas?
+            <span class="faq-chevron">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              O frontend utiliza HTML5, CSS3 e JavaScript puro. O backend é construído com Node.js + Express.js. O banco de dados é MySQL. A comunicação entre frontend e backend é feita via API REST.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">
+  <span class="footer-brand"><span>Septem</span> Racing</span>
+  <nav class="footer-links">
+    <a href="login.html">Login</a>
+    <a href="cadastro.html">Cadastro</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+  <span class="footer-brand" style="font-size:11px">© 2025</span>
+</footer>
+
+<script>
+  document.getElementById('sidebarToggle').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('mobile-open');
+    document.getElementById('sidebarOverlay').classList.toggle('active');
+  });
+  document.getElementById('sidebarOverlay').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('mobile-open');
+    document.getElementById('sidebarOverlay').classList.remove('active');
+  });
+
+  function toggleFaq(questionEl) {
+    const item = questionEl.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    // Open this one if it was closed
+    if(!isOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>

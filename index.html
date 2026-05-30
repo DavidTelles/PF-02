@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Septem Racing — Motorsport Management System</title>
+  <link rel="stylesheet" href="src/styles/style.css">
+</head>
+<body class="landing-body">
+
+  <!-- NAV -->
+  <nav class="landing-nav">
+    <span class="landing-nav-brand">Septem Racing</span>
+    <div class="landing-nav-links">
+      <a href="#features" class="nav-link-text">Funcionalidades</a>
+      <a href="#sobre" class="nav-link-text">Sobre</a>
+      <a href="src/pages/login.html" class="nav-link-text">Login</a>
+      <a href="src/pages/cadastro.html" class="cta-btn btn">Começar Agora</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span>●</span> Sistema de Gestão Motorsport
+      </div>
+      <h1 class="hero-title">
+        Septem
+        <span class="line-gold">Racing</span>
+      </h1>
+      <p class="hero-subtitle">
+        Gerencie equipes, carros, corridas e pilotos com uma plataforma moderna e profissional desenvolvida para o mundo do automobilismo.
+      </p>
+      <div class="hero-cta">
+        <a href="src/pages/cadastro.html" class="btn btn-primary" style="padding:13px 32px;font-size:14px">
+          Entrar no Grid
+        </a>
+        <a href="src/pages/dashboard.html" class="btn btn-ghost" style="padding:13px 32px;font-size:14px">
+          Ver Dashboard
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat-item">
+          <div class="hero-stat-value" id="statTeams">0</div>
+          <div class="hero-stat-label">Equipes</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-value" id="statCars">0</div>
+          <div class="hero-stat-label">Carros</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-value" id="statRaces">0</div>
+          <div class="hero-stat-label">Corridas</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-value" id="statDrivers">0</div>
+          <div class="hero-stat-label">Pilotos</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="section-header">
+      <span class="section-eyebrow">Funcionalidades</span>
+      <h2 class="section-title">Tudo que você precisa</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">◈</div>
+        <h3 class="feature-title">Gestão de Carros</h3>
+        <p class="feature-desc">Cadastre e acompanhe todos os veículos da equipe, com especificações técnicas, status e histórico de performance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">◎</div>
+        <h3 class="feature-title">Calendário de Corridas</h3>
+        <p class="feature-desc">Gerencie o calendário de corridas, resultados, tempos de volta e estatísticas em tempo real de cada GP.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">◇</div>
+        <h3 class="feature-title">Times e Pilotos</h3>
+        <p class="feature-desc">Organize equipes, atribua pilotos, acompanhe pontuações e monitore o desempenho individual de cada membro.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⬡</div>
+        <h3 class="feature-title">Dashboard Analítico</h3>
+        <p class="feature-desc">Visualize métricas de corrida, tempos por setor, gap para o líder e progresso de corrida em tempo real.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">◑</div>
+        <h3 class="feature-title">Mapa do Circuito</h3>
+        <p class="feature-desc">Acompanhe a posição do carro no circuito com um mapa SVG animado e dados de velocidade por setor.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">▣</div>
+        <h3 class="feature-title">Relatórios Detalhados</h3>
+        <p class="feature-desc">Gere relatórios completos de performance com gráficos, tabelas e comparativos entre pilotos e equipes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREVIEW -->
+  <section class="preview-section" id="sobre">
+    <div class="preview-inner">
+      <div class="preview-text">
+        <span class="section-eyebrow">Dashboard em tempo real</span>
+        <h2 class="section-title">Controle total na sua tela</h2>
+        <p>Acesse dados de corrida em tempo real diretamente do seu navegador. Monitoramento de telemetria, gaps, tempos de volta e muito mais em uma interface intuitiva e responsiva.</p>
+        <a href="src/pages/dashboard.html" class="btn btn-primary" style="display:inline-flex">
+          Ver Dashboard →
+        </a>
+      </div>
+      <div class="preview-mockup">
+        <div class="mockup-bar">
+          <div class="mockup-dot"></div>
+          <div class="mockup-dot"></div>
+          <div class="mockup-dot"></div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-mini-stat">
+            <span style="font-size:10px;color:var(--text-muted);letter-spacing:2px">LAST LAP</span>
+            <span style="font-family:var(--font-display);color:var(--gold);font-size:16px;font-weight:700">1:09.814</span>
+          </div>
+          <div class="mockup-mini-bar"><div class="mockup-mini-bar-fill" style="width:75%"></div></div>
+          <div class="mockup-mini-stat" style="margin-top:12px">
+            <span style="font-size:10px;color:var(--text-muted);letter-spacing:2px">RACE PROGRESS</span>
+            <span style="font-family:var(--font-display);color:var(--text-primary);font-size:16px;font-weight:700">3/20</span>
+          </div>
+          <div class="mockup-mini-bar"><div class="mockup-mini-bar-fill" style="width:15%"></div></div>
+          <div style="margin-top:16px;background:var(--surface-3);border-radius:8px;padding:12px;border:1px solid var(--border)">
+            <svg viewBox="0 0 300 120" style="width:100%;height:80px">
+              <path d="M40,90 Q40,25 100,25 L200,25 Q260,25 260,60 Q260,90 200,90 Q160,90 160,70 Q160,50 130,50 Q80,50 80,70 Q80,90 40,90 Z"
+                fill="none" stroke="rgba(212,175,55,0.15)" stroke-width="12" stroke-linecap="round"/>
+              <path d="M40,90 Q40,25 100,25 L200,25 Q260,25 260,60 Q260,90 200,90 Q160,90 160,70 Q160,50 130,50 Q80,50 80,70 Q80,90 40,90 Z"
+                fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" opacity="0.8"
+                stroke-dasharray="800" stroke-dashoffset="0"/>
+              <circle cx="150" cy="25" r="4" fill="#d4af37"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <span class="section-eyebrow">Entre no Grid</span>
+    <h2 class="section-title">Pronto para acelerar?</h2>
+    <p>Crie sua conta gratuitamente e comece a gerenciar sua equipe de corrida hoje.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="src/pages/cadastro.html" class="btn btn-primary" style="padding:13px 36px;font-size:14px">Criar Conta Gratuita</a>
+      <a href="src/pages/login.html"    class="btn btn-ghost"   style="padding:13px 36px;font-size:14px">Fazer Login</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="landing-footer">
+    <span class="brand">Septem Racing</span>
+    <p>© 2025 Septem Racing. Todos os direitos reservados.</p>
+    <div style="display:flex;gap:16px">
+      <a href="src/pages/faq.html"     style="font-size:11px;letter-spacing:1px;color:var(--text-muted);text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">FAQ</a>
+      <a href="src/pages/login.html"   style="font-size:11px;letter-spacing:1px;color:var(--text-muted);text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Login</a>
+    </div>
+  </footer>
+
+  <script>
+    // Animated counters
+    function animateCounter(el, target, suffix='', duration=1800) {
+      let start = 0;
+      const step = target / (duration / 16);
+      const timer = setInterval(() => {
+        start = Math.min(start + step, target);
+        el.textContent = Math.floor(start) + suffix;
+        if (start >= target) clearInterval(timer);
+      }, 16);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          animateCounter(document.getElementById('statTeams'),   7);
+          animateCounter(document.getElementById('statCars'),   14);
+          animateCounter(document.getElementById('statRaces'),  20);
+          animateCounter(document.getElementById('statDrivers'),28);
+          observer.disconnect();
+        }
+      });
+    });
+    observer.observe(document.querySelector('.hero-stats'));
+
+    // Smooth nav links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>

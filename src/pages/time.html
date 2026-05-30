@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teams | Septem Racing</title>
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+<div class="page-wrapper">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="brand-name">Septem</span>
+      <span class="brand-sub">Racing Management</span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="nav-label">Main</p>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">⬡</span> Dashboard</a>
+      <a href="carros.html" class="nav-item"><span class="nav-icon">◈</span> Cars</a>
+      <a href="corrida.html" class="nav-item"><span class="nav-icon">◎</span> Racings</a>
+      <a href="time.html" class="nav-item active"><span class="nav-icon">◇</span> Teams</a>
+      <div class="nav-divider"></div>
+      <p class="nav-label">System</p>
+      <a href="faq.html" class="nav-item"><span class="nav-icon">?</span> FAQ</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../../index.html" class="nav-item"><span class="nav-icon">⬡</span> Home</a>
+      <a href="login.html" class="nav-item"><span class="nav-icon">→</span> Login</a>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Teams</h1>
+        <p class="page-subtitle">Equipes e pilotos cadastrados</p>
+      </div>
+      <div class="topbar-right">
+        <span class="badge badge-gold">7 Equipes</span>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="stat-card">
+        <div class="stat-label">Equipes</div>
+        <div class="stat-value gold">7</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pilotos</div>
+        <div class="stat-value">28</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Líderes do Campeonato</div>
+        <div class="stat-value" style="font-size:20px">Septem A</div>
+        <div class="stat-delta up">▲ 324 pts</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pontos Totais</div>
+        <div class="stat-value">892</div>
+      </div>
+    </div>
+
+    <!-- Teams + Drivers -->
+    <div class="grid-2 mt-3">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Classificação de Equipes</span>
+        </div>
+        <div class="table-wrapper" style="border:none;border-radius:0">
+          <table>
+            <thead>
+              <tr>
+                <th>Pos</th>
+                <th>Equipe</th>
+                <th>Pts</th>
+                <th>Vitórias</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="pos-badge p1">1</span></td>
+                <td class="td-primary">Septem A</td>
+                <td class="td-gold">324</td>
+                <td class="text-muted">4</td>
+              </tr>
+              <tr>
+                <td><span class="pos-badge p2">2</span></td>
+                <td class="td-primary">Red Falcon Racing</td>
+                <td class="td-gold">289</td>
+                <td class="text-muted">3</td>
+              </tr>
+              <tr>
+                <td><span class="pos-badge p3">3</span></td>
+                <td class="td-primary">Blue Arrow</td>
+                <td class="td-gold">245</td>
+                <td class="text-muted">2</td>
+              </tr>
+              <tr>
+                <td><span class="pos-badge">4</span></td>
+                <td class="td-primary">Storm Racing</td>
+                <td class="text-muted">198</td>
+                <td class="text-muted">1</td>
+              </tr>
+              <tr>
+                <td><span class="pos-badge">5</span></td>
+                <td class="td-primary">Neon Drive</td>
+                <td class="text-muted">156</td>
+                <td class="text-muted">1</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Classificação de Pilotos</span>
+        </div>
+        <div class="table-wrapper" style="border:none;border-radius:0">
+          <table>
+            <thead>
+              <tr>
+                <th>Pos</th>
+                <th>Piloto</th>
+                <th>Equipe</th>
+                <th>Pts</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="pos-badge p1">1</span></td>
+                <td class="td-primary">Hamilton Jr.</td>
+                <td class="text-muted">Septem A</td>
+                <td class="td-gold">178</td>
+              </tr>
+              <tr>
+                <td><span class="pos-badge p2">2</span></td>
+                <td class="td-primary">Verstappini</td>
+                <td class="text-muted">Septem A</td>
+                <td class="td-gold">146</td>
+              </tr>
+              <tr>
+                <td><span class="pos-badge p3">3</span></td>
+                <td class="td-primary">Perez Jr.</td>
+                <td class="text-muted">Red Falcon</td>
+                <td class="td-gold">132</td>
+              </tr>
+              <tr>
+                <td><span class="pos-badge">4</span></td>
+                <td class="td-primary">Alonsito</td>
+                <td class="text-muted">Blue Arrow</td>
+                <td class="text-muted">120</td>
+              </tr>
+              <tr>
+                <td><span class="pos-badge">5</span></td>
+                <td class="td-primary">Leclerc II</td>
+                <td class="text-muted">Storm Racing</td>
+                <td class="text-muted">98</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">
+  <span class="footer-brand"><span>Septem</span> Racing</span>
+  <nav class="footer-links">
+    <a href="login.html">Login</a>
+    <a href="cadastro.html">Cadastro</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+  <span class="footer-brand" style="font-size:11px">© 2025</span>
+</footer>
+
+<script>
+  document.getElementById('sidebarToggle').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('mobile-open');
+    document.getElementById('sidebarOverlay').classList.toggle('active');
+  });
+  document.getElementById('sidebarOverlay').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('mobile-open');
+    document.getElementById('sidebarOverlay').classList.remove('active');
+  });
+</script>
+</body>
+</html>

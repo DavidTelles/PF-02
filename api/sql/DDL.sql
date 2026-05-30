@@ -5,22 +5,22 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema corrida_db
+-- Schema septem
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `corrida_db` ;
+DROP SCHEMA IF EXISTS `septem` ;
 
 -- -----------------------------------------------------
--- Schema corrida_db
+-- Schema septem
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `corrida_db` DEFAULT CHARACTER SET utf8 ;
-USE `corrida_db` ;
+CREATE SCHEMA IF NOT EXISTS `septem` DEFAULT CHARACTER SET utf8 ;
+USE `septem` ;
 
 -- -----------------------------------------------------
--- Table `corrida_db`.`users`
+-- Table `septem`.`users`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `corrida_db`.`users` ;
+DROP TABLE IF EXISTS `septem`.`users` ;
 
-CREATE TABLE IF NOT EXISTS `corrida_db`.`users` (
+CREATE TABLE IF NOT EXISTS `septem`.`users` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `email` VARCHAR(255) NOT NULL,
@@ -30,11 +30,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `corrida_db`.`runners`
+-- Table `septem`.`runners`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `corrida_db`.`runners` ;
+DROP TABLE IF EXISTS `septem`.`runners` ;
 
-CREATE TABLE IF NOT EXISTS `corrida_db`.`runners` (
+CREATE TABLE IF NOT EXISTS `septem`.`runners` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NULL,
     `class` VARCHAR(255) NULL,
@@ -43,11 +43,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `corrida_db`.`laps`
+-- Table `septem`.`laps`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `corrida_db`.`laps` ;
+DROP TABLE IF EXISTS `septem`.`laps` ;
 
-CREATE TABLE IF NOT EXISTS `corrida_db`.`laps` (
+CREATE TABLE IF NOT EXISTS `septem`.`laps` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `time` DECIMAL(10,2) NULL,
     `date` TIMESTAMP NULL,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `corrida_db`.`laps` (
     INDEX `fk_laps_runners_idx` (`runners_id` ASC) VISIBLE,
     CONSTRAINT `fk_laps_runners`
     FOREIGN KEY (`runners_id`)
-    REFERENCES `corrida_db`.`runners` (`id`)
+    REFERENCES `septem`.`runners` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
