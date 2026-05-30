@@ -272,7 +272,6 @@ cd api && npm start
 
 Desenvolvido como projeto frontend para o curso SENAI.
 
-**Criador:** David Telles
 **Design System:** Inspired by motorsport telemetry dashboards 
 
 ---
