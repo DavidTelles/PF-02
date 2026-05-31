@@ -1,11 +1,11 @@
 {
-  "name": "api-login",
+  "name": "api-septem",
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
   "author": "David Telles",
   "type": "commonjs",
-  "main": "api-login/app.js",
+  "main": "api/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx nodemon server.js"
