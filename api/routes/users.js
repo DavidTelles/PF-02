@@ -4,6 +4,8 @@ const db = require('../db');
 const bcrypt = require('bcrypt');
 const cors = require("cors");
 const connection = require('../db');
+const { createSchema, loginSchema } = require('./validators/userValidator')
+const auth = require('../middleware/auth');
 userRouters.use(cors());
 
 userRouters.get('/', async (req, res) => {
@@ -20,9 +22,28 @@ userRouters.get('/', async (req, res) => {
     }
 });
 
+userRouters.get('/perfil', auth, async (req, res) => {
+
+    res.json({
+        user: req.user
+    });
+
+});
+
 // POST criar usuário
 userRouters.post('/create', async (req, res) => {
     const { name, email, password } = req.body;
+
+    const { error } = createSchema.validate(
+        req.body,
+        { allowUnknown: false }
+    );
+
+    if (error) {
+        return res.status(400).json({
+            message: error.details[0].message
+        });
+    }
 
     try {
         // hash da senha
@@ -36,11 +57,9 @@ userRouters.post('/create', async (req, res) => {
                     console.error("ERROR:", err);
                     return res.status(500).json({ error: 'Erro ao criar usuário' });
                 }
-
-                res.json({ message: 'Usuário criado com sucesso!' });
+                return res.status(200).json({ message: "Usuário criado com sucesso!" });
             }
         );
-
     } catch (error) {
         res.status(500).json({ error: 'Erro ao criptografar senha' });
     }
@@ -48,6 +67,17 @@ userRouters.post('/create', async (req, res) => {
 
 userRouters.post('/login', async (req, res) => {
     const { name, password } = req.body;
+
+    const { error } = loginSchema.validate(
+        req.body,
+        { allowUnknown: false }
+    );
+
+    if (error) {
+        return res.status(400).json({
+            message: error.details[0].message
+        });
+    }
 
     try {
         const [rows] = await connection.execute(
