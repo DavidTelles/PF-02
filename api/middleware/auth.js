@@ -4,17 +4,16 @@ dotenv.config();
 
 function auth(req, res, next) {
 
-    const authHeader = req.headers.authorization;
+    const authHeader = req.headers.authorization || '';
 
-    if (!authHeader) {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({ message: "Token não enviado" });
     }
 
     const token = authHeader.split(' ')[1];
 
-    if (!token) {
-        return res.status(401).json({ message: "Formato de token inválido. Use: Bearer <token>" });
-    }
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);

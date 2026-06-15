@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require("cors");
+const cors = require('cors');
 const db = require('../db');
 const { runnerSchema } = require('./validators/runnerValidator');
 
@@ -9,14 +9,10 @@ runnerRouters.use(cors());
 runnerRouters.get('/', async (req, res) => {
     try {
         const [runners] = await db.query('SELECT * FROM runners');
-
-        res.status(200).json(runners);
+        return res.status(200).json(runners);
     } catch (error) {
-        console.error('Erro ao buscar corredors: ', error);
-
-        res.status(500).json({
-            error: 'Erro interno do servidor.'
-        });
+        console.error('Erro ao buscar corredores: ', error);
+        return res.status(500).json({ error: 'Erro interno do servidor.' });
     }
 });
 
@@ -24,63 +20,45 @@ runnerRouters.get('/', async (req, res) => {
 runnerRouters.post('/create', async (req, res) => {
     const { name, team } = req.body;
 
-    const { error } = runnerSchema.validate(
-        req.body,
-        { allowUnknown: false }
-    );
+    const { error } = runnerSchema.validate(req.body, { allowUnknown: false });
 
     if (error) {
-        return res.status(400).json({
-            message: error.details[0].message
-        });
+        return res.status(400).json({ message: error.details[0].message });
     }
 
-
-    db.query(
-        'INSERT INTO runners (name, team) VALUES (?, ?)',
-        [name, team],
-        (err, results) => {
-            if (err) {
-                console.error("ERROR:", err);
-                return res.status(500).json({ error: 'Erro ao criar corredor' });
-            }
-            return res.status(200).json({ message: "corredor criada com sucesso!" });
-        }
-    );
+    try {
+        const [result] = await db.execute('INSERT INTO runners (name, team) VALUES (?, ?)', [name, team]);
+        return res.status(201).json({ message: 'Corredor criado com sucesso!', id: result.insertId });
+    } catch (err) {
+        console.error('ERROR:', err);
+        return res.status(500).json({ error: 'Erro ao criar corredor' });
+    }
 });
 
-// Editar corredors
+// Editar corredores
 runnerRouters.put('/edit', async (req, res) => {
     const { name, team } = req.body;
     const { id } = req.query;
 
-    db.query(
-        `UPDATE runners SET name = ?, team = ? WHERE id = ?`,
-        [name, team, id],
-        (err, results) => {
-            if (err) {
-                console.error("ERROR:", err);
-                return res.status(500).json({ error: 'Erro ao editar corredor' });
-            }
-            return res.status(200).json({ message: "corredor editada com sucesso!" });
-        }
-    );
+    try {
+        const [result] = await db.execute('UPDATE runners SET name = ?, team = ? WHERE id = ?', [name, team, id]);
+        return res.status(200).json({ message: 'Corredor editado com sucesso!' });
+    } catch (err) {
+        console.error('ERROR:', err);
+        return res.status(500).json({ error: 'Erro ao editar corredor' });
+    }
 });
 
 runnerRouters.delete('/delete', async (req, res) => {
     const { id } = req.query;
 
-    db.query(
-        `DELETE FROM runners WHERE id = ?`,
-        [ id ],
-        (err, results) => {
-            if (err) {
-                console.error("ERROR:", err);
-                return res.status(500).json({ error: 'Erro ao deletar corredor' });
-            }
-            return res.status(200).json({ message: "Corredor deletado com sucesso!" });
-        }
-    );
+    try {
+        const [result] = await db.execute('DELETE FROM runners WHERE id = ?', [id]);
+        return res.status(200).json({ message: 'Corredor deletado com sucesso!' });
+    } catch (err) {
+        console.error('ERROR:', err);
+        return res.status(500).json({ error: 'Erro ao deletar corredor' });
+    }
 });
 
 module.exports = runnerRouters;

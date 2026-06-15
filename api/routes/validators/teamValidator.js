@@ -5,4 +5,4 @@ const teamSchema = Joi.object({
     country: Joi.string().trim().min(3).max(30).required()
 });
 
-module.exports = teamSchema;
+module.exports = { teamSchema };
