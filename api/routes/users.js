@@ -118,4 +118,20 @@ userRouters.post('/login', async (req, res) => {
     }
 });
 
+userRouters.delete('/delete', async (req, res) => {
+    const { id } = req.query;
+
+    db.query(
+        `DELETE FROM users WHERE id = ?`,
+        [ id ],
+        (err, results) => {
+            if (err) {
+                console.error("ERROR:", err);
+                return res.status(500).json({ error: 'Erro ao deletar usuario' });
+            }
+            return res.status(200).json({ message: "Usuario deletado com sucesso!" });
+        }
+    );
+});
+
 module.exports = userRouters;

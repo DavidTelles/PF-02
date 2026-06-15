@@ -19,6 +19,11 @@ app.use(cors());
 app.use(express.json());
 
 const userRouters = require("./routes/users");
+const teamRouters = require("./routes/teams");
+const runnerRouters = require('./routes/runners');
+
+app.use("/runners", runnerRouters);
+app.use("/teams", teamRouters);
 app.use("/users", userRouters);
 
 app.get("/", (req, res) => {

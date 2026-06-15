@@ -25,8 +25,8 @@ function auth(req, res, next) {
 
     } catch (err) {
         return res.status(401).json({ message: "Token Inválido" })
-    }
+    };
 
-}
+};
 
 module.exports = auth;
