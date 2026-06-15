@@ -127,19 +127,8 @@ userRouters.delete(
                 error: 'Erro ao excluir conta'
             });
 
-<<<<<<< HEAD
         }
     }
 );
-=======
-    try {
-        const [result] = await db.execute('DELETE FROM users WHERE id = ?', [id]);
-        return res.status(200).json({ message: 'Usuario deletado com sucesso!' });
-    } catch (err) {
-        console.error('ERROR:', err);
-        return res.status(500).json({ error: 'Erro ao deletar usuario' });
-    }
-});
->>>>>>> 3e80fead513f53bb92226274a65201b99d93d24a
 
 module.exports = userRouters;
