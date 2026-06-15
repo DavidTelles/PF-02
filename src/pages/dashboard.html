@@ -83,8 +83,8 @@
       </div>
       <div class="stat-card">
         <div class="stat-label">Best Lap</div>
-        <div class="stat-value gold">1:09.814</div>
-        <div class="stat-delta up">▲ Volta mais rápida</div>
+        <div class="stat-value gold" id="bestLapTime">--:--.---</div>
+        <div class="stat-delta up" id="bestLapRunner">▲ Carregando...</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Interval P2</div>
@@ -164,28 +164,8 @@
                 <th>S3</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td><span class="pos-badge p1">3</span></td>
-                <td class="td-primary">1:10.452</td>
-                <td class="text-muted">23.1</td>
-                <td class="text-muted">28.5</td>
-                <td class="text-muted">18.8</td>
-              </tr>
-              <tr>
-                <td><span class="pos-badge p2">2</span></td>
-                <td class="td-primary">1:10.891</td>
-                <td class="text-muted">23.4</td>
-                <td class="text-muted">29.0</td>
-                <td class="text-muted">18.5</td>
-              </tr>
-              <tr>
-                <td><span class="pos-badge">1</span></td>
-                <td class="td-gold">1:09.814</td>
-                <td style="color:var(--green);font-size:12px">22.8</td>
-                <td style="color:var(--green);font-size:12px">28.1</td>
-                <td style="color:var(--green);font-size:12px">18.9</td>
-              </tr>
+            <tbody id="lapsTableBody">
+              <tr><td colspan="5">Carregando...</td></tr>
             </tbody>
           </table>
         </div>
@@ -271,6 +251,64 @@
     const tick = () => { v = Math.min(v + 0.1, 3); el.textContent = Math.floor(v); if(v < 3) requestAnimationFrame(tick); else el.textContent = '3'; };
     setTimeout(tick, 600);
   })();
+  // Fetch data
+  async function loadDashboardData() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = 'login.html';
+      return;
+    }
+
+    try {
+      // Best Lap
+      const bestRes = await fetch('http://localhost:3000/voltas/melhor-volta', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (bestRes.ok) {
+        const bestData = await bestRes.json();
+        if (bestData.melhor_volta) {
+          document.getElementById('bestLapTime').textContent = bestData.melhor_volta + 's';
+          document.getElementById('bestLapRunner').textContent = '▲ ' + bestData.corredor.nome;
+        }
+      }
+
+      // Top 5 Laps
+      const topRes = await fetch('http://localhost:3000/voltas/top5-voltas', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (topRes.ok) {
+        const topData = await topRes.json();
+        const tbody = document.getElementById('lapsTableBody');
+        tbody.innerHTML = '';
+        if (topData.ranking && topData.ranking.length > 0) {
+          topData.ranking.forEach((lap, index) => {
+            const tr = document.createElement('tr');
+            let badgeClass = '';
+            if (index === 0) badgeClass = ' p1';
+            else if (index === 1) badgeClass = ' p2';
+
+            let tdTempo = index === 0 ? '<td class="td-gold">' : '<td class="td-primary">';
+            
+            tr.innerHTML = `
+              <td><span class="pos-badge${badgeClass}">${index + 1}</span></td>
+              ${tdTempo}${lap.tempo}s</td>
+              <td class="text-muted" colspan="3">${lap.nome} - ${lap.equipe || 'Sem equipe'}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        } else {
+          tbody.innerHTML = '<tr><td colspan="5">Nenhuma volta registrada</td></tr>';
+        }
+      } else if (topRes.status === 401 || topRes.status === 403) {
+        localStorage.removeItem('token');
+        window.location.href = 'login.html';
+      }
+    } catch (error) {
+      console.error('Erro ao carregar dados:', error);
+    }
+  }
+
+  loadDashboardData();
 </script>
 </body>
 </html>

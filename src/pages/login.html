@@ -97,6 +97,7 @@
         });
         const result = await res.json();
         if (res.ok) {
+          localStorage.setItem('token', result.token);
           showToast('Login realizado! Redirecionando...', 'success');
           setTimeout(() => window.location.href = 'dashboard.html', 1200);
         } else {

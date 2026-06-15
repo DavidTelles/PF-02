@@ -2,10 +2,10 @@ const express = require('express');
 const userRouters = express.Router();
 const db = require('../db');
 const bcrypt = require('bcrypt');
-const cors = require("cors");
-const connection = require('../db');
-const { createSchema, loginSchema } = require('./validators/userValidator')
+const cors = require('cors');
+const { createSchema, loginSchema } = require('./validators/userValidator');
 const auth = require('../middleware/auth');
+const jwt = require('jsonwebtoken');
 userRouters.use(cors());
 
 userRouters.get('/', async (req, res) => {
@@ -49,19 +49,15 @@ userRouters.post('/create', async (req, res) => {
         // hash da senha
         const senhaHash = await bcrypt.hash(password, 10);
 
-        db.query(
+        const [result] = await db.execute(
             'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
-            [name, email, senhaHash],
-            (err, results) => {
-                if (err) {
-                    console.error("ERROR:", err);
-                    return res.status(500).json({ error: 'Erro ao criar usuário' });
-                }
-                return res.status(200).json({ message: "Usuário criado com sucesso!" });
-            }
+            [name, email, senhaHash]
         );
+
+        return res.status(201).json({ message: 'Usuário criado com sucesso!', id: result.insertId });
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao criptografar senha' });
+        console.error('Erro ao criar usuário:', error);
+        return res.status(500).json({ error: 'Erro ao criar usuário' });
     }
 });
 
@@ -80,58 +76,40 @@ userRouters.post('/login', async (req, res) => {
     }
 
     try {
-        const [rows] = await connection.execute(
-            'SELECT id, name, password FROM users WHERE name = ?',
-            [name]
-        );
+        const [rows] = await db.execute('SELECT id, name, password FROM users WHERE name = ?', [name]);
 
         if (rows.length === 0) {
-            return res.status(401).json({
-                message: "Usuário ou senha inválidos!"
-            });
+            return res.status(401).json({ message: 'Usuário ou senha inválidos!' });
         }
 
         const user = rows[0];
 
-        const senhaValida = await bcrypt.compare(
-            password,
-            user.password
-        );
+        const senhaValida = await bcrypt.compare(password, user.password);
 
         if (!senhaValida) {
-            return res.status(401).json({
-                message: "Usuário ou senha inválidos!"
-            });
+            return res.status(401).json({ message: 'Usuário ou senha inválidos!' });
         }
 
-        return res.status(200).json({
-            message: "Login efetuado com sucesso!",
-            userId: user.id
-        });
+        // Gerar token JWT
+        const token = jwt.sign({ id: user.id, name: user.name }, process.env.JWT_SECRET, { expiresIn: '8h' });
 
+        return res.status(200).json({ message: 'Login efetuado com sucesso!', token });
     } catch (error) {
         console.error(error);
-
-        return res.status(500).json({
-            error: "Erro interno no servidor"
-        });
+        return res.status(500).json({ error: 'Erro interno no servidor' });
     }
 });
 
 userRouters.delete('/delete', async (req, res) => {
     const { id } = req.query;
 
-    db.query(
-        `DELETE FROM users WHERE id = ?`,
-        [ id ],
-        (err, results) => {
-            if (err) {
-                console.error("ERROR:", err);
-                return res.status(500).json({ error: 'Erro ao deletar usuario' });
-            }
-            return res.status(200).json({ message: "Usuario deletado com sucesso!" });
-        }
-    );
+    try {
+        const [result] = await db.execute('DELETE FROM users WHERE id = ?', [id]);
+        return res.status(200).json({ message: 'Usuario deletado com sucesso!' });
+    } catch (err) {
+        console.error('ERROR:', err);
+        return res.status(500).json({ error: 'Erro ao deletar usuario' });
+    }
 });
 
 module.exports = userRouters;
