@@ -114,10 +114,7 @@
         const result = await res.json();
 
         if (res.ok) {
-          // BUG CORRIGIDO: salvar token e dados do usuário no localStorage
           localStorage.setItem('token', result.token);
-          localStorage.setItem('user', JSON.stringify(result.user));
-
           showToast('Login realizado! Redirecionando...', 'success');
           console.log('TOKEN:', result.token);
           console.log('USER:', result.user);
