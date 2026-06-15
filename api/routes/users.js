@@ -6,6 +6,8 @@ const cors = require("cors");
 const { createSchema, loginSchema } = require('./validators/userValidator')
 const auth = require('../middleware/auth');
 userRouters.use(cors());
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
 
 userRouters.get('/', async (req, res) => {
     try {
@@ -103,9 +105,24 @@ userRouters.post('/login', async (req, res) => {
             });
         }
 
+        const token = jwt.sign(
+            {
+                id: user.id,
+                name: user.name
+            },
+            JWT_SECRET,
+            {
+                expiresIn: '24h'
+            }
+        );
+        
         return res.status(200).json({
             message: "Login efetuado com sucesso!",
-            userId: user.id
+            token,
+            user: {
+                id: user.id,
+                name: user.name
+            }
         });
 
     } catch (error) {

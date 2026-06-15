@@ -39,9 +39,9 @@
       <a href="../../index.html" class="nav-item">
         <span class="nav-icon">⬡</span> Home
       </a>
-      <a href="login.html" class="nav-item">
-        <span class="nav-icon">→</span> Login
-      </a>
+      <button onclick="logout()" class="nav-item nav-logout" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red,#ef4444)">
+        <span class="nav-icon">⏻</span> Sair
+      </button>
     </div>
   </aside>
   <button class="sidebar-toggle" id="sidebarToggle">☰</button>
@@ -57,6 +57,7 @@
         <p class="page-subtitle">Circuito de Senai "Shunji Nishimura" — São Paulo, Brasil</p>
       </div>
       <div class="topbar-right">
+        <span id="userGreeting" style="font-size:13px;color:var(--text-muted);margin-right:12px"></span>
         <span class="badge badge-gold badge-dot">Ao Vivo</span>
       </div>
     </div>
@@ -110,22 +111,17 @@
         <div class="panel-body">
           <svg class="circuit-svg" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
             <rect width="400" height="180" fill="rgba(0,0,0,0.2)" rx="8"/>
-            <!-- Shadow track -->
             <path d="M60,140 Q60,40 140,40 L260,40 Q340,40 340,90 Q340,140 260,140 Q200,140 200,110 Q200,80 160,80 Q100,80 100,110 Q100,140 60,140 Z"
               fill="none" stroke="rgba(212,175,55,0.08)" stroke-width="18"
               stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- Animated track -->
             <path class="circuit-track"
               d="M60,140 Q60,40 140,40 L260,40 Q340,40 340,90 Q340,140 260,140 Q200,140 200,110 Q200,80 160,80 Q100,80 100,110 Q100,140 60,140 Z"
               fill="none" stroke="#d4af37" stroke-width="2.5"
               stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
-            <!-- Sector markers -->
             <circle cx="200" cy="40" r="3.5" fill="rgba(212,175,55,0.5)"/>
             <circle cx="340" cy="90" r="3.5" fill="rgba(212,175,55,0.5)"/>
-            <!-- Car dot -->
             <circle id="car-dot"  cx="245" cy="140" r="5"  fill="#d4af37" class="circuit-dot"/>
             <circle id="car-glow" cx="245" cy="140" r="11" fill="rgba(212,175,55,0.12)" class="circuit-dot"/>
-            <!-- Labels -->
             <text x="185" y="30"  fill="rgba(212,175,55,0.5)" font-size="9" font-family="'Barlow Condensed',sans-serif" letter-spacing="1" font-weight="600">S1</text>
             <text x="50"  y="100" fill="rgba(212,175,55,0.5)" font-size="9" font-family="'Barlow Condensed',sans-serif" letter-spacing="1" font-weight="600">S2</text>
             <text x="292" y="100" fill="rgba(212,175,55,0.5)" font-size="9" font-family="'Barlow Condensed',sans-serif" letter-spacing="1" font-weight="600">S3</text>
@@ -189,8 +185,6 @@
             </tbody>
           </table>
         </div>
-
-        <!-- Mini bar chart -->
         <div class="panel-body" style="padding-top:12px">
           <div class="stat-label" style="margin-bottom:8px">Tempo por volta (seg)</div>
           <div class="bar-chart">
@@ -205,7 +199,18 @@
   </main>
 </div>
 
+<!-- Middleware de autenticação frontend -->
+<script src="../scripts/auth.js"></script>
 <script>
+  // Verificação de autenticação — executada antes de qualquer conteúdo ser exibido
+  checkAuth();
+
+  // Exibir nome do usuário logado na topbar
+  const user = getUser();
+  if (user) {
+    document.getElementById('userGreeting').textContent = '👤 ' + user.name;
+  }
+
   // Mobile sidebar
   document.getElementById('sidebarToggle').addEventListener('click', () => {
     document.getElementById('sidebar').classList.toggle('mobile-open');
