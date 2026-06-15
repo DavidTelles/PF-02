@@ -69,6 +69,22 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <script>
+    // Se já estiver logado com token válido, redireciona direto ao dashboard
+    (function () {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          if (payload.exp * 1000 > Date.now()) {
+            window.location.href = 'dashboard.html';
+          }
+        } catch (e) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+        }
+      }
+    })();
+
     function showToast(msg, type = 'success') {
       const c = document.getElementById('toastContainer');
       const t = document.createElement('div');
@@ -96,12 +112,15 @@
           body: JSON.stringify(data)
         });
         const result = await res.json();
+
         if (res.ok) {
           localStorage.setItem('token', result.token);
           showToast('Login realizado! Redirecionando...', 'success');
-          setTimeout(() => window.location.href = 'dashboard.html', 1200);
+          console.log('TOKEN:', result.token);
+          console.log('USER:', result.user);
+          setTimeout(() => window.location.href = './dashboard.html', 1200);
         } else {
-          showToast(result.error || 'Credenciais inválidas', 'error');
+          showToast(result.message || result.error || 'Credenciais inválidas', 'error');
         }
       } catch (err) {
         showToast('Erro ao conectar com o servidor', 'error');

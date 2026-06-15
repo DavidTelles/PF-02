@@ -7,6 +7,8 @@ const { createSchema, loginSchema } = require('./validators/userValidator');
 const auth = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
 userRouters.use(cors());
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
 
 userRouters.get('/', async (req, res) => {
     try {

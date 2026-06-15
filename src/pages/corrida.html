@@ -24,9 +24,11 @@
       <p class="nav-label">System</p>
       <a href="faq.html" class="nav-item"><span class="nav-icon">?</span> FAQ</a>
     </nav>
-    <div class="sidebar-bottom">
-      <a href="../../index.html" class="nav-item"><span class="nav-icon">⬡</span> Home</a>
-      <a href="login.html" class="nav-item"><span class="nav-icon">→</span> Login</a>
+        <div class="sidebar-bottom">
+        <a href="../../index.html" class="nav-item"><span class="nav-icon">⬡</span> Home</a>
+        <button onclick="logout()" class="nav-item nav-logout" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red,#ef4444)">
+        <span class="nav-icon">⏻</span> Sair
+        </button>
     </div>
   </aside>
   <button class="sidebar-toggle" id="sidebarToggle">☰</button>
@@ -128,15 +130,6 @@
   </main>
 </div>
 
-<footer class="site-footer">
-  <span class="footer-brand"><span>Septem</span> Racing</span>
-  <nav class="footer-links">
-    <a href="login.html">Login</a>
-    <a href="cadastro.html">Cadastro</a>
-    <a href="faq.html">FAQ</a>
-  </nav>
-  <span class="footer-brand" style="font-size:11px">© 2025</span>
-</footer>
 
 <script>
   document.getElementById('sidebarToggle').addEventListener('click', () => {
@@ -148,5 +141,12 @@
     document.getElementById('sidebarOverlay').classList.remove('active');
   });
 </script>
+<!-- Middleware de autenticação frontend -->
+<script src="../scripts/auth.js"></script>
+<script>
+  // Verificação de autenticação
+  checkAuth();
+</script>
+
 </body>
 </html>

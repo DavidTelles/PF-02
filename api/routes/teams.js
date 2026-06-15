@@ -36,7 +36,7 @@ teamRouters.post('/create', async (req, res) => {
 });
 
 // Editar equipes
-teamRouters.put('/edit', async (req, res) => {
+teamRouters.put('/edit/:id', async (req, res) => {
     const { name, country } = req.body;
     const { id } = req.query;
 
@@ -49,7 +49,7 @@ teamRouters.put('/edit', async (req, res) => {
     }
 });
 
-teamRouters.delete('/delete', async (req, res) => {
+teamRouters.delete('/delete/:id', async (req, res) => {
     const { id } = req.query;
 
     try {

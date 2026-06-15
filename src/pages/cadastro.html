@@ -98,6 +98,8 @@
       });
       const result = await res.json();
       if(res.ok) {
+        const data = await response.json();
+        localStorage.setItem("token", data.token)
         showToast('Conta criada com sucesso!', 'success');
         e.target.reset();
         setTimeout(() => window.location.href = 'login.html', 1800);
