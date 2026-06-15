@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('../db');
+const auth = require("../middleware/auth")
 const { runnerSchema } = require('./validators/runnerValidator');
 
 const runnerRouters = express.Router();
@@ -17,7 +18,7 @@ runnerRouters.get('/', async (req, res) => {
 });
 
 // POST criar corredor
-runnerRouters.post('/create', async (req, res) => {
+runnerRouters.post('/create', auth, async (req, res) => {
     const { name, team } = req.body;
 
     const { error } = runnerSchema.validate(req.body, { allowUnknown: false });
@@ -36,7 +37,7 @@ runnerRouters.post('/create', async (req, res) => {
 });
 
 // Editar corredores
-runnerRouters.put('/edit', async (req, res) => {
+runnerRouters.put('/edit', auth, async (req, res) => {
     const { name, team } = req.body;
     const { id } = req.query;
 
@@ -49,7 +50,7 @@ runnerRouters.put('/edit', async (req, res) => {
     }
 });
 
-runnerRouters.delete('/delete', async (req, res) => {
+runnerRouters.delete('/delete', auth, async (req, res) => {
     const { id } = req.query;
 
     try {

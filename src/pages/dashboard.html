@@ -1,376 +1,378 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard | Septem Racing</title>
   <link rel="stylesheet" href="../styles/style.css">
 </head>
+
 <body>
-<div class="page-wrapper">
+  <div class="page-wrapper">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-logo">
-      <span class="brand-name">Septem</span>
-      <span class="brand-sub">Racing Management</span>
-    </div>
-    <nav class="sidebar-nav">
-      <p class="nav-label">Main</p>
-      <a href="dashboard.html" class="nav-item active">
-        <span class="nav-icon">⬡</span> Dashboard
-      </a>
-      <a href="carros.html" class="nav-item">
-        <span class="nav-icon">◈</span> Cars
-      </a>
-      <a href="corrida.html" class="nav-item">
-        <span class="nav-icon">◎</span> Racings
-      </a>
-      <a href="time.html" class="nav-item">
-        <span class="nav-icon">◇</span> Teams
-      </a>
-      <div class="nav-divider"></div>
-      <p class="nav-label">System</p>
-      <a href="faq.html" class="nav-item">
-        <span class="nav-icon">?</span> FAQ
-      </a>
-    </nav>
-    <div class="sidebar-bottom">
-      <a href="../../index.html" class="nav-item">
-        <span class="nav-icon">⬡</span> Home
-      </a>
-      <button onclick="logout()" class="nav-item nav-logout" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red,#ef4444)">
-        <span class="nav-icon">⏻</span> Sair
-      </button>
-      <button onclick="deleteAccount()" class="nav-item nav-logout" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red,#ef4444)">
-        🗑️ Excluir Conta
-      </button>
-    </div>
-  </aside>
-  <button class="sidebar-toggle" id="sidebarToggle">☰</button>
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-  <!-- MAIN -->
-  <main class="main-content">
-
-    <!-- TOP BAR -->
-    <div class="topbar">
-      <div class="topbar-left">
-        <h1>Septem <span class="highlight">GP</span></h1>
-        <p class="page-subtitle">Circuito de Senai "Shunji Nishimura" — São Paulo, Brasil</p>
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <span class="brand-name">Septem</span>
+        <span class="brand-sub">Racing Management</span>
       </div>
-      <div class="topbar-right">
-        <span id="userGreeting" style="font-size:13px;color:var(--text-muted);margin-right:12px"></span>
-        <span class="badge badge-gold badge-dot">Ao Vivo</span>
+      <nav class="sidebar-nav">
+        <p class="nav-label">Main</p>
+        <a href="dashboard.html" class="nav-item active"><span class="nav-icon">⬡</span> Dashboard</a>
+        <a href="corredores.html" class="nav-item"><span class="nav-icon">✦</span> Runners</a>
+        <a href="time.html" class="nav-item"><span class="nav-icon">◇</span> Teams</a>
+  
+        <div class="nav-divider"></div>
+  
+        <p class="nav-label">System</p>
+        <a href="faq.html" class="nav-item"><span class="nav-icon">?</span> FAQ</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <a href="../../index.html" class="nav-item">
+          <span class="nav-icon">⬡</span> Home
+        </a>
+        <button onclick="logout()" class="nav-item nav-logout"
+          style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red,#ef4444)">
+          <span class="nav-icon">⏻</span> Sair
+        </button>
+        <button onclick="deleteAccount()" class="nav-item nav-logout"
+          style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red,#ef4444)">
+          Excluir Conta
+        </button>
       </div>
-    </div>
+    </aside>
+    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- RACE STATUS -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-label">Race Progress</div>
-        <div class="stat-value gold" id="raceProgress">3</div>
-        <div class="stat-delta">de 20 voltas</div>
-        <div class="progress-bar-wrapper mt-1">
-          <div class="progress-bar-fill" style="width:15%"></div>
+    <!-- MAIN -->
+    <main class="main-content">
+
+      <!-- TOP BAR -->
+      <div class="topbar">
+        <div class="topbar-left">
+          <h1>Septem <span class="highlight">GP</span></h1>
+          <p class="page-subtitle">Circuito de Senai "Shunji Nishimura" — São Paulo, Brasil</p>
+        </div>
+        <div class="topbar-right">
+          <span id="userGreeting" style="font-size:13px;color:var(--text-muted);margin-right:12px"></span>
+          <span class="badge badge-gold badge-dot">Ao Vivo</span>
         </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Gap to Leader</div>
-        <div class="stat-value">+2.145</div>
-        <div class="stat-delta down">▼ 0.312s última volta</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Last Lap</div>
-        <div class="stat-value">1:10.452</div>
-        <div class="stat-delta">Setor 3 em andamento</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Best Lap</div>
-        <div class="stat-value gold" id="bestLapTime">--:--.---</div>
-        <div class="stat-delta up" id="bestLapRunner">▲ Carregando...</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Interval P2</div>
-        <div class="stat-value">−2.145s</div>
-        <div class="stat-delta">Para 2ª posição</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Race Time</div>
-        <div class="stat-value">3:39.942</div>
-        <div class="stat-delta">Tempo acumulado</div>
-      </div>
-    </div>
 
-    <!-- BOTTOM ROW -->
-    <div class="grid-2 mt-3">
-
-      <!-- Circuit Map -->
-      <div class="panel" style="animation-delay:0.2s">
-        <div class="panel-header">
-          <span class="panel-title">Circuit Map</span>
-          <span class="badge badge-gold">Setor 3</span>
+      <!-- RACE STATUS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Race Progress</div>
+          <div class="stat-value gold" id="raceProgress">--</div>
+          <div class="stat-delta up">▲ Carregando...</div>
         </div>
-        <div class="panel-body">
-          <svg class="circuit-svg" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
-            <rect width="400" height="180" fill="rgba(0,0,0,0.2)" rx="8"/>
-            <path d="M60,140 Q60,40 140,40 L260,40 Q340,40 340,90 Q340,140 260,140 Q200,140 200,110 Q200,80 160,80 Q100,80 100,110 Q100,140 60,140 Z"
-              fill="none" stroke="rgba(212,175,55,0.08)" stroke-width="18"
-              stroke-linecap="round" stroke-linejoin="round"/>
-            <path class="circuit-track"
-              d="M60,140 Q60,40 140,40 L260,40 Q340,40 340,90 Q340,140 260,140 Q200,140 200,110 Q200,80 160,80 Q100,80 100,110 Q100,140 60,140 Z"
-              fill="none" stroke="#d4af37" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
-            <circle cx="200" cy="40" r="3.5" fill="rgba(212,175,55,0.5)"/>
-            <circle cx="340" cy="90" r="3.5" fill="rgba(212,175,55,0.5)"/>
-            <circle id="car-dot"  cx="245" cy="140" r="5"  fill="#d4af37" class="circuit-dot"/>
-            <circle id="car-glow" cx="245" cy="140" r="11" fill="rgba(212,175,55,0.12)" class="circuit-dot"/>
-            <text x="185" y="30"  fill="rgba(212,175,55,0.5)" font-size="9" font-family="'Barlow Condensed',sans-serif" letter-spacing="1" font-weight="600">S1</text>
-            <text x="50"  y="100" fill="rgba(212,175,55,0.5)" font-size="9" font-family="'Barlow Condensed',sans-serif" letter-spacing="1" font-weight="600">S2</text>
-            <text x="292" y="100" fill="rgba(212,175,55,0.5)" font-size="9" font-family="'Barlow Condensed',sans-serif" letter-spacing="1" font-weight="600">S3</text>
-          </svg>
-          <div class="flex-between mt-2">
-            <div>
-              <div class="stat-label">Velocidade</div>
-              <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold)">284 <span style="font-size:14px;color:var(--text-muted)">km/h</span></div>
+        <div class="stat-card">
+          <div class="stat-label">Gap to Leader</div>
+          <div class="stat-value">-.---</div>
+          <div class="stat-delta up">▲ Carregando...</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Last Lap</div>
+          <div class="stat-value">--:--.---</div>
+          <div class="stat-delta up">▲ Carregando...</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Best Lap</div>
+          <div class="stat-value gold" id="bestLapTime">--:--.---</div>
+          <div class="stat-delta up" id="bestLapRunner">▲ Carregando...</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Interval P2</div>
+          <div class="stat-value">-.---</div>
+          <div class="stat-delta up">▲ Carregando...</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Race Time</div>
+          <div class="stat-value">-:--.---</div>
+          <div class="stat-delta up">▲ Carregando...</div>
+        </div>
+      </div>
+
+      <!-- BOTTOM ROW -->
+      <div class="grid-2 mt-3">
+
+        <!-- Circuit Map -->
+        <div class="panel" style="animation-delay:0.2s">
+          <div class="panel-header">
+            <span class="panel-title">Circuit Map</span>
+            <span class="badge badge-gold">Setor 3</span>
+          </div>
+          <div class="panel-body">
+            <svg class="circuit-svg" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+              <rect width="400" height="180" fill="rgba(0,0,0,0.2)" rx="8" />
+              <path
+                d="M60,140 Q60,40 140,40 L260,40 Q340,40 340,90 Q340,140 260,140 Q200,140 200,110 Q200,80 160,80 Q100,80 100,110 Q100,140 60,140 Z"
+                fill="none" stroke="rgba(212,175,55,0.08)" stroke-width="18" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path class="circuit-track"
+                d="M60,140 Q60,40 140,40 L260,40 Q340,40 340,90 Q340,140 260,140 Q200,140 200,110 Q200,80 160,80 Q100,80 100,110 Q100,140 60,140 Z"
+                fill="none" stroke="#d4af37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                opacity="0.85" />
+              <circle cx="200" cy="40" r="3.5" fill="rgba(212,175,55,0.5)" />
+              <circle cx="340" cy="90" r="3.5" fill="rgba(212,175,55,0.5)" />
+              <circle id="car-dot" cx="245" cy="140" r="5" fill="#d4af37" class="circuit-dot" />
+              <circle id="car-glow" cx="245" cy="140" r="11" fill="rgba(212,175,55,0.12)" class="circuit-dot" />
+              <text x="185" y="30" fill="rgba(212,175,55,0.5)" font-size="9" font-family="'Barlow Condensed',sans-serif"
+                letter-spacing="1" font-weight="600">S1</text>
+              <text x="50" y="100" fill="rgba(212,175,55,0.5)" font-size="9" font-family="'Barlow Condensed',sans-serif"
+                letter-spacing="1" font-weight="600">S2</text>
+              <text x="292" y="100" fill="rgba(212,175,55,0.5)" font-size="9"
+                font-family="'Barlow Condensed',sans-serif" letter-spacing="1" font-weight="600">S3</text>
+            </svg>
+            <div class="flex-between mt-2">
+              <div>
+                <div class="stat-label">Velocidade</div>
+                <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold)">--- <span
+                    style="font-size:14px;color:var(--text-muted)">km/h</span></div>
+              </div>
+              <div>
+                <div class="stat-label">G-Force</div>
+                <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text-primary)">
+                  -.- <span style="font-size:14px;color:var(--text-muted)">G</span></div>
+              </div>
+              <div>
+                <div class="stat-label">Posição</div>
+                <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text-primary)">P1
+                </div>
+              </div>
             </div>
-            <div>
-              <div class="stat-label">G-Force</div>
-              <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text-primary)">3.2 <span style="font-size:14px;color:var(--text-muted)">G</span></div>
-            </div>
-            <div>
-              <div class="stat-label">Posição</div>
-              <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text-primary)">P1</div>
+          </div>
+        </div>
+
+        <!-- Lap Times Panel -->
+        <div class="panel" style="animation-delay:0.3s">
+          <div class="panel-header">
+            <span class="panel-title">Últimas Voltas</span>
+            <span class="text-muted text-sm">Volta - / --</span>
+          </div>
+          <div class="table-wrapper" style="border:none;border-radius:0">
+            <table>
+              <thead>
+                <tr>
+                  <th>Volta</th>
+                  <th>Tempo</th>
+                  <th>S1</th>
+                  <th>S2</th>
+                  <th>S3</th>
+                </tr>
+              </thead>
+              <tbody id="lapsTableBody">
+                <tr>
+                  <td colspan="5">Carregando...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel-body" style="padding-top:12px">
+            <div class="stat-label" style="margin-bottom:8px">Tempo por volta (seg)</div>
+            <div class="bar-chart">
+              <div class="bar-chart-bar" style="height:70%" title="V1: 69.8s"></div>
+              <div class="bar-chart-bar" style="height:80%" title="V2: 70.9s"></div>
+              <div class="bar-chart-bar" style="height:75%" title="V3: 70.5s"></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Lap Times Panel -->
-      <div class="panel" style="animation-delay:0.3s">
-        <div class="panel-header">
-          <span class="panel-title">Últimas Voltas</span>
-          <span class="text-muted text-sm">Volta 3 / 20</span>
-        </div>
-        <div class="table-wrapper" style="border:none;border-radius:0">
-          <table>
-            <thead>
-              <tr>
-                <th>Volta</th>
-                <th>Tempo</th>
-                <th>S1</th>
-                <th>S2</th>
-                <th>S3</th>
-              </tr>
-            </thead>
-            <tbody id="lapsTableBody">
-              <tr><td colspan="5">Carregando...</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="panel-body" style="padding-top:12px">
-          <div class="stat-label" style="margin-bottom:8px">Tempo por volta (seg)</div>
-          <div class="bar-chart">
-            <div class="bar-chart-bar" style="height:70%" title="V1: 69.8s"></div>
-            <div class="bar-chart-bar" style="height:80%" title="V2: 70.9s"></div>
-            <div class="bar-chart-bar active" style="height:75%" title="V3: 70.5s"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </main>
+  </div>
 
-  </main>
-</div>
+  <!-- Middleware de autenticação frontend -->
+  <script src="../scripts/auth.js"></script>
+  <script>
+    checkAuth();
+    document
+      .getElementById('deleteAccountBtn')
+      .addEventListener('click', deleteAccount);
 
-<!-- Middleware de autenticação frontend -->
-<script src="../scripts/auth.js"></script>
-<script>
-  checkAuth();
-  document
-    .getElementById('deleteAccountBtn')
-    .addEventListener('click', deleteAccount);
+    async function deleteAccount() {
 
-async function deleteAccount() {
-
-    const confirmar = confirm(
+      const confirmar = confirm(
         'Tem certeza que deseja excluir sua conta? Esta ação é permanente.'
-    );
+      );
 
-    if (!confirmar) {
+      if (!confirmar) {
         return;
-    }
+      }
 
-    const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token');
 
-    if (!token) {
+      if (!token) {
 
         alert('Você não está autenticado.');
 
         window.location.href = 'login.html';
 
         return;
-    }
+      }
 
-    try {
+      try {
 
         const response = await fetch(
-            'http://localhost:3000/users/delete',
-            {
-                method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+          'http://localhost:3000/users/delete',
+          {
+            method: 'DELETE',
+            headers: {
+              Authorization: `Bearer ${token}`
             }
+          }
         );
 
         const result = await response.json();
 
         if (response.ok) {
 
-            alert(result.message);
+          alert(result.message);
 
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
 
-            window.location.href = '../../index.html';
+          window.location.href = '../../index.html';
 
         } else {
 
-            alert(
-                result.message ||
-                result.error ||
-                'Erro ao excluir conta'
-            );
+          alert(
+            result.message ||
+            result.error ||
+            'Erro ao excluir conta'
+          );
 
         }
 
-    } catch (error) {
+      } catch (error) {
 
         console.error(error);
 
         alert('Erro ao conectar ao servidor.');
 
-    }
-}
-
-  // Exibir nome do usuário logado na topbar
-  const user = getUser();
-  if (user) {
-    document.getElementById('userGreeting').textContent = '👤 ' + user.name;
-  }
-
-  // Mobile sidebar
-  document.getElementById('sidebarToggle').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.toggle('mobile-open');
-    document.getElementById('sidebarOverlay').classList.toggle('active');
-  });
-  document.getElementById('sidebarOverlay').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.remove('mobile-open');
-    document.getElementById('sidebarOverlay').classList.remove('active');
-  });
-
-  // 3D tilt on cards
-  document.querySelectorAll('.stat-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width  - 0.5;
-      const y = (e.clientY - r.top)  / r.height - 0.5;
-      card.style.transform = `rotateX(${-y*10}deg) rotateY(${x*10}deg) translateY(-4px) scale(1.02)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transition = 'transform 0.6s cubic-bezier(.23,1.01,.32,1), border-color 0.3s';
-      card.style.transform = '';
-    });
-    card.addEventListener('mouseenter', () => {
-      card.style.transition = 'border-color 0.3s';
-    });
-  });
-
-  // Animated car on circuit
-  (function() {
-    const track = document.querySelector('.circuit-track');
-    const dot   = document.getElementById('car-dot');
-    const glow  = document.getElementById('car-glow');
-    let t = 0;
-    function animateCar() {
-      try {
-        const len = track.getTotalLength();
-        t = (t + 0.003) % 1;
-        const pt = track.getPointAtLength(t * len);
-        dot.setAttribute('cx', pt.x);  dot.setAttribute('cy', pt.y);
-        glow.setAttribute('cx', pt.x); glow.setAttribute('cy', pt.y);
-      } catch(e) {}
-      requestAnimationFrame(animateCar);
-    }
-    setTimeout(animateCar, 3200);
-  })();
-
-  // Counter animation
-  (function() {
-    const el = document.querySelector('#raceProgress');
-    if(!el) return;
-    let v = 0;
-    const tick = () => { v = Math.min(v + 0.1, 3); el.textContent = Math.floor(v); if(v < 3) requestAnimationFrame(tick); else el.textContent = '3'; };
-    setTimeout(tick, 600);
-  })();
-  // Fetch data
-  async function loadDashboardData() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      window.location.href = 'login.html';
-      return;
+      }
     }
 
-    try {
-      // Best Lap
-      const bestRes = await fetch('http://localhost:3000/voltas/melhor-volta', {
-        headers: { 'Authorization': 'Bearer ' + token }
+    // Exibir nome do usuário logado na topbar
+    const user = getUser();
+    if (user) {
+      document.getElementById('userGreeting').textContent = '👤 ' + user.name;
+    }
+
+    // Mobile sidebar
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('mobile-open');
+      document.getElementById('sidebarOverlay').classList.toggle('active');
+    });
+    document.getElementById('sidebarOverlay').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.remove('mobile-open');
+      document.getElementById('sidebarOverlay').classList.remove('active');
+    });
+
+    // 3D tilt on cards
+    document.querySelectorAll('.stat-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = `rotateX(${-y * 10}deg) rotateY(${x * 10}deg) translateY(-4px) scale(1.02)`;
       });
-      if (bestRes.ok) {
-        const bestData = await bestRes.json();
-        if (bestData.melhor_volta) {
-          document.getElementById('bestLapTime').textContent = bestData.melhor_volta + 's';
-          document.getElementById('bestLapRunner').textContent = '▲ ' + bestData.corredor.nome;
-        }
+      card.addEventListener('mouseleave', () => {
+        card.style.transition = 'transform 0.6s cubic-bezier(.23,1.01,.32,1), border-color 0.3s';
+        card.style.transform = '';
+      });
+      card.addEventListener('mouseenter', () => {
+        card.style.transition = 'border-color 0.3s';
+      });
+    });
+
+    // Animated car on circuit
+    (function () {
+      const track = document.querySelector('.circuit-track');
+      const dot = document.getElementById('car-dot');
+      const glow = document.getElementById('car-glow');
+      let t = 0;
+      function animateCar() {
+        try {
+          const len = track.getTotalLength();
+          t = (t + 0.003) % 1;
+          const pt = track.getPointAtLength(t * len);
+          dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
+          glow.setAttribute('cx', pt.x); glow.setAttribute('cy', pt.y);
+        } catch (e) { }
+        requestAnimationFrame(animateCar);
+      }
+      setTimeout(animateCar, 3200);
+    })();
+
+    // Counter animation
+    (function () {
+      const el = document.querySelector('#raceProgress');
+      if (!el) return;
+      let v = 0;
+      const tick = () => { v = Math.min(v + 0.1, 3); el.textContent = Math.floor(v); if (v < 3) requestAnimationFrame(tick); else el.textContent = '3'; };
+      setTimeout(tick, 600);
+    })();
+    // Fetch data
+    async function loadDashboardData() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = 'login.html';
+        return;
       }
 
-      // Top 5 Laps
-      const topRes = await fetch('http://localhost:3000/voltas/top5-voltas', {
-        headers: { 'Authorization': 'Bearer ' + token }
-      });
-      if (topRes.ok) {
-        const topData = await topRes.json();
-        const tbody = document.getElementById('lapsTableBody');
-        tbody.innerHTML = '';
-        if (topData.ranking && topData.ranking.length > 0) {
-          topData.ranking.forEach((lap, index) => {
-            const tr = document.createElement('tr');
-            let badgeClass = '';
-            if (index === 0) badgeClass = ' p1';
-            else if (index === 1) badgeClass = ' p2';
+      try {
+        // Best Lap
+        const bestRes = await fetch('http://localhost:3000/voltas/melhor-volta', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (bestRes.ok) {
+          const bestData = await bestRes.json();
+          if (bestData.melhor_volta) {
+            document.getElementById('bestLapTime').textContent = bestData.melhor_volta + 's';
+            document.getElementById('bestLapRunner').textContent = '▲ ' + bestData.corredor.nome;
+          }
+        }
 
-            let tdTempo = index === 0 ? '<td class="td-gold">' : '<td class="td-primary">';
-            
-            tr.innerHTML = `
+        // Top 5 Laps
+        const topRes = await fetch('http://localhost:3000/voltas/top5-voltas', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (topRes.ok) {
+          const topData = await topRes.json();
+          const tbody = document.getElementById('lapsTableBody');
+          tbody.innerHTML = '';
+          if (topData.ranking && topData.ranking.length > 0) {
+            topData.ranking.forEach((lap, index) => {
+              const tr = document.createElement('tr');
+              let badgeClass = '';
+              if (index === 0) badgeClass = ' p1';
+              else if (index === 1) badgeClass = ' p2';
+
+              let tdTempo = index === 0 ? '<td class="td-gold">' : '<td class="td-primary">';
+
+              tr.innerHTML = `
               <td><span class="pos-badge${badgeClass}">${index + 1}</span></td>
               ${tdTempo}${lap.tempo}s</td>
               <td class="text-muted" colspan="3">${lap.nome} - ${lap.equipe || 'Sem equipe'}</td>
             `;
-            tbody.appendChild(tr);
-          });
-        } else {
-          tbody.innerHTML = '<tr><td colspan="5">Nenhuma volta registrada</td></tr>';
+              tbody.appendChild(tr);
+            });
+          } else {
+            tbody.innerHTML = '<tr><td colspan="5">Nenhuma volta registrada</td></tr>';
+          }
+        } else if (topRes.status === 401 || topRes.status === 403) {
+          localStorage.removeItem('token');
+          window.location.href = 'login.html';
         }
-      } else if (topRes.status === 401 || topRes.status === 403) {
-        localStorage.removeItem('token');
-        window.location.href = 'login.html';
+      } catch (error) {
+        console.error('Erro ao carregar dados:', error);
       }
-    } catch (error) {
-      console.error('Erro ao carregar dados:', error);
     }
-  }
 
-  loadDashboardData();
-</script>
+    loadDashboardData();
+  </script>
 </body>
+
 </html>

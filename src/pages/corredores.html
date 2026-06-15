@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Runners | Septem Racing</title>
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+<div class="page-wrapper">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="brand-name">Septem</span>
+      <span class="brand-sub">Racing Management</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <p class="nav-label">Main</p>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">⬡</span> Dashboard</a>
+      <a href="corredores.html" class="nav-item active"><span class="nav-icon">✦</span> Runners</a>
+      <a href="time.html" class="nav-item"><span class="nav-icon">◇</span> Teams</a>
+
+      <div class="nav-divider"></div>
+
+      <p class="nav-label">System</p>
+      <a href="faq.html" class="nav-item"><span class="nav-icon">?</span> FAQ</a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a href="../../index.html" class="nav-item"><span class="nav-icon">⬡</span> Home</a>
+      <button onclick="logout()" class="nav-item nav-logout" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red,#ef4444)">
+        <span class="nav-icon">⏻</span> Sair
+      </button>
+    </div>
+  </aside>
+
+  <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Runners</h1>
+        <p class="page-subtitle">Gerenciamento de corredores — Pilotos da equipe</p>
+      </div>
+      <div class="topbar-right">
+        <span class="badge badge-gold">12 Corredores</span>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="stat-card">
+        <div class="stat-label">Total de Corredores</div>
+        <div class="stat-value gold">12</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Em Atividade</div>
+        <div class="stat-value">8</div>
+        <div class="stat-delta up">● Ativos</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Em Descanso</div>
+        <div class="stat-value">2</div>
+        <div class="stat-delta" style="color:var(--orange)">● Pausados</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Reservas</div>
+        <div class="stat-value">2</div>
+        <div class="stat-delta">● Stand-by</div>
+      </div>
+    </div>
+
+    <!-- Runners Table -->
+    <div class="panel mt-3">
+      <div class="panel-header">
+        <span class="panel-title">Lista de Corredores</span>
+        <button class="btn btn-ghost btn-sm">+ Adicionar Corredor</button>
+      </div>
+
+      <div class="table-wrapper" style="border:none;border-radius:0">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Especialidade</th>
+              <th>Idade</th>
+              <th>Status</th>
+              <th>Última Corrida</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="pos-badge p1">1</span></td>
+              <td class="td-primary">RN-001</td>
+              <td class="td-primary">Lucas Ferraz</td>
+              <td class="text-muted">Sprint</td>
+              <td class="text-muted">24</td>
+              <td><span class="badge badge-green" style="font-size:10px">Ativo</span></td>
+              <td class="text-muted">GP Brasil 2025</td>
+            </tr>
+
+            <tr>
+              <td><span class="pos-badge p2">2</span></td>
+              <td class="td-primary">RN-002</td>
+              <td class="td-primary">Caio Martins</td>
+              <td class="text-muted">Resistência</td>
+              <td class="text-muted">27</td>
+              <td><span class="badge badge-green" style="font-size:10px">Ativo</span></td>
+              <td class="text-muted">GP Itália 2025</td>
+            </tr>
+
+            <tr>
+              <td><span class="pos-badge">7</span></td>
+              <td class="td-primary">RN-003</td>
+              <td class="td-primary">Rafael Nogueira</td>
+              <td class="text-muted">Circuito Urbano</td>
+              <td class="text-muted">22</td>
+              <td>
+                <span class="badge" style="background:rgba(249,115,22,.1);color:var(--orange);border:1px solid rgba(249,115,22,.3);font-size:10px">
+                  Descanso
+                </span>
+              </td>
+              <td class="text-muted">GP Japão 2025</td>
+            </tr>
+
+            <tr>
+              <td><span class="pos-badge">11</span></td>
+              <td class="td-primary">RN-004</td>
+              <td class="td-primary">André Salazar</td>
+              <td class="text-muted">Curvas Técnicas</td>
+              <td class="text-muted">29</td>
+              <td><span class="badge badge-gold" style="font-size:10px">Stand-by</span></td>
+              <td class="text-muted">GP Mônaco 2024</td>
+            </tr>
+
+            <tr>
+              <td><span class="pos-badge">14</span></td>
+              <td class="td-primary">RN-005</td>
+              <td class="td-primary">Mateus Lima</td>
+              <td class="text-muted">Sprint</td>
+              <td class="text-muted">21</td>
+              <td><span class="badge badge-green" style="font-size:10px">Ativo</span></td>
+              <td class="text-muted">GP Espanha 2025</td>
+            </tr>
+
+            <tr>
+              <td><span class="pos-badge">21</span></td>
+              <td class="td-primary">RN-006</td>
+              <td class="td-primary">Thiago Azevedo</td>
+              <td class="text-muted">Resistência</td>
+              <td class="text-muted">26</td>
+              <td><span class="badge badge-green" style="font-size:10px">Ativo</span></td>
+              <td class="text-muted">GP Canadá 2025</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  document.getElementById('sidebarToggle').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('mobile-open');
+    document.getElementById('sidebarOverlay').classList.toggle('active');
+  });
+
+  document.getElementById('sidebarOverlay').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('mobile-open');
+    document.getElementById('sidebarOverlay').classList.remove('active');
+  });
+</script>
+
+<!-- Middleware de autenticação frontend -->
+<script src="../scripts/auth.js"></script>
+<script>
+  checkAuth();
+</script>
+
+</body>
+</html>

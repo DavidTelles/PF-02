@@ -17,8 +17,7 @@
     <nav class="sidebar-nav">
       <p class="nav-label">Main</p>
       <a href="dashboard.html" class="nav-item"><span class="nav-icon">⬡</span> Dashboard</a>
-      <a href="carros.html" class="nav-item"><span class="nav-icon">◈</span> Cars</a>
-      <a href="corrida.html" class="nav-item"><span class="nav-icon">◎</span> Racings</a>
+      <a href="corredores.html" class="nav-item"><span class="nav-icon">◎</span> Runners</a>
       <a href="time.html" class="nav-item active"><span class="nav-icon">◇</span> Teams</a>
       <div class="nav-divider"></div>
       <p class="nav-label">System</p>
@@ -51,123 +50,76 @@
         <div class="stat-label">Equipes</div>
         <div class="stat-value gold">7</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Pilotos</div>
-        <div class="stat-value">28</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Líderes do Campeonato</div>
-        <div class="stat-value" style="font-size:20px">Septem A</div>
-        <div class="stat-delta up">▲ 324 pts</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Pontos Totais</div>
-        <div class="stat-value">892</div>
-      </div>
     </div>
 
     <!-- Teams + Drivers -->
-    <div class="grid-2 mt-3">
-      <div class="panel">
-        <div class="panel-header">
-          <span class="panel-title">Classificação de Equipes</span>
-        </div>
-        <div class="table-wrapper" style="border:none;border-radius:0">
-          <table>
-            <thead>
-              <tr>
-                <th>Pos</th>
-                <th>Equipe</th>
-                <th>Pts</th>
-                <th>Vitórias</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="pos-badge p1">1</span></td>
-                <td class="td-primary">Septem A</td>
-                <td class="td-gold">324</td>
-                <td class="text-muted">4</td>
-              </tr>
-              <tr>
-                <td><span class="pos-badge p2">2</span></td>
-                <td class="td-primary">Red Falcon Racing</td>
-                <td class="td-gold">289</td>
-                <td class="text-muted">3</td>
-              </tr>
-              <tr>
-                <td><span class="pos-badge p3">3</span></td>
-                <td class="td-primary">Blue Arrow</td>
-                <td class="td-gold">245</td>
-                <td class="text-muted">2</td>
-              </tr>
-              <tr>
-                <td><span class="pos-badge">4</span></td>
-                <td class="td-primary">Storm Racing</td>
-                <td class="text-muted">198</td>
-                <td class="text-muted">1</td>
-              </tr>
-              <tr>
-                <td><span class="pos-badge">5</span></td>
-                <td class="td-primary">Neon Drive</td>
-                <td class="text-muted">156</td>
-                <td class="text-muted">1</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <!-- Botão Nova Equipe -->
 
-      <div class="panel">
-        <div class="panel-header">
-          <span class="panel-title">Classificação de Pilotos</span>
-        </div>
-        <div class="table-wrapper" style="border:none;border-radius:0">
-          <table>
-            <thead>
-              <tr>
-                <th>Pos</th>
-                <th>Piloto</th>
-                <th>Equipe</th>
-                <th>Pts</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="pos-badge p1">1</span></td>
-                <td class="td-primary">Hamilton Jr.</td>
-                <td class="text-muted">Septem A</td>
-                <td class="td-gold">178</td>
-              </tr>
-              <tr>
-                <td><span class="pos-badge p2">2</span></td>
-                <td class="td-primary">Verstappini</td>
-                <td class="text-muted">Septem A</td>
-                <td class="td-gold">146</td>
-              </tr>
-              <tr>
-                <td><span class="pos-badge p3">3</span></td>
-                <td class="td-primary">Perez Jr.</td>
-                <td class="text-muted">Red Falcon</td>
-                <td class="td-gold">132</td>
-              </tr>
-              <tr>
-                <td><span class="pos-badge">4</span></td>
-                <td class="td-primary">Alonsito</td>
-                <td class="text-muted">Blue Arrow</td>
-                <td class="text-muted">120</td>
-              </tr>
-              <tr>
-                <td><span class="pos-badge">5</span></td>
-                <td class="td-primary">Leclerc II</td>
-                <td class="text-muted">Storm Racing</td>
-                <td class="text-muted">98</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+<button class="btn btn-primary btn-sm" onclick="abrirModalEquipe()">
+  + Nova Equipe
+</button>
+
+<div class="panel mt-3">
+  <div class="panel-header">
+    <span class="panel-title">Gerenciamento de Equipes</span>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>País</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+  <tbody id="teamsTable">
+    <tr>
+      <td colspan="4">Carregando equipes...</td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+</div>
+
+<!-- Modal -->
+
+<div id="modalEquipe" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);align-items:center;justify-content:center;z-index:9999;">
+  <div style="background:#111827;padding:25px;border-radius:16px;width:400px;max-width:95%;">
+
+<h2 id="modalTitle">Nova Equipe</h2>
+
+<input
+  type="text"
+  id="teamName"
+  placeholder="Nome da equipe"
+  style="width:100%;padding:10px;margin-top:15px;"
+>
+
+<input
+  type="text"
+  id="teamCountry"
+  placeholder="País"
+  style="width:100%;padding:10px;margin-top:10px;"
+>
+
+<div style="display:flex;gap:10px;margin-top:20px;">
+  <button
+    class="btn btn-primary"
+    onclick="salvarEquipe()"
+  >
+    Salvar
+  </button>
+
+  <button
+    class="btn btn-ghost"
+    onclick="fecharModalEquipe()"
+  >
+    Cancelar
+  </button>
+</div>
   </main>
 </div>
 
@@ -184,8 +136,217 @@
 <!-- Middleware de autenticação frontend -->
 <script src="../scripts/auth.js"></script>
 <script>
-  // Verificação de autenticação
   checkAuth();
+
+  let editandoId = null;
+
+async function carregarEquipes() {
+
+  try {
+
+    const response =
+      await fetch('http://localhost:3000/teams');
+
+    const teams =
+      await response.json();
+
+    document.querySelector('.badge-gold').textContent =
+      `${teams.length} Equipes`;
+
+    document.querySelector('.gold').textContent =
+      teams.length;
+
+    const table =
+      document.getElementById('teamsTable');
+
+    table.innerHTML = '';
+
+    teams.forEach(team => {
+
+      table.innerHTML += `
+        <tr>
+          <td>${team.id}</td>
+          <td>${team.name}</td>
+          <td>${team.country}</td>
+
+          <td>
+            <button
+              class="btn btn-primary btn-sm"
+              onclick="editarEquipe(
+                ${team.id},
+                '${team.name}',
+                '${team.country}'
+              )"
+            style="margin:2px">
+              Editar
+            </button>
+
+            <button
+            class="btn btn-primary btn-sm"
+              onclick="excluirEquipe(${team.id})"
+            style="margin:2px">
+              Excluir
+            </button>
+          </td>
+        </tr>
+      `;
+
+    });
+
+  } catch(err) {
+
+    console.error(err);
+
+  }
+}
+
+function abrirModalEquipe() {
+
+  editandoId = null;
+
+  document.getElementById('modalTitle').innerText =
+    'Nova Equipe';
+
+  document.getElementById('teamName').value = '';
+
+  document.getElementById('teamCountry').value = '';
+
+  document.getElementById('modalEquipe').style.display =
+    'flex';
+}
+
+function fecharModalEquipe() {
+
+  document.getElementById('modalEquipe').style.display =
+    'none';
+}
+
+function editarEquipe(id, nome, pais) {
+
+  editandoId = id;
+
+  document.getElementById('modalTitle').innerText =
+    'Editar Equipe';
+
+  document.getElementById('teamName').value =
+    nome;
+
+  document.getElementById('teamCountry').value =
+    pais;
+
+  document.getElementById('modalEquipe').style.display =
+    'flex';
+}
+
+async function salvarEquipe() {
+
+  const token =
+    localStorage.getItem('token');
+
+  const name =
+    document.getElementById('teamName').value;
+
+  const country =
+    document.getElementById('teamCountry').value;
+
+  try {
+
+    let url =
+      'http://localhost:3000/teams/create';
+
+    let method = 'POST';
+
+    if (editandoId) {
+
+      url =
+        `http://localhost:3000/teams/edit?id=${editandoId}`;
+
+      method = 'PUT';
+    }
+
+    const response =
+      await fetch(url, {
+        method,
+
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+
+        body: JSON.stringify({
+          name,
+          country
+        })
+      });
+
+    const result =
+      await response.json();
+
+    alert(
+      result.message ||
+      'Equipe salva com sucesso'
+    );
+
+    fecharModalEquipe();
+
+    carregarEquipes();
+
+  } catch(err) {
+
+    console.error(err);
+
+    alert('Erro ao salvar equipe');
+
+  }
+}
+
+async function excluirEquipe(id) {
+
+  if (
+    !confirm(
+      'Deseja realmente excluir esta equipe?'
+    )
+  ) {
+    return;
+  }
+
+  const token =
+    localStorage.getItem('token');
+
+  try {
+
+    const response =
+      await fetch(
+        `http://localhost:3000/teams/delete?id=${id}`,
+        {
+          method: 'DELETE',
+
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+
+    const result =
+      await response.json();
+
+    alert(
+      result.message ||
+      'Equipe excluída'
+    );
+
+    carregarEquipes();
+
+  } catch(err) {
+
+    console.error(err);
+
+    alert('Erro ao excluir');
+
+  }
+}
+
+carregarEquipes();
 </script>
 
 </body>

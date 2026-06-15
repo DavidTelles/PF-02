@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('../db');
+const auth = require("../middleware/auth")
 const { teamSchema } = require('./validators/teamValidator');
 
 const teamRouters = express.Router();
@@ -17,7 +18,7 @@ teamRouters.get('/', async (req, res) => {
 });
 
 // POST criar equipe
-teamRouters.post('/create', async (req, res) => {
+teamRouters.post('/create', auth, async (req, res) => {
     const { name, country } = req.body;
 
     const { error } = teamSchema.validate(req.body, { allowUnknown: false });
@@ -36,7 +37,7 @@ teamRouters.post('/create', async (req, res) => {
 });
 
 // Editar equipes
-teamRouters.put('/edit/:id', async (req, res) => {
+teamRouters.put('/edit', auth, async (req, res) => {
     const { name, country } = req.body;
     const { id } = req.query;
 
@@ -49,7 +50,7 @@ teamRouters.put('/edit/:id', async (req, res) => {
     }
 });
 
-teamRouters.delete('/delete/:id', async (req, res) => {
+teamRouters.delete('/delete', auth, async (req, res) => {
     const { id } = req.query;
 
     try {
