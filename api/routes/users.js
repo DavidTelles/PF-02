@@ -3,7 +3,6 @@ const userRouters = express.Router();
 const db = require('../db');
 const bcrypt = require('bcrypt');
 const cors = require("cors");
-const connection = require('../db');
 const { createSchema, loginSchema } = require('./validators/userValidator')
 const auth = require('../middleware/auth');
 userRouters.use(cors());
@@ -80,7 +79,7 @@ userRouters.post('/login', async (req, res) => {
     }
 
     try {
-        const [rows] = await connection.execute(
+        const [rows] = await db.execute(
             'SELECT id, name, password FROM users WHERE name = ?',
             [name]
         );
