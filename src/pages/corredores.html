@@ -1,10 +1,53 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Runners | Septem Racing</title>
-  <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/style.css" />
+  <style>
+    .search-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+    .search-bar input,.search-bar select{background:var(--surface-3);border:1px solid var(--border);color:var(--text-primary);padding:8px 14px;border-radius:var(--radius-sm);font-size:13px;font-family:var(--font-body)}
+    .search-bar input{flex:1;min-width:160px}
+    .search-bar input:focus,.search-bar select:focus{outline:none;border-color:var(--border-gold)}
+    .export-btns{margin-left:auto;display:flex;gap:8px}
+    .runner-photo{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid var(--border-gold)}
+    .runner-photo-placeholder{width:36px;height:36px;border-radius:50%;background:var(--surface-4);display:inline-flex;align-items:center;justify-content:center;font-size:14px;border:1px solid var(--border)}
+    .pagination{display:flex;gap:6px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+    .page-btn{background:var(--surface-3);border:1px solid var(--border);color:var(--text-secondary);padding:6px 12px;border-radius:var(--radius-sm);cursor:pointer;font-size:12px;transition:all .2s}
+    .page-btn:hover,.page-btn.active{background:var(--gold-glow);border-color:var(--border-gold);color:var(--gold)}
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px)}
+    .modal-overlay.open{display:flex}
+    .modal{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;width:680px;max-width:95vw;max-height:90vh;overflow-y:auto;position:relative;animation:fadeInUp .25s var(--ease)}
+    .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;line-height:1}
+    .modal-close:hover{color:var(--text-primary)}
+    .modal h2{font-family:var(--font-display);font-size:20px;margin-bottom:20px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .form-grid .full{grid-column:1/-1}
+    .form-group label{display:block;font-size:11px;color:var(--text-muted);margin-bottom:5px;letter-spacing:.5px;text-transform:uppercase}
+    .form-group input,.form-group select{width:100%;background:var(--surface-3);border:1px solid var(--border);color:var(--text-primary);padding:9px 12px;border-radius:var(--radius-sm);font-size:13px;font-family:var(--font-body)}
+    .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--border-gold)}
+    .modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+    .confirm-modal{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;width:400px;max-width:95vw;text-align:center}
+    .confirm-modal h3{font-family:var(--font-display);font-size:18px;margin-bottom:10px}
+    .confirm-modal p{color:var(--text-secondary);font-size:13px;margin-bottom:22px}
+    #toast-container{position:fixed;bottom:24px;right:24px;z-index:10000;display:flex;flex-direction:column;gap:10px}
+    .toast{background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 18px;font-size:13px;min-width:220px;animation:slideInRight .3s var(--ease);display:flex;align-items:center;gap:10px}
+    .toast.success{border-color:rgba(34,197,94,.4)}
+    .toast.error{border-color:rgba(239,68,68,.4)}
+    .toast .toast-icon{font-size:16px}
+    .skeleton{background:linear-gradient(90deg,var(--surface-3) 25%,var(--surface-4) 50%,var(--surface-3) 75%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:4px;height:16px}
+    @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes slideInRight{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+    .detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+    .detail-item{background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px}
+    .detail-item .d-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
+    .detail-item .d-value{font-size:16px;font-family:var(--font-display);margin-top:3px}
+    .driver-header{display:flex;align-items:center;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+    .driver-avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--border-gold)}
+    .driver-avatar-ph{width:72px;height:72px;border-radius:50%;background:var(--surface-4);display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid var(--border)}
+  </style>
 </head>
 <body>
 <div class="page-wrapper">
@@ -20,16 +63,16 @@
       <a href="dashboard.html" class="nav-item"><span class="nav-icon">⬡</span> Dashboard</a>
       <a href="corredores.html" class="nav-item active"><span class="nav-icon">✦</span> Runners</a>
       <a href="time.html" class="nav-item"><span class="nav-icon">◇</span> Teams</a>
-
+      <a href="estatisticas.html" class="nav-item"><span class="nav-icon">◈</span> Estatísticas</a>
+      <a href="ranking.html" class="nav-item"><span class="nav-icon">◎</span> Ranking</a>
       <div class="nav-divider"></div>
-
       <p class="nav-label">System</p>
       <a href="faq.html" class="nav-item"><span class="nav-icon">?</span> FAQ</a>
     </nav>
 
     <div class="sidebar-bottom">
       <a href="../../index.html" class="nav-item"><span class="nav-icon">⬡</span> Home</a>
-      <button onclick="logout()" class="nav-item nav-logout" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red,#ef4444)">
+      <button id="logoutBtn" class="nav-item nav-logout" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red)">
         <span class="nav-icon">⏻</span> Sair
       </button>
     </div>
@@ -42,147 +85,730 @@
     <div class="topbar">
       <div class="topbar-left">
         <h1>Runners</h1>
-        <p class="page-subtitle">Gerenciamento de corredores — Pilotos da equipe</p>
+        <p class="page-subtitle">Gerenciamento completo de pilotos</p>
       </div>
       <div class="topbar-right">
-        <span class="badge badge-gold">12 Corredores</span>
+        <span class="badge badge-gold" id="totalBadge">-- Corredores</span>
       </div>
     </div>
 
-    <!-- Stats -->
-    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr)">
-      <div class="stat-card">
-        <div class="stat-label">Total de Corredores</div>
-        <div class="stat-value gold">12</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-label">Em Atividade</div>
-        <div class="stat-value">8</div>
-        <div class="stat-delta up">● Ativos</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-label">Em Descanso</div>
-        <div class="stat-value">2</div>
-        <div class="stat-delta" style="color:var(--orange)">● Pausados</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-label">Reservas</div>
-        <div class="stat-value">2</div>
-        <div class="stat-delta">● Stand-by</div>
-      </div>
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr)" id="statsGrid">
+      <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value gold skeleton" id="sc-total" style="height:32px;width:60px"></div></div>
+      <div class="stat-card"><div class="stat-label">Ativos</div><div class="stat-value skeleton" id="sc-ativos" style="height:32px;width:60px"></div></div>
+      <div class="stat-card"><div class="stat-label">Inativos</div><div class="stat-value skeleton" id="sc-inativos" style="height:32px;width:60px"></div></div>
+      <div class="stat-card"><div class="stat-label">Equipes</div><div class="stat-value skeleton" id="sc-equipes" style="height:32px;width:60px"></div></div>
     </div>
 
-    <!-- Runners Table -->
     <div class="panel mt-3">
       <div class="panel-header">
         <span class="panel-title">Lista de Corredores</span>
-        <button class="btn btn-ghost btn-sm">+ Adicionar Corredor</button>
+        <button class="btn btn-primary btn-sm" id="btnNovoCorredor">+ Adicionar Corredor</button>
+      </div>
+
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Buscar por nome, equipe, categoria...">
+        <select id="filterStatus">
+          <option value="">Todos os status</option>
+          <option value="Ativo">Ativo</option>
+          <option value="Inativo">Inativo</option>
+        </select>
+        <select id="filterTeam">
+          <option value="">Todas as equipes</option>
+        </select>
+        <div class="export-btns">
+          <button class="btn btn-ghost btn-sm" id="btnExportCSV">↓ CSV</button>
+          <button class="btn btn-ghost btn-sm" id="btnExportPDF">↓ PDF</button>
+        </div>
       </div>
 
       <div class="table-wrapper" style="border:none;border-radius:0">
         <table>
           <thead>
             <tr>
-              <th>#</th>
-              <th>ID</th>
-              <th>Nome</th>
-              <th>Especialidade</th>
-              <th>Idade</th>
+              <th data-sort="rank" style="cursor:pointer">Pos ⇅</th>
+              <th data-sort="name" style="cursor:pointer">Nome ⇅</th>
+              <th data-sort="team_name" style="cursor:pointer">Equipe ⇅</th>
+              <th>Nac.</th>
+              <th data-sort="points" style="cursor:pointer">Pontos ⇅</th>
+              <th data-sort="wins" style="cursor:pointer">Vitórias ⇅</th>
+              <th>Cat.</th>
               <th>Status</th>
-              <th>Última Corrida</th>
+              <th>Ações</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td><span class="pos-badge p1">1</span></td>
-              <td class="td-primary">RN-001</td>
-              <td class="td-primary">Lucas Ferraz</td>
-              <td class="text-muted">Sprint</td>
-              <td class="text-muted">24</td>
-              <td><span class="badge badge-green" style="font-size:10px">Ativo</span></td>
-              <td class="text-muted">GP Brasil 2026</td>
-            </tr>
-
-            <tr>
-              <td><span class="pos-badge p2">2</span></td>
-              <td class="td-primary">RN-002</td>
-              <td class="td-primary">Caio Martins</td>
-              <td class="text-muted">Resistência</td>
-              <td class="text-muted">27</td>
-              <td><span class="badge badge-green" style="font-size:10px">Ativo</span></td>
-              <td class="text-muted">GP Itália 2026</td>
-            </tr>
-
-            <tr>
-              <td><span class="pos-badge">7</span></td>
-              <td class="td-primary">RN-003</td>
-              <td class="td-primary">Rafael Nogueira</td>
-              <td class="text-muted">Circuito Urbano</td>
-              <td class="text-muted">22</td>
-              <td>
-                <span class="badge" style="background:rgba(249,115,22,.1);color:var(--orange);border:1px solid rgba(249,115,22,.3);font-size:10px">
-                  Descanso
-                </span>
-              </td>
-              <td class="text-muted">GP Japão 2026</td>
-            </tr>
-
-            <tr>
-              <td><span class="pos-badge">11</span></td>
-              <td class="td-primary">RN-004</td>
-              <td class="td-primary">André Salazar</td>
-              <td class="text-muted">Curvas Técnicas</td>
-              <td class="text-muted">29</td>
-              <td><span class="badge badge-gold" style="font-size:10px">Stand-by</span></td>
-              <td class="text-muted">GP Mônaco 2026</td>
-            </tr>
-
-            <tr>
-              <td><span class="pos-badge">14</span></td>
-              <td class="td-primary">RN-005</td>
-              <td class="td-primary">Mateus Lima</td>
-              <td class="text-muted">Sprint</td>
-              <td class="text-muted">21</td>
-              <td><span class="badge badge-green" style="font-size:10px">Ativo</span></td>
-              <td class="text-muted">GP Espanha 2026</td>
-            </tr>
-
-            <tr>
-              <td><span class="pos-badge">21</span></td>
-              <td class="td-primary">RN-006</td>
-              <td class="td-primary">Thiago Azevedo</td>
-              <td class="text-muted">Resistência</td>
-              <td class="text-muted">26</td>
-              <td><span class="badge badge-green" style="font-size:10px">Ativo</span></td>
-              <td class="text-muted">GP Canadá 2026</td>
-            </tr>
+          <tbody id="runnersTable">
+            <tr><td colspan="9"><div class="skeleton" style="height:20px;margin:8px 0"></div></td></tr>
+            <tr><td colspan="9"><div class="skeleton" style="height:20px;margin:8px 0"></div></td></tr>
           </tbody>
         </table>
       </div>
+
+      <div class="pagination" id="pagination"></div>
     </div>
   </main>
 </div>
 
-<script>
-  document.getElementById('sidebarToggle').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.toggle('mobile-open');
-    document.getElementById('sidebarOverlay').classList.toggle('active');
-  });
+<div class="modal-overlay" id="modalRunner">
+  <div class="modal">
+    <button class="modal-close" id="closeRunnerModal">✕</button>
+    <h2 id="modalTitle">Novo Corredor</h2>
+    <form id="runnerForm">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label for="f-name">Nome completo *</label>
+          <input type="text" id="f-name" required>
+        </div>
+        <div class="form-group">
+          <label for="f-nationality">Nacionalidade</label>
+          <input type="text" id="f-nationality" placeholder="ex: Brasileiro">
+        </div>
+        <div class="form-group">
+          <label for="f-birth_date">Data de Nascimento</label>
+          <input type="date" id="f-birth_date">
+        </div>
+        <div class="form-group">
+          <label for="f-car_number">Número do Carro</label>
+          <input type="number" id="f-car_number" min="0">
+        </div>
+        <div class="form-group">
+          <label for="f-team">Equipe *</label>
+          <select id="f-team" required><option value="">Selecione...</option></select>
+        </div>
+        <div class="form-group full">
+          <label for="f-photo_url">URL da Foto</label>
+          <input type="url" id="f-photo_url" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label for="f-weight_kg">Peso (kg)</label>
+          <input type="number" id="f-weight_kg" step="0.1">
+        </div>
+        <div class="form-group">
+          <label for="f-height_cm">Altura (cm)</label>
+          <input type="number" id="f-height_cm" step="0.1">
+        </div>
+        <div class="form-group">
+          <label for="f-category">Categoria</label>
+          <input type="text" id="f-category" placeholder="ex: F1, Sprint">
+        </div>
+        <div class="form-group">
+          <label for="f-best_lap">Melhor Volta</label>
+          <input type="text" id="f-best_lap" placeholder="1:23.456">
+        </div>
+        <div class="form-group">
+          <label for="f-wins">Vitórias</label>
+          <input type="number" id="f-wins" min="0" value="0">
+        </div>
+        <div class="form-group">
+          <label for="f-podiums">Pódios</label>
+          <input type="number" id="f-podiums" min="0" value="0">
+        </div>
+        <div class="form-group">
+          <label for="f-poles">Poles</label>
+          <input type="number" id="f-poles" min="0" value="0">
+        </div>
+        <div class="form-group">
+          <label for="f-points">Pontuação</label>
+          <input type="number" id="f-points" min="0" value="0">
+        </div>
+        <div class="form-group">
+          <label for="f-seasons">Temporadas</label>
+          <input type="number" id="f-seasons" min="0" value="0">
+        </div>
+        <div class="form-group">
+          <label for="f-status">Status</label>
+          <select id="f-status">
+            <option value="Ativo">Ativo</option>
+            <option value="Inativo">Inativo</option>
+          </select>
+        </div>
+      </div>
 
-  document.getElementById('sidebarOverlay').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.remove('mobile-open');
-    document.getElementById('sidebarOverlay').classList.remove('active');
-  });
-</script>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" id="cancelRunnerModal">Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="submitBtn">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-<!-- Middleware de autenticação frontend -->
+<div class="modal-overlay" id="modalView">
+  <div class="modal">
+    <button class="modal-close" id="closeViewModal">✕</button>
+    <div id="viewContent"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalConfirm">
+  <div class="confirm-modal">
+    <h3>⚠ Confirmar exclusão</h3>
+    <p id="confirmText">Deseja realmente excluir este corredor? Esta ação não pode ser desfeita.</p>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="btn btn-ghost" id="cancelDeleteBtn">Cancelar</button>
+      <button class="btn" style="background:var(--red);color:#fff" id="confirmDeleteBtn">Excluir</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
 <script src="../scripts/auth.js"></script>
 <script>
-  checkAuth();
-</script>
+  const API = 'http://localhost:3000';
+  let allRunners = [];
+  let filtered = [];
+  let teamsMap = {};
+  let sortKey = '';
+  let sortDir = 1;
+  let page = 1;
+  const PER_PAGE = 10;
+  let editingId = null;
+  let pendingDeleteId = null;
 
+  if (typeof checkAuth === 'function') {
+    checkAuth();
+  }
+
+  function esc(str) {
+    return String(str ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function toIntOrNull(value) {
+    return value === '' ? null : Number.parseInt(value, 10);
+  }
+
+  function toFloatOrNull(value) {
+    return value === '' ? null : Number.parseFloat(value);
+  }
+
+  function formatDateBR(dateString) {
+    if (!dateString) return '—';
+    const d = new Date(dateString);
+    if (Number.isNaN(d.getTime())) return '—';
+    return d.toLocaleDateString('pt-BR');
+  }
+
+  function getTeamName(runner) {
+    return runner.team_name || teamsMap[runner.team] || '—';
+  }
+
+  async function fetchJSON(url, options = {}) {
+    const response = await fetch(url, options);
+    const contentType = response.headers.get('content-type') || '';
+    let data = null;
+
+    if (contentType.includes('application/json')) {
+      data = await response.json();
+    } else {
+      const text = await response.text();
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = { message: text || `Erro HTTP ${response.status}` };
+      }
+    }
+
+    if (!response.ok) {
+      throw new Error(data?.message || data?.error || `Erro HTTP ${response.status}`);
+    }
+
+    return data;
+  }
+
+  function statusBadge(status) {
+    if (status === 'Ativo') {
+      return `<span class="badge badge-green" style="font-size:10px">Ativo</span>`;
+    }
+    return `<span class="badge" style="background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.3);font-size:10px">Inativo</span>`;
+  }
+
+  function toast(msg, type = 'success') {
+    const c = document.getElementById('toast-container');
+    const t = document.createElement('div');
+    t.className = `toast ${type}`;
+    t.innerHTML = `<span class="toast-icon">${type === 'success' ? '✓' : '⚠'}</span> ${esc(msg)}`;
+    c.appendChild(t);
+    setTimeout(() => t.style.opacity = '0', 3000);
+    setTimeout(() => t.remove(), 3400);
+  }
+
+  function updateStats() {
+    const ativos = allRunners.filter(r => r.status === 'Ativo').length;
+    const inativos = allRunners.filter(r => r.status === 'Inativo').length;
+    const equipes = new Set(allRunners.map(r => getTeamName(r)).filter(name => name && name !== '—')).size;
+
+    document.getElementById('sc-total').textContent = allRunners.length;
+    document.getElementById('sc-total').className = 'stat-value gold';
+
+    document.getElementById('sc-ativos').textContent = ativos;
+    document.getElementById('sc-ativos').className = 'stat-value';
+
+    document.getElementById('sc-inativos').textContent = inativos;
+    document.getElementById('sc-inativos').className = 'stat-value';
+
+    document.getElementById('sc-equipes').textContent = equipes;
+    document.getElementById('sc-equipes').className = 'stat-value';
+
+    document.getElementById('totalBadge').textContent = `${allRunners.length} Corredores`;
+  }
+
+  function renderEmpty() {
+    document.getElementById('runnersTable').innerHTML =
+      `<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--text-muted)">Nenhum corredor encontrado.</td></tr>`;
+    document.getElementById('pagination').innerHTML = '';
+  }
+
+  function renderPagination() {
+    const total = Math.ceil(filtered.length / PER_PAGE);
+    const pagination = document.getElementById('pagination');
+
+    if (total <= 1) {
+      pagination.innerHTML = '';
+      return;
+    }
+
+    let html = '';
+    for (let i = 1; i <= total; i++) {
+      html += `<button class="page-btn${i === page ? ' active' : ''}" data-page="${i}">${i}</button>`;
+    }
+    pagination.innerHTML = html;
+
+    pagination.querySelectorAll('[data-page]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        page = Number(btn.dataset.page);
+        render();
+      });
+    });
+  }
+
+  function render() {
+    const tbody = document.getElementById('runnersTable');
+    const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+
+    if (page > totalPages) page = totalPages;
+
+    const start = (page - 1) * PER_PAGE;
+    const end = start + PER_PAGE;
+    const slice = filtered.slice(start, end);
+
+    if (!slice.length) {
+      renderEmpty();
+      return;
+    }
+
+    tbody.innerHTML = slice.map(r => `
+      <tr style="animation:fadeInUp .3s var(--ease)">
+        <td><span class="pos-badge ${r.rank <= 3 ? 'p' + r.rank : ''}">${r.rank}</span></td>
+        <td>
+          <div style="display:flex;align-items:center;gap:10px">
+            ${r.photo_url
+              ? `<img src="${esc(r.photo_url)}" class="runner-photo" alt="${esc(r.name)}">`
+              : `<span class="runner-photo-placeholder">✦</span>`}
+            <span class="td-primary">${esc(r.name)}</span>
+          </div>
+        </td>
+        <td class="text-muted">${esc(getTeamName(r))}</td>
+        <td class="text-muted">${esc(r.nationality || '—')}</td>
+        <td><span style="color:var(--gold);font-weight:600">${r.points || 0}</span></td>
+        <td class="text-muted">${r.wins || 0}</td>
+        <td class="text-muted" style="font-size:11px">${esc(r.category || '—')}</td>
+        <td>${statusBadge(r.status)}</td>
+        <td>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-ghost btn-sm btn-view" data-id="${r.id}" title="Ver">👁</button>
+            <button class="btn btn-ghost btn-sm btn-edit" data-id="${r.id}" title="Editar">✏</button>
+            <button class="btn btn-sm btn-delete" data-id="${r.id}" style="background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)" title="Excluir">✕</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+    tbody.querySelectorAll('.runner-photo').forEach(img => {
+      img.addEventListener('error', function () {
+        this.replaceWith(createPhotoPlaceholder());
+      });
+    });
+
+    tbody.querySelectorAll('.btn-view').forEach(btn => {
+      btn.addEventListener('click', () => verCorredor(Number(btn.dataset.id)));
+    });
+
+    tbody.querySelectorAll('.btn-edit').forEach(btn => {
+      btn.addEventListener('click', () => editarCorredor(Number(btn.dataset.id)));
+    });
+
+    tbody.querySelectorAll('.btn-delete').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const runner = allRunners.find(r => r.id === Number(btn.dataset.id));
+        confirmarDelete(Number(btn.dataset.id), runner?.name || 'este corredor');
+      });
+    });
+
+    renderPagination();
+  }
+
+  function createPhotoPlaceholder() {
+    const span = document.createElement('span');
+    span.className = 'runner-photo-placeholder';
+    span.textContent = '✦';
+    return span;
+  }
+
+  function createAvatarPlaceholder() {
+    const div = document.createElement('div');
+    div.className = 'driver-avatar-ph';
+    div.textContent = '✦';
+    return div;
+  }
+
+  function filtrar() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    const st = document.getElementById('filterStatus').value;
+    const tm = document.getElementById('filterTeam').value;
+
+    filtered = allRunners.filter(r => {
+      const teamName = getTeamName(r);
+      const matchQ =
+        !q ||
+        String(r.name || '').toLowerCase().includes(q) ||
+        String(teamName || '').toLowerCase().includes(q) ||
+        String(r.category || '').toLowerCase().includes(q) ||
+        String(r.nationality || '').toLowerCase().includes(q);
+
+      const matchSt = !st || r.status === st;
+      const matchTm = !tm || teamName === tm;
+
+      return matchQ && matchSt && matchTm;
+    });
+
+    page = 1;
+    render();
+  }
+
+  function sortBy(key) {
+    if (sortKey === key) {
+      sortDir *= -1;
+    } else {
+      sortKey = key;
+      sortDir = 1;
+    }
+
+    filtered.sort((a, b) => {
+      const va = key === 'team_name' ? getTeamName(a) : (a[key] ?? '');
+      const vb = key === 'team_name' ? getTeamName(b) : (b[key] ?? '');
+
+      if (typeof va === 'number' && typeof vb === 'number') {
+        return (va - vb) * sortDir;
+      }
+
+      const na = Number(va);
+      const nb = Number(vb);
+      if (!Number.isNaN(na) && !Number.isNaN(nb) && va !== '' && vb !== '') {
+        return (na - nb) * sortDir;
+      }
+
+      return String(va).localeCompare(String(vb), 'pt-BR', { sensitivity: 'base' }) * sortDir;
+    });
+
+    render();
+  }
+
+  function resetForm() {
+    document.getElementById('runnerForm').reset();
+    document.getElementById('f-status').value = 'Ativo';
+    document.getElementById('f-wins').value = '0';
+    document.getElementById('f-podiums').value = '0';
+    document.getElementById('f-poles').value = '0';
+    document.getElementById('f-points').value = '0';
+    document.getElementById('f-seasons').value = '0';
+    document.getElementById('f-team').value = '';
+  }
+
+  function abrirModal(runner = null) {
+    editingId = runner ? runner.id : null;
+    document.getElementById('modalTitle').textContent = runner ? 'Editar Corredor' : 'Novo Corredor';
+
+    if (!runner) {
+      resetForm();
+    } else {
+      document.getElementById('f-name').value = runner.name ?? '';
+      document.getElementById('f-nationality').value = runner.nationality ?? '';
+      document.getElementById('f-birth_date').value = runner.birth_date ?? '';
+      document.getElementById('f-car_number').value = runner.car_number ?? '';
+      document.getElementById('f-team').value = runner.team ?? '';
+      document.getElementById('f-photo_url').value = runner.photo_url ?? '';
+      document.getElementById('f-weight_kg').value = runner.weight_kg ?? '';
+      document.getElementById('f-height_cm').value = runner.height_cm ?? '';
+      document.getElementById('f-category').value = runner.category ?? '';
+      document.getElementById('f-best_lap').value = runner.best_lap ?? '';
+      document.getElementById('f-wins').value = runner.wins ?? 0;
+      document.getElementById('f-podiums').value = runner.podiums ?? 0;
+      document.getElementById('f-poles').value = runner.poles ?? 0;
+      document.getElementById('f-points').value = runner.points ?? 0;
+      document.getElementById('f-seasons').value = runner.seasons ?? 0;
+      document.getElementById('f-status').value = runner.status ?? 'Ativo';
+    }
+
+    document.getElementById('modalRunner').classList.add('open');
+  }
+
+  function fecharModal() {
+    document.getElementById('modalRunner').classList.remove('open');
+    editingId = null;
+  }
+
+  function editarCorredor(id) {
+    const runner = allRunners.find(r => r.id === id);
+    if (runner) abrirModal(runner);
+  }
+
+  function verCorredor(id) {
+    const r = allRunners.find(r => r.id === id);
+    if (!r) return;
+
+    const view = document.getElementById('viewContent');
+    view.innerHTML = `
+      <div class="driver-header">
+        <div id="driverAvatarWrap"></div>
+        <div>
+          <h2 style="font-family:var(--font-display);font-size:22px">${esc(r.name)}</h2>
+          <p style="color:var(--text-muted);font-size:13px">${esc(getTeamName(r) || 'Sem equipe')} · #${r.car_number || '—'} · ${statusBadge(r.status)}</p>
+        </div>
+      </div>
+      <div class="detail-grid">
+        <div class="detail-item"><div class="d-label">Nacionalidade</div><div class="d-value">${esc(r.nationality || '—')}</div></div>
+        <div class="detail-item"><div class="d-label">Nascimento</div><div class="d-value">${formatDateBR(r.birth_date)}</div></div>
+        <div class="detail-item"><div class="d-label">Categoria</div><div class="d-value">${esc(r.category || '—')}</div></div>
+        <div class="detail-item"><div class="d-label">Peso</div><div class="d-value">${r.weight_kg ? r.weight_kg + 'kg' : '—'}</div></div>
+        <div class="detail-item"><div class="d-label">Altura</div><div class="d-value">${r.height_cm ? r.height_cm + 'cm' : '—'}</div></div>
+        <div class="detail-item"><div class="d-label">Melhor Volta</div><div class="d-value" style="color:var(--gold)">${esc(r.best_lap || '—')}</div></div>
+        <div class="detail-item"><div class="d-label">Pontuação</div><div class="d-value" style="color:var(--gold)">${r.points || 0}</div></div>
+        <div class="detail-item"><div class="d-label">Vitórias</div><div class="d-value">${r.wins || 0}</div></div>
+        <div class="detail-item"><div class="d-label">Pódios</div><div class="d-value">${r.podiums || 0}</div></div>
+        <div class="detail-item"><div class="d-label">Poles</div><div class="d-value">${r.poles || 0}</div></div>
+        <div class="detail-item"><div class="d-label">Temporadas</div><div class="d-value">${r.seasons || 0}</div></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="closeViewFooterBtn">Fechar</button>
+        <button class="btn btn-primary" id="editFromViewBtn">Editar</button>
+      </div>
+    `;
+
+    const avatarWrap = document.getElementById('driverAvatarWrap');
+    if (r.photo_url) {
+      const img = document.createElement('img');
+      img.src = r.photo_url;
+      img.className = 'driver-avatar';
+      img.alt = r.name || 'Foto do corredor';
+      img.addEventListener('error', () => {
+        avatarWrap.innerHTML = '';
+        avatarWrap.appendChild(createAvatarPlaceholder());
+      });
+      avatarWrap.appendChild(img);
+    } else {
+      avatarWrap.appendChild(createAvatarPlaceholder());
+    }
+
+    document.getElementById('closeViewFooterBtn').addEventListener('click', () => {
+      document.getElementById('modalView').classList.remove('open');
+    });
+
+    document.getElementById('editFromViewBtn').addEventListener('click', () => {
+      document.getElementById('modalView').classList.remove('open');
+      editarCorredor(r.id);
+    });
+
+    document.getElementById('modalView').classList.add('open');
+  }
+
+  function confirmarDelete(id, nome) {
+    pendingDeleteId = id;
+    document.getElementById('confirmText').textContent = `Excluir "${nome}"? Esta ação não pode ser desfeita.`;
+    document.getElementById('modalConfirm').classList.add('open');
+  }
+
+  async function deletarCorredor(id) {
+    try {
+      const token = localStorage.getItem('token');
+      const data = await fetchJSON(`${API}/runners/delete?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      });
+
+      toast(data.message || 'Excluído!', 'success');
+      document.getElementById('modalConfirm').classList.remove('open');
+      pendingDeleteId = null;
+      await load();
+    } catch (err) {
+      toast(err.message || 'Erro ao excluir', 'error');
+    }
+  }
+
+  function download(name, content, type) {
+    const a = document.createElement('a');
+    const blob = new Blob([content], { type });
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 500);
+  }
+
+  function exportCSV() {
+    const headers = ['ID','Nome','Equipe','Nac.','Pontos','Vitórias','Pódios','Poles','Categoria','Status'];
+    const rows = filtered.map(r => [
+      r.id,
+      r.name,
+      getTeamName(r),
+      r.nationality || '',
+      r.points || 0,
+      r.wins || 0,
+      r.podiums || 0,
+      r.poles || 0,
+      r.category || '',
+      r.status || ''
+    ]);
+
+    const csv = [headers, ...rows]
+      .map(row => row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+
+    download('corredores.csv', csv, 'text/csv;charset=utf-8;');
+    toast('CSV exportado!', 'success');
+  }
+
+  function exportPDF() {
+    const w = window.open('', '_blank');
+    if (!w) {
+      toast('Não foi possível abrir a janela de impressão.', 'error');
+      return;
+    }
+
+    w.document.write(`
+      <html>
+        <head>
+          <title>Corredores — Septem Racing</title>
+          <style>
+            body{font-family:sans-serif;padding:20px}
+            table{border-collapse:collapse;width:100%}
+            th,td{border:1px solid #ccc;padding:8px;text-align:left}
+            th{background:#1a1a1a;color:#fff}
+            tr:nth-child(even){background:#f5f5f5}
+          </style>
+        </head>
+        <body>
+          <h2>Septem Racing — Corredores</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Equipe</th>
+                <th>Pontos</th>
+                <th>Vitórias</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${filtered.map(r => `
+                <tr>
+                  <td>${r.id}</td>
+                  <td>${esc(r.name)}</td>
+                  <td>${esc(getTeamName(r))}</td>
+                  <td>${r.points || 0}</td>
+                  <td>${r.wins || 0}</td>
+                  <td>${esc(r.status || '')}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </body>
+      </html>
+    `);
+
+    w.document.close();
+    w.focus();
+    w.print();
+    toast('PDF gerado!', 'success');
+  }
+
+  async function load() {
+  try {
+    const [runners, teams] = await Promise.all([
+      fetchJSON(`${API}/runners`),
+      fetchJSON(`${API}/teams`)
+    ]);
+
+    // Monta mapa de equipes
+    teamsMap = {};
+
+    teams.forEach(team => {
+      teamsMap[team.id] = team.name;
+    });
+
+    // Preenche filtro de equipes
+    const teamFilter = document.getElementById('filterTeam');
+
+    teamFilter.innerHTML = `
+      <option value="">Todas as equipes</option>
+    `;
+
+    teams.forEach(team => {
+      const option = document.createElement('option');
+      option.value = team.name;
+      option.textContent = team.name;
+      teamFilter.appendChild(option);
+    });
+
+    // Preenche select do formulário
+    const formTeam = document.getElementById('f-team');
+
+    formTeam.innerHTML = `
+      <option value="">Selecione...</option>
+    `;
+
+    teams.forEach(team => {
+      const option = document.createElement('option');
+      option.value = team.id;
+      option.textContent = team.name;
+      formTeam.appendChild(option);
+    });
+
+    // Carrega corredores
+    allRunners = Array.isArray(runners)
+      ? runners.map((runner, index) => ({
+          ...runner,
+          rank: index + 1
+        }))
+      : [];
+
+    filtered = [...allRunners];
+
+    updateStats();
+    render();
+
+  } catch (err) {
+    console.error(err);
+
+    toast(
+      err.message || 'Erro ao carregar dados. Verifique a API.',
+      'error'
+    );
+
+    allRunners = [];
+    filtered = [];
+
+    updateStats();
+    renderEmpty();
+  }
+}
+
+  load();
+</script>
 </body>
 </html>

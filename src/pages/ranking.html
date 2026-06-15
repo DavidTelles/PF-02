@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking | Septem Racing</title>
+  <link rel="stylesheet" href="../styles/style.css">
+  <style>
+    .rank-table tbody tr{transition:background .2s}
+    .rank-table tbody tr:hover{background:var(--gold-glow)}
+    .rank-row-1{border-left:3px solid var(--gold)}
+    .rank-row-2{border-left:3px solid #c0c0c0}
+    .rank-row-3{border-left:3px solid #cd7f32}
+    .medal{font-size:18px}
+    .bar-track{background:var(--surface-4);border-radius:4px;height:6px;overflow:hidden;margin-top:4px}
+    .bar-fill{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:4px;transition:width .8s var(--ease)}
+    .criteria-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+    .tab-btn{background:var(--surface-3);border:1px solid var(--border);color:var(--text-muted);padding:7px 16px;border-radius:var(--radius-sm);cursor:pointer;font-size:12px;transition:all .2s;font-family:var(--font-body)}
+    .tab-btn.active{background:var(--gold-glow);border-color:var(--border-gold);color:var(--gold)}
+    .runner-photo-sm{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border-gold)}
+    #toast-container{position:fixed;bottom:24px;right:24px;z-index:10000;display:flex;flex-direction:column;gap:10px}
+    .toast{background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 18px;font-size:13px;display:flex;align-items:center;gap:10px}
+    .toast.success{border-color:rgba(34,197,94,.4)}.toast.error{border-color:rgba(239,68,68,.4)}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo"><span class="brand-name">Septem</span><span class="brand-sub">Racing Management</span></div>
+    <nav class="sidebar-nav">
+      <p class="nav-label">Main</p>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">⬡</span> Dashboard</a>
+      <a href="corredores.html" class="nav-item"><span class="nav-icon">✦</span> Runners</a>
+      <a href="time.html" class="nav-item"><span class="nav-icon">◇</span> Teams</a>
+      <a href="estatisticas.html" class="nav-item"><span class="nav-icon">◈</span> Estatísticas</a>
+      <a href="ranking.html" class="nav-item active"><span class="nav-icon">◎</span> Ranking</a>
+      <div class="nav-divider"></div>
+      <p class="nav-label">System</p>
+      <a href="faq.html" class="nav-item"><span class="nav-icon">?</span> FAQ</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../../index.html" class="nav-item"><span class="nav-icon">⬡</span> Home</a>
+      <button onclick="logout()" class="nav-item nav-logout" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red)"><span class="nav-icon">⏻</span> Sair</button>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Ranking <span class="highlight">Geral</span></h1>
+        <p class="page-subtitle">Classificação dinâmica — atualiza automaticamente</p>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-ghost btn-sm" onclick="load()">↻ Atualizar</button>
+      </div>
+    </div>
+
+    <!-- Podium cards (top 3) -->
+    <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)" id="podiumCards">
+      <div class="stat-card" style="opacity:.4"><div class="stat-label">1º Lugar</div><div class="stat-value gold">—</div></div>
+      <div class="stat-card" style="opacity:.4"><div class="stat-label">2º Lugar</div><div class="stat-value">—</div></div>
+      <div class="stat-card" style="opacity:.4"><div class="stat-label">3º Lugar</div><div class="stat-value">—</div></div>
+    </div>
+
+    <div class="panel mt-3">
+      <div class="panel-header"><span class="panel-title">Classificação por Critério</span></div>
+      <div class="criteria-tabs">
+        <button class="tab-btn active" onclick="setCriteria('points',this)">🏆 Pontuação</button>
+        <button class="tab-btn" onclick="setCriteria('wins',this)">🥇 Vitórias</button>
+        <button class="tab-btn" onclick="setCriteria('podiums',this)">🎖 Pódios</button>
+        <button class="tab-btn" onclick="setCriteria('poles',this)">⚡ Poles</button>
+        <button class="tab-btn" onclick="setCriteria('avg_time',this)">⏱ Menor Tempo Médio</button>
+      </div>
+
+      <div class="table-wrapper" style="border:none;border-radius:0">
+        <table class="rank-table">
+          <thead>
+            <tr>
+              <th>Pos</th>
+              <th>Piloto</th>
+              <th>Equipe</th>
+              <th>Nac.</th>
+              <th>Pts</th>
+              <th>Vitórias</th>
+              <th>Pódios</th>
+              <th>Poles</th>
+              <th>Corridas</th>
+              <th>Performance</th>
+            </tr>
+          </thead>
+          <tbody id="rankingTable">
+            <tr><td colspan="10" style="text-align:center;padding:32px;color:var(--text-muted)">Carregando ranking...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="toast-container"></div>
+
+<script src="../scripts/auth.js"></script>
+<script>
+const API = 'http://localhost:3000';
+checkAuth();
+
+let allData = [], criteria = 'points';
+
+async function load() {
+  try {
+    const res = await fetch(`${API}/runners/ranking/geral`);
+    allData = await res.json();
+    renderPodium();
+    render();
+  } catch(e) {
+    console.error(e);
+    toast('Erro ao carregar ranking', 'error');
+  }
+}
+
+function setCriteria(c, btn) {
+  criteria = c;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function render() {
+  let sorted = [...allData];
+  if(criteria==='points')   sorted.sort((a,b)=>(b.points||0)-(a.points||0));
+  if(criteria==='wins')     sorted.sort((a,b)=>(b.wins||0)-(a.wins||0));
+  if(criteria==='podiums')  sorted.sort((a,b)=>(b.podiums||0)-(a.podiums||0));
+  if(criteria==='poles')    sorted.sort((a,b)=>(b.poles||0)-(a.poles||0));
+  if(criteria==='avg_time') sorted.sort((a,b)=>(a.avg_time_sec||9999)-(b.avg_time_sec||9999));
+
+  const maxVal = sorted.length ? (criteria==='avg_time'
+    ? Math.max(...sorted.map(r=>r.avg_time_sec||0))
+    : Math.max(...sorted.map(r=>r[criteria]||0))) : 1;
+
+  document.getElementById('rankingTable').innerHTML = sorted.map((r,i) => {
+    const pos = i+1;
+    const medal = pos===1?'🥇':pos===2?'🥈':pos===3?'🥉':'';
+    const rowCls = pos<=3 ? `rank-row-${pos}` : '';
+    const val = criteria==='avg_time' ? (r.avg_time_sec ? r.avg_time_sec.toFixed(3)+'s' : '—') : (r[criteria]||0);
+    const barPct = criteria==='avg_time'
+      ? (r.avg_time_sec ? (1-(r.avg_time_sec/maxVal))*100 : 0)
+      : (maxVal ? ((r[criteria]||0)/maxVal)*100 : 0);
+    return `
+      <tr class="${rowCls}" style="animation:fadeInUp .3s var(--ease) ${i*0.03}s both">
+        <td><span class="pos-badge ${pos<=3?'p'+pos:''}">${medal||pos}</span></td>
+        <td>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${r.photo_url ? `<img src="${r.photo_url}" class="runner-photo-sm" onerror="this.style.display='none'">` : ''}
+            <span class="td-primary">${esc(r.name)}</span>
+          </div>
+        </td>
+        <td class="text-muted">${esc(r.team_name||'—')}</td>
+        <td class="text-muted">${esc(r.nationality||'—')}</td>
+        <td style="color:var(--gold);font-weight:600">${r.points||0}</td>
+        <td class="text-muted">${r.wins||0}</td>
+        <td class="text-muted">${r.podiums||0}</td>
+        <td class="text-muted">${r.poles||0}</td>
+        <td class="text-muted">${r.total_races||0}</td>
+        <td style="min-width:100px">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">${val}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${barPct.toFixed(1)}%"></div></div>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+function renderPodium() {
+  const top3 = [...allData].sort((a,b)=>(b.points||0)-(a.points||0)).slice(0,3);
+  const cards = document.getElementById('podiumCards');
+  const labels = ['🥇 1º Lugar','🥈 2º Lugar','🥉 3º Lugar'];
+  const styles = ['style="color:var(--gold)"','','style="color:#cd7f32"'];
+  cards.innerHTML = top3.map((r,i) => `
+    <div class="stat-card" style="animation:fadeInUp .5s var(--ease) ${i*0.1}s both">
+      <div class="stat-label">${labels[i]}</div>
+      <div class="stat-value" ${styles[i]}>${esc(r.name.split(' ')[0])}</div>
+      <div class="stat-delta up">${r.points||0} pts</div>
+    </div>`).join('');
+}
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function toast(msg,type='success'){
+  const c=document.getElementById('toast-container');
+  const t=document.createElement('div'); t.className=`toast ${type}`;
+  t.innerHTML=`<span>${type==='success'?'✓':'⚠'}</span> ${esc(msg)}`;
+  c.appendChild(t); setTimeout(()=>t.style.opacity='0',3000); setTimeout(()=>t.remove(),3400);
+}
+
+document.getElementById('sidebarToggle').addEventListener('click',()=>{
+  document.getElementById('sidebar').classList.toggle('mobile-open');
+  document.getElementById('sidebarOverlay').classList.toggle('active');
+});
+document.getElementById('sidebarOverlay').addEventListener('click',()=>{
+  document.getElementById('sidebar').classList.remove('mobile-open');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+});
+
+load();
+</script>
+</body>
+</html>

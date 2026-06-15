@@ -1,378 +1,338 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard | Septem Racing</title>
   <link rel="stylesheet" href="../styles/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    .dash-summary{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:20px}
+    @media(max-width:1100px){.dash-summary{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:600px){.dash-summary{grid-template-columns:repeat(2,1fr)}}
+    .summary-card{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;transition:border-color .3s,transform .3s}
+    .summary-card:hover{border-color:var(--border-gold);transform:translateY(-2px)}
+    .summary-card .sc-icon{font-size:20px;margin-bottom:8px;opacity:.6}
+    .summary-card .sc-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+    .summary-card .sc-value{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--text-primary)}
+    .summary-card .sc-value.gold{color:var(--gold)}
+    .summary-card .sc-sub{font-size:11px;color:var(--text-muted);margin-top:4px}
+    .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+    @media(max-width:800px){.charts-row{grid-template-columns:1fr}}
+    .chart-panel{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px}
+    .chart-panel h3{font-family:var(--font-display);font-size:14px;color:var(--text-secondary);letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px}
+    canvas{max-height:220px}
+    .skeleton{background:linear-gradient(90deg,var(--surface-3) 25%,var(--surface-4) 50%,var(--surface-3) 75%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:4px}
+    @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  </style>
 </head>
-
 <body>
-  <div class="page-wrapper">
+<div class="page-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="brand-name">Septem</span>
+      <span class="brand-sub">Racing Management</span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="nav-label">Main</p>
+      <a href="dashboard.html" class="nav-item active"><span class="nav-icon">⬡</span> Dashboard</a>
+      <a href="corredores.html" class="nav-item"><span class="nav-icon">✦</span> Runners</a>
+      <a href="time.html" class="nav-item"><span class="nav-icon">◇</span> Teams</a>
+      <a href="estatisticas.html" class="nav-item"><span class="nav-icon">◈</span> Estatísticas</a>
+      <a href="ranking.html" class="nav-item"><span class="nav-icon">◎</span> Ranking</a>
+      <div class="nav-divider"></div>
+      <p class="nav-label">System</p>
+      <a href="faq.html" class="nav-item"><span class="nav-icon">?</span> FAQ</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../../index.html" class="nav-item"><span class="nav-icon">⬡</span> Home</a>
+      <button onclick="logout()" class="nav-item nav-logout" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red)"><span class="nav-icon">⏻</span> Sair</button>
+      <button onclick="deleteAccount()" class="nav-item nav-logout" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red)">Excluir Conta</button>
+    </div>
+  </aside>
+  <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-logo">
-        <span class="brand-name">Septem</span>
-        <span class="brand-sub">Racing Management</span>
+  <main class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Septem <span class="highlight">GP</span></h1>
+        <p class="page-subtitle">Dashboard analítico — Campeonato de Automobilismo</p>
       </div>
-      <nav class="sidebar-nav">
-        <p class="nav-label">Main</p>
-        <a href="dashboard.html" class="nav-item active"><span class="nav-icon">⬡</span> Dashboard</a>
-        <a href="corredores.html" class="nav-item"><span class="nav-icon">✦</span> Runners</a>
-        <a href="time.html" class="nav-item"><span class="nav-icon">◇</span> Teams</a>
-  
-        <div class="nav-divider"></div>
-  
-        <p class="nav-label">System</p>
-        <a href="faq.html" class="nav-item"><span class="nav-icon">?</span> FAQ</a>
-      </nav>
-      <div class="sidebar-bottom">
-        <a href="../../index.html" class="nav-item">
-          <span class="nav-icon">⬡</span> Home
-        </a>
-        <button onclick="logout()" class="nav-item nav-logout"
-          style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red,#ef4444)">
-          <span class="nav-icon">⏻</span> Sair
-        </button>
-        <button onclick="deleteAccount()" class="nav-item nav-logout"
-          style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red,#ef4444)">
-          Excluir Conta
-        </button>
+      <div class="topbar-right">
+        <span id="userGreeting" style="font-size:13px;color:var(--text-muted);margin-right:12px"></span>
+        <span class="badge badge-gold badge-dot">Ao Vivo</span>
       </div>
-    </aside>
-    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    </div>
 
-    <!-- MAIN -->
-    <main class="main-content">
+    <!-- Summary Cards -->
+    <div class="dash-summary" id="summaryCards">
+      <div class="summary-card"><div class="sc-icon">✦</div><div class="sc-label">Corredores</div><div class="sc-value skeleton" id="sc-runners" style="height:28px;width:50px"></div></div>
+      <div class="summary-card"><div class="sc-icon">◇</div><div class="sc-label">Equipes</div><div class="sc-value skeleton" id="sc-teams" style="height:28px;width:50px"></div></div>
+      <div class="summary-card"><div class="sc-icon">◎</div><div class="sc-label">Corridas</div><div class="sc-value skeleton" id="sc-races" style="height:28px;width:50px"></div></div>
+      <div class="summary-card"><div class="sc-icon">⏱</div><div class="sc-label">Melhor Volta</div><div class="sc-value skeleton" id="sc-bestlap" style="height:28px;width:80px"></div></div>
+      <div class="summary-card"><div class="sc-icon">🏆</div><div class="sc-label">Líder da Temp.</div><div class="sc-value gold skeleton" id="sc-leader" style="height:28px;width:100px"></div></div>
+      <div class="summary-card"><div class="sc-icon">◈</div><div class="sc-label">Pista Rápida</div><div class="sc-value skeleton" id="sc-track" style="height:28px;width:120px"></div></div>
+    </div>
 
-      <!-- TOP BAR -->
-      <div class="topbar">
-        <div class="topbar-left">
-          <h1>Septem <span class="highlight">GP</span></h1>
-          <p class="page-subtitle">Circuito de Senai "Shunji Nishimura" — São Paulo, Brasil</p>
-        </div>
-        <div class="topbar-right">
-          <span id="userGreeting" style="font-size:13px;color:var(--text-muted);margin-right:12px"></span>
-          <span class="badge badge-gold badge-dot">Ao Vivo</span>
-        </div>
+    <!-- Charts Row 1 -->
+    <div class="charts-row">
+      <div class="chart-panel">
+        <h3>Pontuação por Piloto — Top 10</h3>
+        <canvas id="chartPoints"></canvas>
       </div>
-
-      <!-- RACE STATUS -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-label">Race Progress</div>
-          <div class="stat-value gold" id="raceProgress">--</div>
-          <div class="stat-delta up">▲ Carregando...</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Gap to Leader</div>
-          <div class="stat-value">-.---</div>
-          <div class="stat-delta up">▲ Carregando...</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Last Lap</div>
-          <div class="stat-value">--:--.---</div>
-          <div class="stat-delta up">▲ Carregando...</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Best Lap</div>
-          <div class="stat-value gold" id="bestLapTime">--:--.---</div>
-          <div class="stat-delta up" id="bestLapRunner">▲ Carregando...</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Interval P2</div>
-          <div class="stat-value">-.---</div>
-          <div class="stat-delta up">▲ Carregando...</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Race Time</div>
-          <div class="stat-value">-:--.---</div>
-          <div class="stat-delta up">▲ Carregando...</div>
-        </div>
+      <div class="chart-panel">
+        <h3>Vitórias por Piloto</h3>
+        <canvas id="chartWins"></canvas>
       </div>
+    </div>
 
-      <!-- BOTTOM ROW -->
-      <div class="grid-2 mt-3">
+    <!-- Charts Row 2 -->
+    <div class="charts-row">
+      <div class="chart-panel">
+        <h3>Distribuição por Nacionalidade</h3>
+        <canvas id="chartNat"></canvas>
+      </div>
+      <div class="chart-panel">
+        <h3>Comparativo de Equipes (Pontos)</h3>
+        <canvas id="chartTeams"></canvas>
+      </div>
+    </div>
 
-        <!-- Circuit Map -->
-        <div class="panel" style="animation-delay:0.2s">
-          <div class="panel-header">
-            <span class="panel-title">Circuit Map</span>
-            <span class="badge badge-gold">Setor 3</span>
-          </div>
-          <div class="panel-body">
-            <svg class="circuit-svg" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
-              <rect width="400" height="180" fill="rgba(0,0,0,0.2)" rx="8" />
-              <path
-                d="M60,140 Q60,40 140,40 L260,40 Q340,40 340,90 Q340,140 260,140 Q200,140 200,110 Q200,80 160,80 Q100,80 100,110 Q100,140 60,140 Z"
-                fill="none" stroke="rgba(212,175,55,0.08)" stroke-width="18" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path class="circuit-track"
-                d="M60,140 Q60,40 140,40 L260,40 Q340,40 340,90 Q340,140 260,140 Q200,140 200,110 Q200,80 160,80 Q100,80 100,110 Q100,140 60,140 Z"
-                fill="none" stroke="#d4af37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                opacity="0.85" />
-              <circle cx="200" cy="40" r="3.5" fill="rgba(212,175,55,0.5)" />
-              <circle cx="340" cy="90" r="3.5" fill="rgba(212,175,55,0.5)" />
-              <circle id="car-dot" cx="245" cy="140" r="5" fill="#d4af37" class="circuit-dot" />
-              <circle id="car-glow" cx="245" cy="140" r="11" fill="rgba(212,175,55,0.12)" class="circuit-dot" />
-              <text x="185" y="30" fill="rgba(212,175,55,0.5)" font-size="9" font-family="'Barlow Condensed',sans-serif"
-                letter-spacing="1" font-weight="600">S1</text>
-              <text x="50" y="100" fill="rgba(212,175,55,0.5)" font-size="9" font-family="'Barlow Condensed',sans-serif"
-                letter-spacing="1" font-weight="600">S2</text>
-              <text x="292" y="100" fill="rgba(212,175,55,0.5)" font-size="9"
-                font-family="'Barlow Condensed',sans-serif" letter-spacing="1" font-weight="600">S3</text>
-            </svg>
-            <div class="flex-between mt-2">
-              <div>
-                <div class="stat-label">Velocidade</div>
-                <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold)">--- <span
-                    style="font-size:14px;color:var(--text-muted)">km/h</span></div>
-              </div>
-              <div>
-                <div class="stat-label">G-Force</div>
-                <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text-primary)">
-                  -.- <span style="font-size:14px;color:var(--text-muted)">G</span></div>
-              </div>
-              <div>
-                <div class="stat-label">Posição</div>
-                <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text-primary)">P1
-                </div>
-              </div>
-            </div>
-          </div>
+    <!-- Bottom row: circuit + top 5 voltas -->
+    <div class="grid-2 mt-3">
+      <!-- Circuit Map (preserved) -->
+      <div class="panel" style="animation-delay:0.2s">
+        <div class="panel-header">
+          <span class="panel-title">Circuit Map</span>
+          <span class="badge badge-gold">Interlagos</span>
         </div>
-
-        <!-- Lap Times Panel -->
-        <div class="panel" style="animation-delay:0.3s">
-          <div class="panel-header">
-            <span class="panel-title">Últimas Voltas</span>
-            <span class="text-muted text-sm">Volta - / --</span>
-          </div>
-          <div class="table-wrapper" style="border:none;border-radius:0">
-            <table>
-              <thead>
-                <tr>
-                  <th>Volta</th>
-                  <th>Tempo</th>
-                  <th>S1</th>
-                  <th>S2</th>
-                  <th>S3</th>
-                </tr>
-              </thead>
-              <tbody id="lapsTableBody">
-                <tr>
-                  <td colspan="5">Carregando...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="panel-body" style="padding-top:12px">
-            <div class="stat-label" style="margin-bottom:8px">Tempo por volta (seg)</div>
-            <div class="bar-chart">
-              <div class="bar-chart-bar" style="height:70%" title="V1: 69.8s"></div>
-              <div class="bar-chart-bar" style="height:80%" title="V2: 70.9s"></div>
-              <div class="bar-chart-bar" style="height:75%" title="V3: 70.5s"></div>
-            </div>
+        <div class="panel-body">
+          <svg class="circuit-svg" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="180" fill="rgba(0,0,0,0.2)" rx="8"/>
+            <path d="M60,140 Q60,40 140,40 L260,40 Q340,40 340,90 Q340,140 260,140 Q200,140 200,110 Q200,80 160,80 Q100,80 100,110 Q100,140 60,140 Z"
+              fill="none" stroke="rgba(212,175,55,0.08)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="circuit-track"
+              d="M60,140 Q60,40 140,40 L260,40 Q340,40 340,90 Q340,140 260,140 Q200,140 200,110 Q200,80 160,80 Q100,80 100,110 Q100,140 60,140 Z"
+              fill="none" stroke="#d4af37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+            <circle cx="200" cy="40" r="3.5" fill="rgba(212,175,55,0.5)"/>
+            <circle cx="340" cy="90" r="3.5" fill="rgba(212,175,55,0.5)"/>
+            <circle id="car-dot" cx="245" cy="140" r="5" fill="#d4af37" class="circuit-dot"/>
+            <circle id="car-glow" cx="245" cy="140" r="11" fill="rgba(212,175,55,0.12)" class="circuit-dot"/>
+            <text x="185" y="30" fill="rgba(212,175,55,0.5)" font-size="9" font-family="'Barlow Condensed',sans-serif" letter-spacing="1" font-weight="600">S1</text>
+            <text x="50" y="100" fill="rgba(212,175,55,0.5)" font-size="9" font-family="'Barlow Condensed',sans-serif" letter-spacing="1" font-weight="600">S2</text>
+            <text x="292" y="100" fill="rgba(212,175,55,0.5)" font-size="9" font-family="'Barlow Condensed',sans-serif" letter-spacing="1" font-weight="600">S3</text>
+          </svg>
+          <div class="flex-between mt-2">
+            <div><div class="stat-label">Temporada</div><div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold)">2026</div></div>
+            <div><div class="stat-label">Pilotos Ativos</div><div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text-primary)" id="activeCount">—</div></div>
+            <div><div class="stat-label">Status</div><div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--green)">Live</div></div>
           </div>
         </div>
       </div>
 
-    </main>
-  </div>
+      <!-- Top 5 best laps -->
+      <div class="panel" style="animation-delay:0.3s">
+        <div class="panel-header">
+          <span class="panel-title">Top 5 Melhores Voltas</span>
+          <span class="text-muted text-sm">Geral</span>
+        </div>
+        <div class="table-wrapper" style="border:none;border-radius:0">
+          <table>
+            <thead><tr><th>#</th><th>Piloto</th><th>Equipe</th><th>Tempo</th></tr></thead>
+            <tbody id="lapsTableBody"><tr><td colspan="4">Carregando...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
-  <!-- Middleware de autenticação frontend -->
-  <script src="../scripts/auth.js"></script>
-  <script>
-    checkAuth();
-    document
-      .getElementById('deleteAccountBtn')
-      .addEventListener('click', deleteAccount);
+  </main>
+</div>
 
-    async function deleteAccount() {
+<script src="../scripts/auth.js"></script>
+<script>
+const API = 'http://localhost:3000';
+checkAuth();
+let charts = {};
 
-      const confirmar = confirm(
-        'Tem certeza que deseja excluir sua conta? Esta ação é permanente.'
-      );
+const user = getUser();
+if(user) document.getElementById('userGreeting').textContent = '👤 ' + user.name;
 
-      if (!confirmar) {
-        return;
+async function loadDashboard() {
+  const token = localStorage.getItem('token');
+
+  try {
+    // Summary stats
+    const [runners, teams, races] = await Promise.all([
+      fetch(`${API}/runners`).then(r=>r.json()),
+      fetch(`${API}/teams`).then(r=>r.json()),
+      fetch(`${API}/races`).then(r=>r.json()).catch(()=>[]),
+    ]);
+
+    // Update summary cards
+    set('sc-runners', runners.length, 'stat-value gold');
+    set('sc-teams', teams.length, 'stat-value');
+    set('sc-races', Array.isArray(races)?races.length:0, 'stat-value');
+    document.getElementById('activeCount').textContent = runners.filter(r=>r.status==='Ativo').length;
+
+    const leader = runners.sort((a,b)=>(b.points||0)-(a.points||0))[0];
+    set('sc-leader', leader ? leader.name.split(' ')[0] : '—', 'stat-value gold');
+
+    buildCharts(runners);
+
+    // Best lap
+    try {
+      const bRes = await fetch(`${API}/voltas/melhor-volta`, { headers:{'Authorization':'Bearer '+token} });
+      if(bRes.ok) {
+        const bd = await bRes.json();
+        set('sc-bestlap', bd.melhor_volta+'s', 'stat-value gold');
       }
+    } catch{}
 
-      const token = localStorage.getItem('token');
-
-      if (!token) {
-
-        alert('Você não está autenticado.');
-
-        window.location.href = 'login.html';
-
-        return;
+    // Track fastest
+    try {
+      const tRes = await fetch(`${API}/races/ranking/pistas`);
+      if(tRes.ok){
+        const td = await tRes.json();
+        if(td.length) set('sc-track', td[0].track_name, 'stat-value', 14);
       }
+    } catch{}
+    if(document.getElementById('sc-track').classList.contains('skeleton')) set('sc-track','—','stat-value');
 
-      try {
-
-        const response = await fetch(
-          'http://localhost:3000/users/delete',
-          {
-            method: 'DELETE',
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-        );
-
-        const result = await response.json();
-
-        if (response.ok) {
-
-          alert(result.message);
-
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-
-          window.location.href = '../../index.html';
-
+    // Top 5 laps
+    try {
+      const topRes = await fetch(`${API}/voltas/top5-voltas`, { headers:{'Authorization':'Bearer '+token} });
+      if(topRes.ok){
+        const topData = await topRes.json();
+        const tbody = document.getElementById('lapsTableBody');
+        tbody.innerHTML = '';
+        if(topData.ranking && topData.ranking.length){
+          topData.ranking.forEach((lap,i)=>{
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td><span class="pos-badge ${i<2?'p'+(i+1):''}">${i+1}</span></td>
+              <td class="${i===0?'td-gold':'td-primary'}">${esc(lap.nome)}</td>
+              <td class="text-muted">${esc(lap.equipe||'—')}</td>
+              <td style="color:var(--gold);font-family:var(--font-display)">${lap.tempo}s</td>`;
+            tbody.appendChild(tr);
+          });
         } else {
-
-          alert(
-            result.message ||
-            result.error ||
-            'Erro ao excluir conta'
-          );
-
+          tbody.innerHTML = '<tr><td colspan="4" style="color:var(--text-muted)">Nenhuma volta registrada</td></tr>';
         }
-
-      } catch (error) {
-
-        console.error(error);
-
-        alert('Erro ao conectar ao servidor.');
-
       }
+    } catch{}
+
+  } catch(e) { console.error(e); }
+}
+
+function set(id, val, cls, maxLen) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.className = cls;
+  el.style = '';
+  const txt = String(val);
+  el.textContent = maxLen && txt.length>maxLen ? txt.slice(0,maxLen)+'…' : txt;
+}
+
+function buildCharts(runners) {
+  const GOLD = 'rgba(212,175,55,';
+  const opts = (label) => ({
+    responsive:true,
+    plugins:{ legend:{display:false}, tooltip:{backgroundColor:'rgba(10,10,10,.9)',borderColor:'rgba(212,175,55,.3)',borderWidth:1,titleColor:'#f0ede6',bodyColor:'#9a9690'} },
+    scales:{
+      x:{ grid:{color:'rgba(255,255,255,.04)'}, ticks:{color:'#9a9690',font:{size:10}} },
+      y:{ grid:{color:'rgba(255,255,255,.04)'}, ticks:{color:'#9a9690',font:{size:10}}, title:{display:true,text:label,color:'#5a5752',font:{size:10}} }
     }
+  });
 
-    // Exibir nome do usuário logado na topbar
-    const user = getUser();
-    if (user) {
-      document.getElementById('userGreeting').textContent = '👤 ' + user.name;
-    }
+  const top10 = [...runners].sort((a,b)=>(b.points||0)-(a.points||0)).slice(0,10);
+  destroyChart('chartPoints');
+  charts.points = new Chart(document.getElementById('chartPoints'), {
+    type:'bar',
+    data:{ labels:top10.map(r=>r.name.split(' ')[0]),
+      datasets:[{ data:top10.map(r=>r.points||0), backgroundColor:top10.map((_,i)=>`${GOLD}${0.9-i*0.07})`), borderRadius:4, borderWidth:0 }]},
+    options: opts('Pontos')
+  });
 
-    // Mobile sidebar
-    document.getElementById('sidebarToggle').addEventListener('click', () => {
-      document.getElementById('sidebar').classList.toggle('mobile-open');
-      document.getElementById('sidebarOverlay').classList.toggle('active');
-    });
-    document.getElementById('sidebarOverlay').addEventListener('click', () => {
-      document.getElementById('sidebar').classList.remove('mobile-open');
-      document.getElementById('sidebarOverlay').classList.remove('active');
-    });
+  const topW = [...runners].sort((a,b)=>(b.wins||0)-(a.wins||0)).slice(0,10);
+  destroyChart('chartWins');
+  charts.wins = new Chart(document.getElementById('chartWins'), {
+    type:'bar',
+    data:{ labels:topW.map(r=>r.name.split(' ')[0]),
+      datasets:[{ data:topW.map(r=>r.wins||0), backgroundColor:'rgba(34,197,94,0.7)', borderRadius:4, borderWidth:0 }]},
+    options: opts('Vitórias')
+  });
 
-    // 3D tilt on cards
-    document.querySelectorAll('.stat-card').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        card.style.transform = `rotateX(${-y * 10}deg) rotateY(${x * 10}deg) translateY(-4px) scale(1.02)`;
-      });
-      card.addEventListener('mouseleave', () => {
-        card.style.transition = 'transform 0.6s cubic-bezier(.23,1.01,.32,1), border-color 0.3s';
-        card.style.transform = '';
-      });
-      card.addEventListener('mouseenter', () => {
-        card.style.transition = 'border-color 0.3s';
-      });
-    });
+  const natMap = {};
+  runners.forEach(r=>{ const n=r.nationality||'Desconhecido'; natMap[n]=(natMap[n]||0)+1; });
+  const nL = Object.keys(natMap), nD = Object.values(natMap);
+  destroyChart('chartNat');
+  charts.nat = new Chart(document.getElementById('chartNat'), {
+    type:'doughnut',
+    data:{ labels:nL, datasets:[{ data:nD, backgroundColor:nL.map((_,i)=>`hsl(${45+i*35},65%,${48+i*4}%)`), borderColor:'rgba(255,255,255,.05)', borderWidth:2 }]},
+    options:{ responsive:true, plugins:{ legend:{position:'right',labels:{color:'#9a9690',font:{size:10},boxWidth:12}}, tooltip:{backgroundColor:'rgba(10,10,10,.9)',borderColor:'rgba(212,175,55,.3)',borderWidth:1,titleColor:'#f0ede6',bodyColor:'#9a9690'} } }
+  });
 
-    // Animated car on circuit
-    (function () {
-      const track = document.querySelector('.circuit-track');
-      const dot = document.getElementById('car-dot');
-      const glow = document.getElementById('car-glow');
-      let t = 0;
-      function animateCar() {
-        try {
-          const len = track.getTotalLength();
-          t = (t + 0.003) % 1;
-          const pt = track.getPointAtLength(t * len);
-          dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
-          glow.setAttribute('cx', pt.x); glow.setAttribute('cy', pt.y);
-        } catch (e) { }
-        requestAnimationFrame(animateCar);
-      }
-      setTimeout(animateCar, 3200);
-    })();
+  const teamMap = {};
+  runners.forEach(r=>{ const t=r.team_name||'Sem equipe'; teamMap[t]=(teamMap[t]||0)+(r.points||0); });
+  const tL = Object.keys(teamMap), tD = Object.values(teamMap);
+  destroyChart('chartTeams');
+  charts.teams = new Chart(document.getElementById('chartTeams'), {
+    type:'bar',
+    data:{ labels:tL, datasets:[{ data:tD, backgroundColor:'rgba(59,130,246,0.7)', borderRadius:4, borderWidth:0 }]},
+    options: opts('Pontos')
+  });
+}
 
-    // Counter animation
-    (function () {
-      const el = document.querySelector('#raceProgress');
-      if (!el) return;
-      let v = 0;
-      const tick = () => { v = Math.min(v + 0.1, 3); el.textContent = Math.floor(v); if (v < 3) requestAnimationFrame(tick); else el.textContent = '3'; };
-      setTimeout(tick, 600);
-    })();
-    // Fetch data
-    async function loadDashboardData() {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        window.location.href = 'login.html';
-        return;
-      }
+function destroyChart(id) { if(charts[id]){ charts[id].destroy(); delete charts[id]; } }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-      try {
-        // Best Lap
-        const bestRes = await fetch('http://localhost:3000/voltas/melhor-volta', {
-          headers: { 'Authorization': 'Bearer ' + token }
-        });
-        if (bestRes.ok) {
-          const bestData = await bestRes.json();
-          if (bestData.melhor_volta) {
-            document.getElementById('bestLapTime').textContent = bestData.melhor_volta + 's';
-            document.getElementById('bestLapRunner').textContent = '▲ ' + bestData.corredor.nome;
-          }
-        }
+// Animated car
+(function(){
+  const track = document.querySelector('.circuit-track');
+  const dot = document.getElementById('car-dot');
+  const glow = document.getElementById('car-glow');
+  let t = 0;
+  function anim(){
+    try{ const len=track.getTotalLength(); t=(t+0.003)%1; const pt=track.getPointAtLength(t*len);
+      dot.setAttribute('cx',pt.x); dot.setAttribute('cy',pt.y);
+      glow.setAttribute('cx',pt.x); glow.setAttribute('cy',pt.y); }catch{}
+    requestAnimationFrame(anim);
+  }
+  setTimeout(anim, 2000);
+})();
 
-        // Top 5 Laps
-        const topRes = await fetch('http://localhost:3000/voltas/top5-voltas', {
-          headers: { 'Authorization': 'Bearer ' + token }
-        });
-        if (topRes.ok) {
-          const topData = await topRes.json();
-          const tbody = document.getElementById('lapsTableBody');
-          tbody.innerHTML = '';
-          if (topData.ranking && topData.ranking.length > 0) {
-            topData.ranking.forEach((lap, index) => {
-              const tr = document.createElement('tr');
-              let badgeClass = '';
-              if (index === 0) badgeClass = ' p1';
-              else if (index === 1) badgeClass = ' p2';
+// 3D tilt
+document.querySelectorAll('.summary-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`rotateX(${-y*8}deg) rotateY(${x*8}deg) translateY(-3px)`;
+  });
+  card.addEventListener('mouseleave',()=>{ card.style.transition='transform .5s'; card.style.transform=''; });
+  card.addEventListener('mouseenter',()=>{ card.style.transition='none'; });
+});
 
-              let tdTempo = index === 0 ? '<td class="td-gold">' : '<td class="td-primary">';
+async function deleteAccount() {
+  if(!confirm('Excluir sua conta permanentemente?')) return;
+  const token = localStorage.getItem('token');
+  try {
+    const r = await fetch(`${API}/users/delete`, { method:'DELETE', headers:{'Authorization':'Bearer '+token} });
+    const d = await r.json();
+    if(r.ok){ alert(d.message); localStorage.clear(); window.location.href='../../index.html'; }
+    else alert(d.message || d.error || 'Erro');
+  } catch{ alert('Erro ao conectar ao servidor.'); }
+}
 
-              tr.innerHTML = `
-              <td><span class="pos-badge${badgeClass}">${index + 1}</span></td>
-              ${tdTempo}${lap.tempo}s</td>
-              <td class="text-muted" colspan="3">${lap.nome} - ${lap.equipe || 'Sem equipe'}</td>
-            `;
-              tbody.appendChild(tr);
-            });
-          } else {
-            tbody.innerHTML = '<tr><td colspan="5">Nenhuma volta registrada</td></tr>';
-          }
-        } else if (topRes.status === 401 || topRes.status === 403) {
-          localStorage.removeItem('token');
-          window.location.href = 'login.html';
-        }
-      } catch (error) {
-        console.error('Erro ao carregar dados:', error);
-      }
-    }
+document.getElementById('sidebarToggle').addEventListener('click',()=>{
+  document.getElementById('sidebar').classList.toggle('mobile-open');
+  document.getElementById('sidebarOverlay').classList.toggle('active');
+});
+document.getElementById('sidebarOverlay').addEventListener('click',()=>{
+  document.getElementById('sidebar').classList.remove('mobile-open');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+});
 
-    loadDashboardData();
-  </script>
+loadDashboard();
+</script>
 </body>
-
 </html>

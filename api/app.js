@@ -1,27 +1,19 @@
 const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
+const cors    = require('cors');
+const helmet  = require('helmet');
 
 const app = express();
-
-// Use default secure headers
 app.use(helmet());
-
 app.use(cors());
 app.use(express.json());
 
-const userRouters = require('./routes/users');
-const teamRouters = require('./routes/teams');
-const runnerRouters = require('./routes/runners');
-const voltasRouters = require('./routes/voltas');
+app.use('/runners', require('./routes/runners'));
+app.use('/teams',   require('./routes/teams'));
+app.use('/users',   require('./routes/users'));
+app.use('/voltas',  require('./routes/voltas'));
+app.use('/tracks',  require('./routes/tracks'));
+app.use('/races',   require('./routes/races'));
 
-app.use('/runners', runnerRouters);
-app.use('/teams', teamRouters);
-app.use('/users', userRouters);
-app.use('/voltas', voltasRouters);
-
-app.get('/', (req, res) => {
-  res.send('API funcionando');
-});
+app.get('/', (req, res) => res.json({ status: 'API Septem Racing v2.0' }));
 
 module.exports = app;
