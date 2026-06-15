@@ -134,20 +134,33 @@ userRouters.post('/login', async (req, res) => {
     }
 });
 
-userRouters.delete('/delete', async (req, res) => {
-    const { id } = req.query;
+userRouters.delete(
+    '/delete',
+    auth,
+    async (req, res) => {
+        try {
 
-    db.query(
-        `DELETE FROM users WHERE id = ?`,
-        [ id ],
-        (err, results) => {
-            if (err) {
-                console.error("ERROR:", err);
-                return res.status(500).json({ error: 'Erro ao deletar usuario' });
-            }
-            return res.status(200).json({ message: "Usuario deletado com sucesso!" });
+            const userId = req.user.id;
+
+            await db.execute(
+                'DELETE FROM users WHERE id = ?',
+                [userId]
+            );
+
+            return res.status(200).json({
+                message: 'Conta excluída com sucesso!'
+            });
+
+        } catch (error) {
+
+            console.error(error);
+
+            return res.status(500).json({
+                error: 'Erro ao excluir conta'
+            });
+
         }
-    );
-});
+    }
+);
 
 module.exports = userRouters;

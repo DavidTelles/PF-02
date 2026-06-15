@@ -1,9 +1,9 @@
 {
   "name": "api-septem",
-  "version": "1.0.0",
-  "description": "",
+  "version": "4.5.0",
+  "description": "Projeto criado como produto final para o Senai Shunji Nishimura",
   "license": "ISC",
-  "author": "David Telles",
+  "author": "David Telles, Enzo Kuramoto",
   "type": "commonjs",
   "main": "api/app.js",
   "scripts": {

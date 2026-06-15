@@ -42,6 +42,9 @@
       <button onclick="logout()" class="nav-item nav-logout" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red,#ef4444)">
         <span class="nav-icon">⏻</span> Sair
       </button>
+      <button onclick="deleteAccount()" class="nav-item nav-logout" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:var(--red,#ef4444)">
+        🗑️ Excluir Conta
+      </button>
     </div>
   </aside>
   <button class="sidebar-toggle" id="sidebarToggle">☰</button>
@@ -202,8 +205,73 @@
 <!-- Middleware de autenticação frontend -->
 <script src="../scripts/auth.js"></script>
 <script>
-  // Verificação de autenticação — executada antes de qualquer conteúdo ser exibido
   checkAuth();
+  document
+    .getElementById('deleteAccountBtn')
+    .addEventListener('click', deleteAccount);
+
+async function deleteAccount() {
+
+    const confirmar = confirm(
+        'Tem certeza que deseja excluir sua conta? Esta ação é permanente.'
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+
+        alert('Você não está autenticado.');
+
+        window.location.href = 'login.html';
+
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            'http://localhost:3000/users/delete',
+            {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        const result = await response.json();
+
+        if (response.ok) {
+
+            alert(result.message);
+
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+
+            window.location.href = '../../index.html';
+
+        } else {
+
+            alert(
+                result.message ||
+                result.error ||
+                'Erro ao excluir conta'
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert('Erro ao conectar ao servidor.');
+
+    }
+}
 
   // Exibir nome do usuário logado na topbar
   const user = getUser();
