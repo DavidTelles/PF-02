@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `runners` (
   `best_lap`        VARCHAR(20)   NULL COMMENT 'e.g. 1:23.456',
   `points`          INT           NOT NULL DEFAULT 0,
   `seasons`         INT           NOT NULL DEFAULT 0,
-  `status`          ENUM('Ativo','Inativo') NOT NULL DEFAULT 'Ativo',
+  `status`          ENUM('Ativo','Inativo','Aposentado') NOT NULL DEFAULT 'Ativo',
   `created_at`      TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at`      TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
