@@ -9,17 +9,6 @@
 
 ---
 
-# 🏎️ Septem Racing
-
-Sistema completo de gerenciamento e monitoramento de corridas desenvolvido como Projeto Final do SENAI.
-
-![Node.js](https://img.shields.io/badge/Node.js-22.x-green)
-![Express](https://img.shields.io/badge/Express-5.x-black)
-![MySQL](https://img.shields.io/badge/MySQL-8.x-blue)
-![License](https://img.shields.io/badge/License-MIT-lightgrey)
-
----
-
 ## 📖 Sobre o Projeto
 
 O **Septem Racing** é uma plataforma web desenvolvida para simular e gerenciar um ambiente de automobilismo profissional.
