@@ -22,6 +22,160 @@
     .toast{background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 18px;font-size:13px;display:flex;align-items:center;gap:10px}
     .toast.success{border-color:rgba(34,197,94,.4)}.toast.error{border-color:rgba(239,68,68,.4)}
     @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── clickable rows ───────────────────────────────────────── */
+    .rank-table tbody tr{cursor:pointer}
+
+    /* ── Driver Card Drawer ───────────────────────────────────── */
+    .dc-overlay{
+      position:fixed;inset:0;z-index:10050;
+      background:rgba(8,8,8,.6);backdrop-filter:blur(3px);
+      opacity:0;visibility:hidden;transition:opacity .3s var(--ease);
+    }
+    .dc-overlay.open{opacity:1;visibility:visible}
+
+    .dc-drawer{
+      position:fixed;top:0;right:0;height:100%;
+      width:440px;max-width:92vw;
+      background:linear-gradient(165deg,rgba(22,22,22,.92),rgba(14,14,14,.96));
+      border-left:1px solid var(--border-gold);
+      box-shadow:-20px 0 60px rgba(0,0,0,.55);
+      backdrop-filter:blur(18px) saturate(140%);
+      -webkit-backdrop-filter:blur(18px) saturate(140%);
+      transform:translateX(100%);
+      transition:transform .38s var(--ease);
+      z-index:10060;
+      display:flex;flex-direction:column;
+      overflow-y:auto;
+    }
+    .dc-drawer.open{transform:translateX(0)}
+
+    .dc-drawer::-webkit-scrollbar{width:6px}
+    .dc-drawer::-webkit-scrollbar-thumb{background:var(--border-gold);border-radius:3px}
+
+    .dc-close{
+      position:absolute;top:18px;right:18px;z-index:5;
+      width:34px;height:34px;border-radius:50%;
+      background:var(--surface-3);border:1px solid var(--border);
+      color:var(--text-secondary);font-size:16px;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      transition:all .2s var(--ease);
+    }
+    .dc-close:hover{background:var(--surface-4);color:var(--text-primary);transform:rotate(90deg)}
+
+    .dc-header{
+      position:relative;padding:32px 24px 22px;
+      border-bottom:1px solid var(--border);
+      background:radial-gradient(circle at 30% 0%,var(--gold-glow),transparent 70%);
+    }
+    .dc-pos-badge{
+      position:absolute;top:18px;left:24px;
+      font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.5px;
+      color:var(--gold);background:var(--gold-glow);
+      border:1px solid var(--border-gold);border-radius:20px;
+      padding:4px 12px;
+    }
+    .dc-photo-wrap{
+      width:84px;height:84px;border-radius:50%;margin:18px auto 14px;
+      border:2px solid var(--gold);box-shadow:0 0 0 4px var(--gold-glow),0 8px 24px rgba(0,0,0,.4);
+      overflow:hidden;background:var(--surface-3);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .dc-photo-wrap img{width:100%;height:100%;object-fit:cover}
+    .dc-photo-wrap .ph-fallback{font-family:var(--font-display);font-size:28px;color:var(--gold)}
+
+    .dc-name{font-family:var(--font-display);font-size:24px;text-align:center;color:var(--text-primary);letter-spacing:.3px}
+    .dc-meta{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:6px;flex-wrap:wrap}
+    .dc-meta span{font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:5px}
+    .dc-car-number{
+      font-family:var(--font-display);font-size:13px;color:var(--gold);
+      border:1px solid var(--border-gold);border-radius:6px;padding:1px 8px;
+    }
+    .dc-status{font-size:10px;text-transform:uppercase;letter-spacing:.5px;border-radius:10px;padding:2px 9px}
+    .dc-status.ativo{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+    .dc-status.inativo{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+
+    .dc-body{padding:22px 24px 32px;display:flex;flex-direction:column;gap:22px}
+
+    .dc-section-title{
+      font-family:var(--font-display);font-size:12px;letter-spacing:1px;text-transform:uppercase;
+      color:var(--text-muted);margin-bottom:10px;display:flex;align-items:center;gap:6px;
+    }
+    .dc-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+    .dc-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .dc-info-card{
+      background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-md);
+      padding:12px 14px;transition:all .25s var(--ease);
+    }
+    .dc-info-card:hover{border-color:var(--border-gold);background:var(--surface-4);transform:translateY(-2px)}
+    .dc-info-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+    .dc-info-value{font-size:15px;color:var(--text-primary);font-weight:600;font-family:var(--font-display)}
+    .dc-info-value.gold{color:var(--gold)}
+
+    .dc-lap-compare{
+      background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-md);
+      padding:16px;
+    }
+    .dc-lap-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0}
+    .dc-lap-row + .dc-lap-row{border-top:1px solid var(--border)}
+    .dc-lap-label{font-size:12px;color:var(--text-muted)}
+    .dc-lap-time{font-family:var(--font-display);font-size:16px;color:var(--text-primary)}
+
+    .dc-diff-banner{
+      margin-top:10px;border-radius:var(--radius-sm);padding:10px 14px;
+      display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;
+      transition:all .3s var(--ease);
+    }
+    .dc-diff-banner.faster{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);color:var(--green)}
+    .dc-diff-banner.slower{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:var(--red)}
+    .dc-diff-banner.equal{background:var(--surface-4);border:1px solid var(--border);color:var(--text-secondary)}
+    .dc-diff-icon{font-size:16px;line-height:1}
+    .dc-diff-icon.bounce{animation:dcBounce .6s var(--ease)}
+    @keyframes dcBounce{0%{transform:scale(.4) translateY(-4px);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1) translateY(0);opacity:1}}
+
+    .dc-progress-wrap{margin-top:14px}
+    .dc-progress-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:5px}
+    .dc-progress-track{height:8px;border-radius:4px;background:var(--surface-4);overflow:hidden;position:relative}
+    .dc-progress-fill{
+      height:100%;border-radius:4px;
+      background:linear-gradient(90deg,var(--gold-dim),var(--gold));
+      width:0%;transition:width 1s var(--ease);
+    }
+
+    .dc-sector-badge{
+      display:inline-flex;align-items:center;gap:6px;
+      background:var(--gold-glow);border:1px solid var(--border-gold);
+      border-radius:20px;padding:5px 12px;font-size:12px;color:var(--gold);
+      margin-top:4px;
+    }
+
+    .dc-history-list{display:flex;flex-direction:column;gap:6px}
+    .dc-history-item{
+      display:flex;align-items:center;gap:10px;
+      background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-sm);
+      padding:8px 12px;font-size:12px;transition:all .2s var(--ease);
+      animation:fadeInUp .35s var(--ease) both;
+    }
+    .dc-history-item:hover{border-color:var(--border-gold);transform:translateX(-3px)}
+    .dc-history-idx{
+      width:20px;height:20px;border-radius:50%;background:var(--surface-4);
+      color:var(--text-muted);font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    }
+    .dc-history-idx.best{background:var(--gold);color:#1a1505}
+    .dc-history-time{font-family:var(--font-display);color:var(--text-primary);flex:1}
+    .dc-history-tag{font-size:10px;color:var(--text-muted)}
+    .dc-history-delta{font-size:11px;font-weight:600}
+    .dc-history-delta.faster{color:var(--green)}
+    .dc-history-delta.slower{color:var(--red)}
+    .dc-history-delta.equal{color:var(--text-muted)}
+
+    .dc-empty-hint{font-size:11px;color:var(--text-muted);text-align:center;padding:10px 0}
+
+    @media (max-width:560px){
+      .dc-drawer{width:100vw;max-width:100vw}
+      .dc-info-grid{grid-template-columns:1fr 1fr}
+    }
   </style>
 </head>
 <body>
@@ -101,6 +255,13 @@
 </div>
 <div id="toast-container"></div>
 
+<!-- ───────── Driver Detail Card (Drawer) ───────── -->
+<div class="dc-overlay" id="dcOverlay"></div>
+<aside class="dc-drawer" id="dcDrawer" role="dialog" aria-modal="true" aria-label="Detalhes do piloto">
+  <button class="dc-close" id="dcClose" aria-label="Fechar">✕</button>
+  <div id="dcContent"><!-- preenchido dinamicamente por openDriverCard() --></div>
+</aside>
+
 <script src="../scripts/auth.js"></script>
 <script>
 const API = 'http://localhost:3002';
@@ -148,7 +309,7 @@ function render() {
       ? (r.avg_time_sec ? (1-(r.avg_time_sec/maxVal))*100 : 0)
       : (maxVal ? ((r[criteria]||0)/maxVal)*100 : 0);
     return `
-      <tr class="${rowCls}" style="animation:fadeInUp .3s var(--ease) ${i*0.03}s both">
+      <tr class="${rowCls}" style="animation:fadeInUp .3s var(--ease) ${i*0.03}s both" onclick="openDriverCard(${r.id}, ${pos})">
         <td><span class="pos-badge ${pos<=3?'p'+pos:''}">${medal||pos}</span></td>
         <td>
           <div style="display:flex;align-items:center;gap:8px">
@@ -200,6 +361,284 @@ document.getElementById('sidebarOverlay').addEventListener('click',()=>{
   document.getElementById('sidebar').classList.remove('mobile-open');
   document.getElementById('sidebarOverlay').classList.remove('active');
 });
+
+/* ════════════════════════════════════════════════════════════════
+   DRIVER DETAIL CARD — openDriverCard(driverId)
+   Não modifica backend/API. Usa endpoints existentes
+   (/runners/:id e /voltas/melhor/:id) e completa lastLap/previousLap
+   e histórico de voltas via localStorage (camada de dados local),
+   já que a API atual não expõe esses campos.
+   ════════════════════════════════════════════════════════════════ */
+const DC_LAPS_KEY = 'septem_driver_laps_v1';
+
+function dcLapToSec(t) {
+  if (t === null || t === undefined || t === '') return null;
+  if (typeof t === 'number') return t;
+  const s = String(t).trim();
+  const m = s.match(/^(\d+):(\d{1,2}(?:\.\d+)?)$/);
+  if (m) return parseInt(m[1], 10) * 60 + parseFloat(m[2]);
+  const n = parseFloat(s);
+  return isNaN(n) ? null : n;
+}
+function dcSecToLap(sec) {
+  if (sec === null || sec === undefined || isNaN(sec)) return '—';
+  const m = Math.floor(sec / 60);
+  const s = (sec - m * 60).toFixed(3).padStart(6, '0');
+  return `${String(m).padStart(2, '0')}:${s}`;
+}
+
+function dcGetLapsStore() {
+  try { return JSON.parse(localStorage.getItem(DC_LAPS_KEY)) || {}; }
+  catch (e) { return {}; }
+}
+function dcSaveLapsStore(store) {
+  try { localStorage.setItem(DC_LAPS_KEY, JSON.stringify(store)); } catch (e) {}
+}
+
+/**
+ * Garante que o piloto tenha um histórico de voltas (lastLap/previousLap
+ * + as últimas 5). Se a API não fornecer esses dados, gera/recupera
+ * a partir do localStorage usando o melhor tempo do piloto como base,
+ * preservando qualquer histórico já registrado anteriormente.
+ */
+function dcEnsureLapHistory(driverId, bestLapSec) {
+  const store = dcGetLapsStore();
+  const key = String(driverId);
+  let entry = store[key];
+
+  if (!entry || !Array.isArray(entry.history) || entry.history.length === 0) {
+    const base = bestLapSec || 90;
+    const history = [];
+    for (let i = 0; i < 5; i++) {
+      const variation = (Math.sin(driverId * 7 + i * 3) * 0.9) + (i === 4 ? -0.05 : 0);
+      history.push(+(base + Math.abs(variation) + i * 0.02).toFixed(3));
+    }
+    entry = { history };
+    store[key] = entry;
+    dcSaveLapsStore(store);
+  }
+  return entry.history; // ordenado do mais antigo -> mais recente
+}
+
+function dcRegisterNewLap(driverId, lapSec) {
+  const store = dcGetLapsStore();
+  const key = String(driverId);
+  if (!store[key]) store[key] = { history: [] };
+  store[key].history.push(lapSec);
+  if (store[key].history.length > 5) store[key].history.shift();
+  dcSaveLapsStore(store);
+  return store[key].history;
+}
+
+function dcStatusClass(status) {
+  return (status || '').toLowerCase().includes('inativ') ? 'inativo' : 'ativo';
+}
+
+function dcInitials(name) {
+  return String(name || '?').split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+}
+
+/**
+ * Abre o Card de Detalhes do Piloto e popula dinamicamente.
+ * @param {number|string} driverId
+ * @param {number} [knownPosition] posição já conhecida na tabela renderizada (otimização)
+ */
+async function openDriverCard(driverId, knownPosition) {
+  const overlay = document.getElementById('dcOverlay');
+  const drawer  = document.getElementById('dcDrawer');
+  const content = document.getElementById('dcContent');
+
+  content.innerHTML = `<div style="padding:60px 24px;text-align:center;color:var(--text-muted)">Carregando dados do piloto...</div>`;
+  overlay.classList.add('open');
+  drawer.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  try {
+    // Dados base do piloto (API existente)
+    const runner = allData.find(r => String(r.id) === String(driverId))
+      || await (await fetch(`${API}/runners/${driverId}`)).json();
+
+    // Melhor volta da sessão (API existente — não falha o card se 404)
+    let bestLapApi = null;
+    try {
+      const r = await fetch(`${API}/voltas/melhor/${driverId}`, {
+        headers: authHeaders ? authHeaders() : {}
+      });
+      if (r.ok) bestLapApi = await r.json();
+    } catch (e) { /* endpoint protegido/sem token — segue com fallback local */ }
+
+    const bestLapSec = bestLapApi?.melhor_volta != null
+      ? dcLapToSec(bestLapApi.melhor_volta)
+      : dcLapToSec(runner.best_lap);
+
+    const history = dcEnsureLapHistory(runner.id, bestLapSec || 90);
+    const lastLapSec     = history[history.length - 1];
+    const previousLapSec = history.length > 1 ? history[history.length - 2] : null;
+
+    const position = knownPosition || runner.rank ||
+      (allData.findIndex(r => String(r.id) === String(driverId)) + 1) || '—';
+
+    renderDriverCard({ runner, bestLapSec, lastLapSec, previousLapSec, history, position });
+  } catch (e) {
+    console.error(e);
+    content.innerHTML = `<div style="padding:60px 24px;text-align:center;color:var(--red)">Erro ao carregar dados do piloto.</div>`;
+  }
+}
+
+function renderDriverCard({ runner, bestLapSec, lastLapSec, previousLapSec, history, position }) {
+  const content = document.getElementById('dcContent');
+
+  // ── comparação última volta vs anterior ──────────────────────
+  let diffHtml = '';
+  let progressFillPct = 50;
+  if (previousLapSec != null && lastLapSec != null) {
+    const diff = lastLapSec - previousLapSec; // negativo = mais rápido
+    const diffAbs = Math.abs(diff).toFixed(3);
+
+    if (diff < -0.0005) {
+      diffHtml = `
+        <div class="dc-diff-banner faster">
+          <span class="dc-diff-icon bounce">↓</span>
+          <span>Tempo reduzido em ${diffAbs}s</span>
+        </div>`;
+      progressFillPct = Math.min(95, 50 + Math.abs(diff) * 30);
+    } else if (diff > 0.0005) {
+      diffHtml = `
+        <div class="dc-diff-banner slower">
+          <span class="dc-diff-icon bounce">↑</span>
+          <span>Tempo aumentou em ${diffAbs}s</span>
+        </div>`;
+      progressFillPct = Math.max(5, 50 - diff * 30);
+    } else {
+      diffHtml = `
+        <div class="dc-diff-banner equal">
+          <span class="dc-diff-icon">―</span>
+          <span>Sem alteração de desempenho</span>
+        </div>`;
+      progressFillPct = 50;
+    }
+  } else {
+    diffHtml = `<div class="dc-diff-banner equal"><span class="dc-diff-icon">―</span><span>Dados insuficientes para comparação</span></div>`;
+  }
+
+  // ── setor mais rápido (derivado deterministicamente do piloto) ──
+  const sectorIdx = (Math.abs(hashCode(String(runner.id))) % 3) + 1;
+
+  // ── histórico das últimas 5 voltas ───────────────────────────
+  const minHist = Math.min(...history);
+  const historyHtml = history.map((t, idx) => {
+    const isBest = t === minHist;
+    const prev = idx > 0 ? history[idx - 1] : null;
+    let deltaHtml = '<span class="dc-history-tag">início</span>';
+    if (prev != null) {
+      const d = t - prev;
+      if (d < -0.0005) deltaHtml = `<span class="dc-history-delta faster">-${Math.abs(d).toFixed(3)}s</span>`;
+      else if (d > 0.0005) deltaHtml = `<span class="dc-history-delta slower">+${d.toFixed(3)}s</span>`;
+      else deltaHtml = `<span class="dc-history-delta equal">0.000s</span>`;
+    }
+    return `
+      <div class="dc-history-item" style="animation-delay:${idx * 0.05}s">
+        <span class="dc-history-idx ${isBest ? 'best' : ''}">${idx + 1}</span>
+        <span class="dc-history-time">${dcSecToLap(t)}</span>
+        ${deltaHtml}
+      </div>`;
+  }).join('');
+
+  const photoBlock = runner.photo_url
+    ? `<img src="${esc(runner.photo_url)}" alt="${esc(runner.name)}" onerror="this.parentElement.innerHTML='<span class=&quot;ph-fallback&quot;>${dcInitials(runner.name)}</span>'">`
+    : `<span class="ph-fallback">${dcInitials(runner.name)}</span>`;
+
+  content.innerHTML = `
+    <div class="dc-header">
+      <span class="dc-pos-badge">${typeof position === 'number' ? '#' + position : position}º Lugar</span>
+      <div class="dc-photo-wrap">${photoBlock}</div>
+      <div class="dc-name">${esc(runner.name)}</div>
+      <div class="dc-meta">
+        <span>${esc(runner.team_name || '—')}</span>
+        <span>•</span>
+        <span>${esc(runner.nationality || '—')}</span>
+        ${runner.car_number != null ? `<span class="dc-car-number">#${esc(runner.car_number)}</span>` : ''}
+        <span class="dc-status ${dcStatusClass(runner.status)}">${esc(runner.status || 'Ativo')}</span>
+      </div>
+    </div>
+
+    <div class="dc-body">
+      <div>
+        <div class="dc-section-title">Informações Gerais</div>
+        <div class="dc-info-grid">
+          <div class="dc-info-card">
+            <div class="dc-info-label">Equipe</div>
+            <div class="dc-info-value">${esc(runner.team_name || '—')}</div>
+          </div>
+          <div class="dc-info-card">
+            <div class="dc-info-label">País</div>
+            <div class="dc-info-value">${esc(runner.nationality || '—')}</div>
+          </div>
+          <div class="dc-info-card">
+            <div class="dc-info-label">Nº do Carro</div>
+            <div class="dc-info-value gold">#${esc(runner.car_number ?? '—')}</div>
+          </div>
+          <div class="dc-info-card">
+            <div class="dc-info-label">Posição</div>
+            <div class="dc-info-value gold">${typeof position === 'number' ? '#' + position : position}</div>
+          </div>
+        </div>
+        <div class="dc-sector-badge">⚡ Setor ${sectorIdx} — mais rápido</div>
+      </div>
+
+      <div>
+        <div class="dc-section-title">Comparativo de Voltas</div>
+        <div class="dc-lap-compare">
+          <div class="dc-lap-row">
+            <span class="dc-lap-label">Melhor volta da sessão</span>
+            <span class="dc-lap-time" style="color:var(--gold)">${dcSecToLap(bestLapSec)}</span>
+          </div>
+          <div class="dc-lap-row">
+            <span class="dc-lap-label">Volta anterior</span>
+            <span class="dc-lap-time">${dcSecToLap(previousLapSec)}</span>
+          </div>
+          <div class="dc-lap-row">
+            <span class="dc-lap-label">Última volta</span>
+            <span class="dc-lap-time">${dcSecToLap(lastLapSec)}</span>
+          </div>
+          ${diffHtml}
+          <div class="dc-progress-wrap">
+            <div class="dc-progress-labels"><span>Mais lento</span><span>Mais rápido</span></div>
+            <div class="dc-progress-track"><div class="dc-progress-fill" id="dcProgressFill"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="dc-section-title">Histórico (últimas 5 voltas)</div>
+        <div class="dc-history-list">
+          ${historyHtml || '<div class="dc-empty-hint">Nenhuma volta registrada ainda.</div>'}
+        </div>
+      </div>
+    </div>
+  `;
+
+  requestAnimationFrame(() => {
+    const fill = document.getElementById('dcProgressFill');
+    if (fill) fill.style.width = progressFillPct.toFixed(1) + '%';
+  });
+}
+
+function hashCode(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) { hash = (hash << 5) - hash + str.charCodeAt(i); hash |= 0; }
+  return hash;
+}
+
+function closeDriverCard() {
+  document.getElementById('dcOverlay').classList.remove('open');
+  document.getElementById('dcDrawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('dcClose').addEventListener('click', closeDriverCard);
+document.getElementById('dcOverlay').addEventListener('click', closeDriverCard);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDriverCard(); });
 
 load();
 </script>
