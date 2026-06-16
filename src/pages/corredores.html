@@ -806,9 +806,83 @@
     updateStats();
     renderEmpty();
   }
-}
+  }
 
+  // UI Wiring: buttons, form handlers
+  document.getElementById('btnNovoCorredor').addEventListener('click', () => abrirModal());
+  document.getElementById('closeRunnerModal').addEventListener('click', fecharModal);
+  document.getElementById('cancelRunnerModal').addEventListener('click', fecharModal);
+
+  document.getElementById('cancelDeleteBtn').addEventListener('click', () => { document.getElementById('modalConfirm').classList.remove('open'); pendingDeleteId = null; });
+  document.getElementById('confirmDeleteBtn').addEventListener('click', async () => { if (pendingDeleteId) await deletarCorredor(pendingDeleteId); });
+
+  document.getElementById('btnExportCSV').addEventListener('click', exportCSV);
+  document.getElementById('btnExportPDF').addEventListener('click', exportPDF);
+
+  document.getElementById('searchInput').addEventListener('input', filtrar);
+  document.getElementById('filterStatus').addEventListener('change', filtrar);
+  document.getElementById('filterTeam').addEventListener('change', filtrar);
+
+  document.querySelectorAll('th[data-sort]').forEach(th => th.addEventListener('click', () => sortBy(th.dataset.sort)));
+
+  document.getElementById('logoutBtn').addEventListener('click', () => { if (typeof logout === 'function') logout(); });
+  document.getElementById('closeViewModal').addEventListener('click', () => document.getElementById('modalView').classList.remove('open'));
+
+  document.getElementById('runnerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = editingId ? 'Salvando...' : 'Cadastrando...';
+    const token = localStorage.getItem('token');
+
+    const payload = {
+      name: document.getElementById('f-name').value.trim(),
+      nationality: document.getElementById('f-nationality').value.trim() || '',
+      birth_date: document.getElementById('f-birth_date').value || null,
+      car_number: toIntOrNull(document.getElementById('f-car_number').value),
+      team: toIntOrNull(document.getElementById('f-team').value),
+      photo_url: document.getElementById('f-photo_url').value.trim() || null,
+      weight_kg: toFloatOrNull(document.getElementById('f-weight_kg').value),
+      height_cm: toFloatOrNull(document.getElementById('f-height_cm').value),
+      category: document.getElementById('f-category').value.trim() || '',
+      best_lap: document.getElementById('f-best_lap').value.trim() || '',
+      wins: toIntOrNull(document.getElementById('f-wins').value) || 0,
+      podiums: toIntOrNull(document.getElementById('f-podiums').value) || 0,
+      poles: toIntOrNull(document.getElementById('f-poles').value) || 0,
+      points: toIntOrNull(document.getElementById('f-points').value) || 0,
+      seasons: toIntOrNull(document.getElementById('f-seasons').value) || 0,
+      status: document.getElementById('f-status').value || 'Ativo'
+    };
+
+    try {
+      if (!editingId) {
+        const res = await fetchJSON(`${API}/runners/create`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify(payload)
+        });
+        toast(res.message || 'Corredor criado!', 'success');
+      } else {
+        const res = await fetchJSON(`${API}/runners/edit?id=${editingId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify(payload)
+        });
+        toast(res.message || 'Corredor atualizado!', 'success');
+      }
+      fecharModal();
+      await load();
+    } catch (err) {
+      toast(err.message || 'Erro ao salvar corredor', 'error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Salvar';
+    }
+  });
+
+  // inicializa
   load();
+
 </script>
 </body>
 </html>

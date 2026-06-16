@@ -253,6 +253,17 @@ cd api && npm start
 
 ---
 
+### Pilotos (Runners)
+
+Endpoints úteis para o gerenciamento de pilotos (utilizados pelo frontend em `src/pages/corredores.html`):
+
+- `GET /runners` — lista todos os corredores
+- `POST /runners/create` — cria um corredor (requer header `Authorization: Bearer <token>`)
+- `PUT /runners/edit?id=<id>` — edita um corredor (requer header `Authorization`)
+- `DELETE /runners/delete?id=<id>` — remove um corredor (requer header `Authorization`)
+
+O frontend espera que o token JWT esteja salvo em `localStorage.token` após login.
+
 ## 🔮 Melhorias Futuras
 
 - [ ] Autenticação JWT com sessões persistentes
