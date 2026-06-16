@@ -147,7 +147,7 @@ async function carregarEquipes() {
   try {
 
     const response =
-      await fetch('http://localhost:3000/teams');
+      await fetch('http://localhost:3002/teams');
 
     const teams =
       await response.json();
@@ -254,14 +254,14 @@ async function salvarEquipe() {
   try {
 
     let url =
-      'http://localhost:3000/teams/create';
+      'http://localhost:3002/teams/create';
 
     let method = 'POST';
 
     if (editandoId) {
 
       url =
-        `http://localhost:3000/teams/edit?id=${editandoId}`;
+        `http://localhost:3002/teams/edit?id=${editandoId}`;
 
       method = 'PUT';
     }
@@ -319,7 +319,7 @@ async function excluirEquipe(id) {
 
     const response =
       await fetch(
-        `http://localhost:3000/teams/delete?id=${id}`,
+        `http://localhost:3002/teams/delete?id=${id}`,
         {
           method: 'DELETE',
 

@@ -11,7 +11,7 @@
     }
   }
 
-  const base = 'http://localhost:3000';
+  const base = 'http://localhost:3002';
   const log = (title, data) => {
     console.log('\n=== ' + title + ' ===');
     try { console.log(JSON.stringify(data, null, 2)); } catch(e) { console.log(data); }

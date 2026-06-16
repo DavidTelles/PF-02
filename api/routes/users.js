@@ -59,7 +59,7 @@ userRouters.post('/create', async (req, res) => {
             console.log("Usuário criado!");
             return res.status(201).json({ message: 'Usuário criado com sucesso!', id: result.insertId });
         } catch (err) {
-            console.error('Erro ao criar usuário:', error);
+            console.error('Erro ao criar usuário:', err);
             return res.status(400).json({ error: 'Usuário não foi criado!' })
         }
     } catch (error) {
