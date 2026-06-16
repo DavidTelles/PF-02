@@ -50,15 +50,21 @@ userRouters.post('/create', async (req, res) => {
         // hash da senha
         const senhaHash = await bcrypt.hash(password, 10);
 
-        const [result] = await db.execute(
-            'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
-            [name, email, senhaHash]
-        );
-
-        return res.status(201).json({ message: 'Usuário criado com sucesso!', id: result.insertId });
+        try {
+            const [result] = await db.execute(
+                'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
+                [name, email, senhaHash]
+            );
+    
+            console.log("Usuário criado!");
+            return res.status(201).json({ message: 'Usuário criado com sucesso!', id: result.insertId });
+        } catch (err) {
+            console.error('Erro ao criar usuário:', error);
+            return res.status(400).json({ error: 'Usuário não foi criado!' })
+        }
     } catch (error) {
-        console.error('Erro ao criar usuário:', error);
-        return res.status(500).json({ error: 'Erro ao criar usuário' });
+        console.error('Erro ao criptografar a senha:', error);
+        return res.status(500).json({ error: 'Erro ao criptografar a senha' });
     }
 });
 
