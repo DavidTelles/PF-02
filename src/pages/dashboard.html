@@ -25,6 +25,44 @@
     .skeleton{background:linear-gradient(90deg,var(--surface-3) 25%,var(--surface-4) 50%,var(--surface-3) 75%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:4px}
     @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
     @keyframes fadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    
+    /* Modal styles */
+    .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:9999;animation:fadeIn .3s ease}
+    .modal-overlay.active{display:flex;align-items:center;justify-content:center}
+    .modal-content{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;width:90%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 10px 40px rgba(0,0,0,0.5);animation:slideUp .3s ease}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:16px}
+    .modal-header h2{margin:0;font-family:var(--font-display);font-size:18px;color:var(--text-primary)}
+    .modal-close{background:none;border:none;font-size:24px;color:var(--text-muted);cursor:pointer;padding:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center}
+    .modal-close:hover{color:var(--text-primary)}
+    
+    /* Form styles */
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .form-grid.full{grid-column:1/-1}
+    .form-group{display:flex;flex-direction:column}
+    .form-group label{font-size:12px;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+    .form-group input,.form-group select{background:var(--surface-3);border:1px solid var(--border);color:var(--text-primary);padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;font-family:var(--font-body);transition:border-color .2s}
+    .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--border-gold);background:var(--surface-3)}
+    .form-group input::placeholder{color:var(--text-muted)}
+    
+    /* Button styles */
+    .modal-actions{display:flex;gap:12px;margin-top:24px;justify-content:flex-end;border-top:1px solid var(--border);padding-top:16px}
+    .btn-cancel,.btn-submit{padding:10px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;border:none;cursor:pointer;transition:all .2s}
+    .btn-cancel{background:var(--surface-3);color:var(--text-primary);border:1px solid var(--border)}
+    .btn-cancel:hover{background:var(--surface-4);border-color:var(--border-gold)}
+    .btn-submit{background:var(--gold);color:#000;font-weight:700}
+    .btn-submit:hover{background:#e5c158;transform:translateY(-2px)}
+    .btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+    
+    /* Toast */
+    #toast-container{position:fixed;bottom:24px;right:24px;z-index:10001;display:flex;flex-direction:column;gap:10px}
+    .toast{background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 18px;font-size:13px;min-width:240px;animation:slideInRight .3s ease;display:flex;align-items:center;gap:10px}
+    .toast.success{border-color:rgba(34,197,94,.4)}.toast.error{border-color:rgba(239,68,68,.4)}
+    @keyframes slideInRight{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+    
+    /* Topbar button */
+    .topbar-actions{display:flex;gap:12px;align-items:center}
   </style>
 </head>
 <body>
@@ -61,8 +99,13 @@
         <p class="page-subtitle">Dashboard analítico — Campeonato de Automobilismo</p>
       </div>
       <div class="topbar-right">
-        <span id="userGreeting" style="font-size:13px;color:var(--text-muted);margin-right:12px"></span>
-        <span class="badge badge-gold badge-dot">Ao Vivo</span>
+        <div class="topbar-actions">
+          <button class="btn btn-primary btn-sm" onclick="openRunnerModal()" style="display:flex;align-items:center;gap:6px">
+            <span>✦</span> Adicionar Corredor
+          </button>
+          <span id="userGreeting" style="font-size:13px;color:var(--text-muted);margin-right:12px"></span>
+          <span class="badge badge-gold badge-dot">Ao Vivo</span>
+        </div>
       </div>
     </div>
 
@@ -191,15 +234,214 @@
   </main>
 </div>
 
+<!-- Modal de Adicionar Corredor -->
+<div class="modal-overlay" id="runnerModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Adicionar Novo Corredor</h2>
+      <button class="modal-close" onclick="closeRunnerModal()">✕</button>
+    </div>
+
+    <form id="runnerForm" onsubmit="submitRunner(event)">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Nome *</label>
+          <input type="text" id="runner-name" placeholder="Ex: Max Verstappen" required>
+        </div>
+        <div class="form-group">
+          <label>Número do Carro *</label>
+          <input type="number" id="runner-car-number" min="1" max="999" placeholder="Ex: 1">
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Nacionalidade</label>
+          <input type="text" id="runner-nationality" placeholder="Ex: Holandês">
+        </div>
+        <div class="form-group">
+          <label>Data de Nascimento</label>
+          <input type="date" id="runner-birth-date">
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Equipe</label>
+          <select id="runner-team">
+            <option value="">Selecione uma equipe</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Categoria</label>
+          <input type="text" id="runner-category" placeholder="Ex: F1, F2, F3">
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Altura (cm)</label>
+          <input type="number" id="runner-height" min="100" max="250" placeholder="Ex: 180">
+        </div>
+        <div class="form-group">
+          <label>Peso (kg)</label>
+          <input type="number" id="runner-weight" min="40" max="150" step="0.1" placeholder="Ex: 75.5">
+        </div>
+      </div>
+
+      <div class="form-grid full">
+        <div class="form-group">
+          <label>URL da Foto</label>
+          <input type="url" id="runner-photo" placeholder="https://exemplo.com/foto.jpg">
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Vitórias</label>
+          <input type="number" id="runner-wins" min="0" value="0">
+        </div>
+        <div class="form-group">
+          <label>Pódios</label>
+          <input type="number" id="runner-podiums" min="0" value="0">
+        </div>
+        <div class="form-group">
+          <label>Poles</label>
+          <input type="number" id="runner-poles" min="0" value="0">
+        </div>
+        <div class="form-group">
+          <label>Pontos</label>
+          <input type="number" id="runner-points" min="0" value="0">
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Melhor Volta</label>
+          <input type="text" id="runner-best-lap" placeholder="Ex: 1:23.456">
+        </div>
+        <div class="form-group">
+          <label>Temporadas</label>
+          <input type="number" id="runner-seasons" min="0" value="1">
+        </div>
+      </div>
+
+      <div class="form-grid full">
+        <div class="form-group">
+          <label>Status</label>
+          <select id="runner-status">
+            <option value="Ativo">Ativo</option>
+            <option value="Inativo">Inativo</option>
+            <option value="Aposentado">Aposentado</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeRunnerModal()">Cancelar</button>
+        <button type="submit" class="btn-submit" id="submitBtn">Adicionar Corredor</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
 <script src="../scripts/auth.js"></script>
 <script>
 const API = 'http://localhost:3000';
 checkAuth();
-let charts = {};
+let charts = {}, teams = [];
 
 const user = getUser();
 if(user) document.getElementById('userGreeting').textContent = '👤 ' + user.name;
 
+/* ── MODAL FUNCTIONS ── */
+async function openRunnerModal() {
+  try {
+    // Carregar equipes para o select
+    if(teams.length === 0) {
+      const res = await fetch(`${API}/teams`);
+      teams = await res.json();
+    }
+    
+    const select = document.getElementById('runner-team');
+    select.innerHTML = '<option value="">Selecione uma equipe</option>';
+    teams.forEach(t => {
+      select.innerHTML += `<option value="${t.id}">${t.name}</option>`;
+    });
+
+    document.getElementById('runnerForm').reset();
+    document.getElementById('runnerModal').classList.add('active');
+  } catch(e) {
+    console.error(e);
+    toast('Erro ao abrir formulário', 'error');
+  }
+}
+
+function closeRunnerModal() {
+  document.getElementById('runnerModal').classList.remove('active');
+}
+
+async function submitRunner(event) {
+  event.preventDefault();
+  
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Adicionando...';
+
+  try {
+    const token = localStorage.getItem('token');
+    
+    const payload = {
+      name: document.getElementById('runner-name').value,
+      nationality: document.getElementById('runner-nationality').value || '',
+      birth_date: document.getElementById('runner-birth-date').value || null,
+      car_number: parseInt(document.getElementById('runner-car-number').value) || null,
+      team: document.getElementById('runner-team').value ? parseInt(document.getElementById('runner-team').value) : null,
+      photo_url: document.getElementById('runner-photo').value || null,
+      weight_kg: parseFloat(document.getElementById('runner-weight').value) || null,
+      height_cm: parseInt(document.getElementById('runner-height').value) || null,
+      category: document.getElementById('runner-category').value || '',
+      wins: parseInt(document.getElementById('runner-wins').value) || 0,
+      podiums: parseInt(document.getElementById('runner-podiums').value) || 0,
+      poles: parseInt(document.getElementById('runner-poles').value) || 0,
+      best_lap: document.getElementById('runner-best-lap').value || null,
+      points: parseInt(document.getElementById('runner-points').value) || 0,
+      seasons: parseInt(document.getElementById('runner-seasons').value) || 1,
+      status: document.getElementById('runner-status').value || 'Ativo'
+    };
+
+    const res = await fetch(`${API}/runners/create`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    if(!res.ok) {
+      throw new Error(data.message || data.error || 'Erro ao adicionar corredor');
+    }
+
+    toast('Corredor adicionado com sucesso!', 'success');
+    closeRunnerModal();
+    loadDashboard();
+
+  } catch(e) {
+    console.error(e);
+    toast(e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Adicionar Corredor';
+  }
+}
+
+/* ── DASHBOARD FUNCTIONS ── */
 async function loadDashboard() {
   const token = localStorage.getItem('token');
 
@@ -328,6 +570,18 @@ function buildCharts(runners) {
 function destroyChart(id) { if(charts[id]){ charts[id].destroy(); delete charts[id]; } }
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
+// Toast notification
+function toast(msg, type='success'){
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  const icon = type === 'success' ? '✓' : '⚠';
+  t.innerHTML = `<span>${icon}</span> ${esc(msg)}`;
+  c.appendChild(t);
+  setTimeout(()=>{ t.style.opacity = '0'; }, 3000);
+  setTimeout(()=>{ t.remove(); }, 3400);
+}
+
 // Animated car
 (function(){
   const track = document.querySelector('.circuit-track');
@@ -351,6 +605,13 @@ document.querySelectorAll('.summary-card').forEach(card=>{
   });
   card.addEventListener('mouseleave',()=>{ card.style.transition='transform .5s'; card.style.transform=''; });
   card.addEventListener('mouseenter',()=>{ card.style.transition='none'; });
+});
+
+// Close modal on overlay click
+document.getElementById('runnerModal').addEventListener('click', (e) => {
+  if(e.target === document.getElementById('runnerModal')) {
+    closeRunnerModal();
+  }
 });
 
 async function deleteAccount() {

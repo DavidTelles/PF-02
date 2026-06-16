@@ -16,7 +16,7 @@ const runnerSchema = Joi.object({
   best_lap:     Joi.string().max(20).allow('', null),
   points:       Joi.number().integer().min(0).default(0),
   seasons:      Joi.number().integer().min(0).default(0),
-  status:       Joi.string().valid('Ativo', 'Inativo').default('Ativo'),
+  status:       Joi.string().valid('Ativo', 'Inativo', 'Aposentado').default('Ativo'),
 });
 
 module.exports = { runnerSchema };
