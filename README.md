@@ -142,7 +142,7 @@ PF-02/
 ### Clonar o projeto
 
 ```bash
-git clone https://github.com/seu-usuario/septem-racing.git
+git clone https://github.com/DavidTelles/septem-racing.git
 ```
 
 ### Entrar na pasta
