@@ -7,6 +7,16 @@ const { runnerSchema } = require('./validators/runnerValidator');
 const runnerRouters = express.Router();
 runnerRouters.use(cors());
 
+function normalizeDateToSql(dateValue) {
+  if (!dateValue) return null;
+  const date = new Date(dateValue);
+  if (Number.isNaN(date.getTime())) return null;
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 /* ── GET / ── listar todos ──────────────────────────────────────── */
 runnerRouters.get('/', async (req, res) => {
   try {
@@ -46,6 +56,7 @@ runnerRouters.post('/create', auth, async (req, res) => {
   if (error) return res.status(400).json({ message: error.details[0].message });
 
   try {
+    const birthDate = normalizeDateToSql(value.birth_date);
     const [result] = await db.execute(`
       INSERT INTO runners
         (name, nationality, birth_date, car_number, team, photo_url,
@@ -53,7 +64,7 @@ runnerRouters.post('/create', auth, async (req, res) => {
          points, seasons, status)
       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     `, [
-      value.name, value.nationality||'', value.birth_date||null, value.car_number||null,
+      value.name, value.nationality||'', birthDate, value.car_number||null,
       value.team, value.photo_url||null, value.weight_kg||null, value.height_cm||null,
       value.category||'', value.wins||0, value.podiums||0, value.poles||0,
       value.best_lap||null, value.points||0, value.seasons||0, value.status||'Ativo'
@@ -74,6 +85,7 @@ runnerRouters.put('/edit', auth, async (req, res) => {
   if (error) return res.status(400).json({ message: error.details[0].message });
 
   try {
+    const birthDate = normalizeDateToSql(value.birth_date);
     await db.execute(`
       UPDATE runners SET
         name=?, nationality=?, birth_date=?, car_number=?, team=?, photo_url=?,
@@ -81,7 +93,7 @@ runnerRouters.put('/edit', auth, async (req, res) => {
         best_lap=?, points=?, seasons=?, status=?
       WHERE id=?
     `, [
-      value.name, value.nationality||'', value.birth_date||null, value.car_number||null,
+      value.name, value.nationality||'', birthDate, value.car_number||null,
       value.team, value.photo_url||null, value.weight_kg||null, value.height_cm||null,
       value.category||'', value.wins||0, value.podiums||0, value.poles||0,
       value.best_lap||null, value.points||0, value.seasons||0, value.status||'Ativo', id
