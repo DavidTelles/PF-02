@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Septem Racing — Motorsport Management System</title>
+  <link rel="stylesheet" href="../teste/teste.css">
+</head>
+<body class="landing-body">
+
+  <nav class="landing-nav">
+    <span class="landing-nav-brand">Septem Racing</span>
+    
+    <!-- Menu Hambúrguer para Mobile -->
+    <button class="nav-mobile-toggle" aria-label="Abrir menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="landing-nav-links">
+      <a href="#features" class="nav-link-text">Funcionalidades</a>
+      <a href="#sobre" class="nav-link-text">Sobre</a>
+      <a href="./equipe.html" class="nav-link-text">Nossa Equipe</a>
+      <a href="src/pages/login.html" class="nav-link-text">Login</a>
+      <a href="src/pages/cadastro.html" class="btn btn-primary btn-sm">Começar Agora</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <span>●</span> Sistema de Gestão Motorsport
+        </div>
+        <h1 class="hero-title">
+          Septem
+          <span class="line-gold">Racing</span>
+        </h1>
+        <p class="hero-subtitle">
+          Gerencie equipes, carros, corridas e pilotos com uma plataforma moderna e profissional desenvolvida para o mundo do automobilismo.
+        </p>
+        <div class="hero-cta">
+          <a href="src/pages/cadastro.html" class="btn btn-primary">
+            Entrar no Grid
+            <span class="btn-icon" aria-hidden="true">→</span>
+          </a>
+          <a href="src/pages/dashboard.html" class="btn btn-ghost">
+            Ver Dashboard
+            <span class="btn-icon" aria-hidden="true">→</span>
+          </a>
+        </div>
+        
+        <div class="hero-stats">
+          <div class="hero-stat-item">
+            <div class="hero-stat-value" id="statTeams" data-target="7">0</div>
+            <div class="hero-stat-label">Equipes</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-value" id="statCars" data-target="14">0</div>
+            <div class="hero-stat-label">Carros</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-value" id="statRaces" data-target="20">0</div>
+            <div class="hero-stat-label">Corridas</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-value" id="statDrivers" data-target="28">0</div>
+            <div class="hero-stat-label">Pilotos</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-scroll-indicator" aria-hidden="true">
+        <span></span>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="section-header scroll-reveal">
+        <span class="section-eyebrow">Funcionalidades</span>
+        <h2 class="section-title">Tecnologia de <span class="text-gold">ponta</span> na palma da mão</h2>
+      </div>
+      <div class="features-grid">
+        <!-- Feature Cards sem alteração estrutural -->
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon-wrapper">
+            <span class="feature-icon">◈</span>
+          </div>
+          <h3 class="feature-title">Gestão de Carros</h3>
+          <p class="feature-desc">Cadastre e acompanhe todos os veículos da equipe, com especificações técnicas, status e histórico de performance.</p>
+        </div>
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon-wrapper">
+            <span class="feature-icon">◎</span>
+          </div>
+          <h3 class="feature-title">Calendário de Corridas</h3>
+          <p class="feature-desc">Gerencie o calendário de corridas, resultados, tempos de volta e estatísticas em tempo real de cada GP.</p>
+        </div>
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon-wrapper">
+            <span class="feature-icon">◇</span>
+          </div>
+          <h3 class="feature-title">Times e Pilotos</h3>
+          <p class="feature-desc">Organize equipes, atribua pilotos, acompanhe pontuações e monitore o desempenho individual de cada membro.</p>
+        </div>
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon-wrapper">
+            <span class="feature-icon">⬡</span>
+          </div>
+          <h3 class="feature-title">Dashboard Analítico</h3>
+          <p class="feature-desc">Visualize métricas de corrida, tempos por setor, gap para o líder e progresso de corrida em tempo real.</p>
+        </div>
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon-wrapper">
+            <span class="feature-icon">◑</span>
+          </div>
+          <h3 class="feature-title">Mapa do Circuito</h3>
+          <p class="feature-desc">Acompanhe a posição do carro no circuito com um mapa SVG animado e dados de velocidade por setor.</p>
+        </div>
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon-wrapper">
+            <span class="feature-icon">▣</span>
+          </div>
+          <h3 class="feature-title">Relatórios Detalhados</h3>
+          <p class="feature-desc">Gere relatórios completos de performance com gráficos, tabelas e comparativos entre pilotos e equipes.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="preview-section" id="sobre">
+      <div class="preview-inner">
+        <div class="preview-text scroll-reveal fade-left">
+          <span class="section-eyebrow">Dashboard em tempo real</span>
+          <h2 class="section-title">Controle total na sua tela</h2>
+          <p>Acesse dados de corrida em tempo real diretamente do seu navegador. Monitoramento de telemetria, gaps, tempos de volta e muito mais em uma interface intuitiva e responsiva.</p>
+          <a href="src/pages/dashboard.html" class="btn btn-primary">
+            Ver Dashboard
+            <span class="btn-icon" aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div class="preview-mockup scroll-reveal fade-right">
+          <div class="mockup-bar">
+            <div class="mockup-dot"></div>
+            <div class="mockup-dot"></div>
+            <div class="mockup-dot"></div>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-mini-stat">
+              <span>LAST LAP</span>
+              <span class="mockup-value-gold">1:09.814</span>
+            </div>
+            <div class="progress-bar-wrapper">
+               <div class="progress-bar-fill" style="width:75%"></div>
+            </div>
+            
+            <div class="mockup-mini-stat" style="margin-top:24px">
+              <span>RACE PROGRESS</span>
+              <span class="mockup-value">3/20</span>
+            </div>
+            <div class="progress-bar-wrapper">
+               <div class="progress-bar-fill" style="width:15%"></div>
+            </div>
+
+            <div class="mockup-circuit">
+              <svg viewBox="0 0 300 120" preserveAspectRatio="xMidYMid meet">
+                <path class="circuit-bg" d="M40,90 Q40,25 100,25 L200,25 Q260,25 260,60 Q260,90 200,90 Q160,90 160,70 Q160,50 130,50 Q80,50 80,70 Q80,90 40,90 Z"
+                  fill="none" stroke="rgba(212,175,55,0.15)" stroke-width="12" stroke-linecap="round"/>
+                <path class="circuit-track" d="M40,90 Q40,25 100,25 L200,25 Q260,25 260,60 Q260,90 200,90 Q160,90 160,70 Q160,50 130,50 Q80,50 80,70 Q80,90 40,90 Z"
+                  fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round"/>
+                <circle class="circuit-dot" cx="150" cy="25" r="4" fill="#d4af37"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== 
+         SEÇÃO: EQUIPE
+    ============================================== -->
+    <section class="team-section" id="equipe">
+      <div class="team-container">
+        <div class="section-header scroll-reveal">
+          <span class="section-eyebrow">Nossa Equipe</span>
+          <h2 class="section-title">Os <span class="text-gold">Especialistas</span> por Trás da Inovação</h2>
+          <p class="section-subtitle">Uma equipe de profissionais apaixonados por tecnologia e motorsport, dedicados a revolucionar a gestão de equipes de corrida.</p>
+        </div>
+
+        <!-- Team Members Grid -->
+        <div class="team-members-grid">
+          <!-- Member 1 -->
+          <div class="team-member-card scroll-reveal">
+            <div class="member-avatar">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="80" r="35" fill="rgba(212, 175, 55, 0.3)"/>
+                <path d="M50 180 Q50 140 100 140 Q150 140 150 180" fill="rgba(212, 175, 55, 0.2)"/>
+              </svg>
+            </div>
+            <h3 class="member-name">Carlos Mendez</h3>
+            <p class="member-role">CEO & Founder</p>
+            <p class="member-bio">Visionário com 15 anos em tech e automobilismo</p>
+            <div class="member-tags">
+              <span>Liderança</span>
+              <span>Estratégia</span>
+            </div>
+          </div>
+
+          <!-- Member 2 -->
+          <div class="team-member-card scroll-reveal">
+            <div class="member-avatar">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="80" r="35" fill="rgba(212, 175, 55, 0.3)"/>
+                <path d="M50 180 Q50 140 100 140 Q150 140 150 180" fill="rgba(212, 175, 55, 0.2)"/>
+              </svg>
+            </div>
+            <h3 class="member-name">Ana Silva</h3>
+            <p class="member-role">CTO</p>
+            <p class="member-bio">Arquiteta de sistemas com 12 anos de expertise</p>
+            <div class="member-tags">
+              <span>Backend</span>
+              <span>Cloud</span>
+            </div>
+          </div>
+
+          <!-- Member 3 -->
+          <div class="team-member-card scroll-reveal">
+            <div class="member-avatar">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="80" r="35" fill="rgba(212, 175, 55, 0.3)"/>
+                <path d="M50 180 Q50 140 100 140 Q150 140 150 180" fill="rgba(212, 175, 55, 0.2)"/>
+              </svg>
+            </div>
+            <h3 class="member-name">Marina Costa</h3>
+            <p class="member-role">Design Lead</p>
+            <p class="member-bio">Criadora de experiências visuais premiadas</p>
+            <div class="member-tags">
+              <span>UX/UI</span>
+              <span>Design</span>
+            </div>
+          </div>
+
+          <!-- Member 4 -->
+          <div class="team-member-card scroll-reveal">
+            <div class="member-avatar">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="80" r="35" fill="rgba(212, 175, 55, 0.3)"/>
+                <path d="M50 180 Q50 140 100 140 Q150 140 150 180" fill="rgba(212, 175, 55, 0.2)"/>
+              </svg>
+            </div>
+            <h3 class="member-name">Felipe Oliveira</h3>
+            <p class="member-role">Product Manager</p>
+            <p class="member-bio">Ex-F1 engineer com visão de produto</p>
+            <div class="member-tags">
+              <span>Produto</span>
+              <span>Motorsport</span>
+            </div>
+          </div>
+
+          <!-- Member 5 -->
+          <div class="team-member-card scroll-reveal">
+            <div class="member-avatar">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="80" r="35" fill="rgba(212, 175, 55, 0.3)"/>
+                <path d="M50 180 Q50 140 100 140 Q150 140 150 180" fill="rgba(212, 175, 55, 0.2)"/>
+              </svg>
+            </div>
+            <h3 class="member-name">Rafael Santos</h3>
+            <p class="member-role">Frontend Lead</p>
+            <p class="member-bio">Especialista em performance e interações</p>
+            <div class="member-tags">
+              <span>React/Vue</span>
+              <span>Performance</span>
+            </div>
+          </div>
+
+          <!-- Member 6 -->
+          <div class="team-member-card scroll-reveal">
+            <div class="member-avatar">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="80" r="35" fill="rgba(212, 175, 55, 0.3)"/>
+                <path d="M50 180 Q50 140 100 140 Q150 140 150 180" fill="rgba(212, 175, 55, 0.2)"/>
+              </svg>
+            </div>
+            <h3 class="member-name">Lucas Martins</h3>
+            <p class="member-role">DevOps</p>
+            <p class="member-bio">Arquiteto de infraestrutura em nuvem</p>
+            <div class="member-tags">
+              <span>Kubernetes</span>
+              <span>AWS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team CTA -->
+        <div class="team-cta scroll-reveal">
+          <p>Conheça a equipe completa com mais detalhes e histórias</p>
+          <a href="./equipe.html" class="btn btn-gold-outlined">
+            Ver Página Completa
+            <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="cta-inner scroll-reveal">
+          <span class="section-eyebrow">Entre no Grid</span>
+          <h2 class="section-title">Pronto para <span class="text-gold">acelerar</span>?</h2>
+          <p>Crie sua conta gratuitamente e comece a gerenciar sua equipe de corrida hoje.</p>
+          <div class="cta-actions">
+            <a href="src/pages/cadastro.html" class="btn btn-primary">Criar Conta Gratuita</a>
+            <a href="src/pages/login.html" class="btn btn-ghost">Fazer Login</a>
+          </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="landing-footer">
+    <span class="footer-brand">Septem Racing</span>
+    <p>© 2026 Septem Racing. Todos os direitos reservados.</p>
+    <div class="footer-links">
+      <a href="src/pages/faq.html" class="footer-link">FAQ</a>
+      <a href="src/pages/login.html" class="footer-link">Login</a>
+    </div>
+  </footer>
+
+  <script>
+    // --- Animated Counters ---
+    function animateCounter(el) {
+      const target = parseInt(el.getAttribute('data-target'), 10);
+      if (isNaN(target)) return;
+      
+      let start = 0;
+      const duration = 1800;
+      const step = target / (duration / 16);
+      
+      const timer = setInterval(() => {
+        start = Math.min(start + step, target);
+        el.textContent = Math.floor(start);
+        if (start >= target) {
+          clearInterval(timer);
+          el.textContent = target; // Garante o número final exato
+        }
+      }, 16);
+    }
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          document.querySelectorAll('.hero-stat-value').forEach(el => animateCounter(el));
+          statsObserver.disconnect(); // Anima apenas uma vez
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    const statsEl = document.querySelector('.hero-stats');
+    if(statsEl) statsObserver.observe(statsEl);
+
+    // --- Scroll Reveal Animation System ---
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Elemento entra na viewport - adiciona visible e remove hidden
+          entry.target.classList.remove('hidden');
+          entry.target.classList.add('visible');
+        } else {
+          // Elemento sai da viewport - adiciona hidden e remove visible
+          entry.target.classList.remove('visible');
+          entry.target.classList.add('hidden');
+        }
+      });
+    }, { 
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    // Observar todos os elementos com scroll-reveal
+    document.querySelectorAll('.scroll-reveal').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // --- Smooth Scroll for Internal Links ---
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const targetId = a.getAttribute('href');
+        if (targetId === '#') return;
+        const target = document.querySelector(targetId);
+        if(target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // --- Mobile Menu Toggle ---
+    const menuToggle = document.querySelector('.nav-mobile-toggle');
+    const navLinks = document.querySelector('.landing-nav-links');
+    
+    if (menuToggle && navLinks) {
+      menuToggle.addEventListener('click', () => {
+        const isExpanded = navLinks.classList.toggle('is-active');
+        menuToggle.setAttribute('aria-expanded', isExpanded);
+        document.body.classList.toggle('nav-open', isExpanded);
+      });
+
+      // Fecha o menu ao clicar em um link
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('is-active');
+          menuToggle.setAttribute('aria-expanded', 'false');
+          document.body.classList.remove('nav-open');
+        });
+      });
+    }
+
+    // --- Parallax Effect on Scroll ---
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrolled = window.pageYOffset;
+          const heroBg = document.querySelector('.hero-bg');
+          if (heroBg) {
+            heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  </script>
+</body>
+</html>
