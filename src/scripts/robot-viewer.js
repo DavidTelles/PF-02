@@ -110,6 +110,29 @@ function createRobotViewer(container, options = {}) {
       return mesh;
     }
   
+    // ---------- HOTSPOTS ----------
+    // Marca um objeto (e toda a sua subárvore) como pertencente a uma peça
+    // interativa. Um componente pode ser formado por vários meshes — todos
+    // recebem o mesmo hotspotId, então o raycaster sempre resolve para a
+    // mesma peça lógica, não importa em qual mesh individual o raio acertou.
+    const hotspotRegistry = new Map(); // id -> { id, object3d, meshes: [] }
+  
+    function registerHotspot(id, object3d) {
+      if (!hotspotRegistry.has(id)) {
+        hotspotRegistry.set(id, { id, object3d, meshes: [] });
+      }
+      const entry = hotspotRegistry.get(id);
+  
+      object3d.traverse((node) => {
+        if (node.isMesh) {
+          node.userData.hotspotId = id;
+          entry.meshes.push(node);
+        }
+      });
+  
+      return object3d;
+    }
+  
     function wireTube(p0, p1, pmid, radius, color) {
       const curve = new THREE.QuadraticBezierCurve3(p0, pmid, p1);
       const geo = trackGeometry(new THREE.TubeGeometry(curve, 16, radius, 8, false));
@@ -129,16 +152,21 @@ function createRobotViewer(container, options = {}) {
     const car = new THREE.Group();
   
     // ---------- CHASSIS ----------
+    const chassisGroup = new THREE.Group();
+  
     const chassis = box(CH_LEN, CH_THK, CH_WID, 0x9c6b43, 0.85, 0.05);
     chassis.position.set(0, CH_BOTTOM_Y + CH_THK / 2, 0);
     addEdges(chassis, 0.35);
-    car.add(chassis);
+    chassisGroup.add(chassis);
   
     for (let i = -1.8; i <= 1.8; i += 0.45) {
       const grain = box(0.01, 0.002, CH_WID * 0.92, 0x6e4a2c, 0.9, 0);
       grain.position.set(i, CH_TOP_Y + 0.001, 0);
-      car.add(grain);
+      chassisGroup.add(grain);
     }
+  
+    registerHotspot('chassi', chassisGroup);
+    car.add(chassisGroup);
   
     // ---------- WHEELS ----------
     function buildWheel(z) {
@@ -186,7 +214,11 @@ function createRobotViewer(container, options = {}) {
       return g;
     }
   
-    car.add(buildMotor(1), buildMotor(-1));
+    const motorR = buildMotor(1);
+    const motorL = buildMotor(-1);
+    registerHotspot('motor', motorR);
+    registerHotspot('motor', motorL);
+    car.add(motorR, motorL);
   
     // ---------- CASTER ----------
     const casterGroup = new THREE.Group();
@@ -212,32 +244,39 @@ function createRobotViewer(container, options = {}) {
     car.add(casterGroup);
   
     // ---------- BATTERY ----------
+    const batteryGroup = new THREE.Group();
+  
     const battery = box(1.7, 0.42, 0.95, 0x15130f, 0.7, 0.1);
     battery.position.set(-0.6, CH_TOP_Y + 0.21, 0);
     addEdges(battery, 0.4);
-    car.add(battery);
+    batteryGroup.add(battery);
   
     for (let i = -1; i <= 1; i += 2) {
       const capGeo = trackGeometry(new THREE.CylinderGeometry(0.1, 0.1, 0.05, 14));
       const cellCap = new THREE.Mesh(capGeo, mat(0x3a3a26, 0.5, 0.3));
       cellCap.position.set(-0.6 + i * 0.55, CH_TOP_Y + 0.421, 0.32);
-      car.add(cellCap);
+      batteryGroup.add(cellCap);
   
       const cellCap2 = cellCap.clone();
       cellCap2.position.z = -0.32;
-      car.add(cellCap2);
+      batteryGroup.add(cellCap2);
     }
   
-    // ---------- DRIVER BOARD ----------
+    registerHotspot('bateria', batteryGroup);
+    car.add(batteryGroup);
+  
+    // ---------- DRIVER BOARD (PONTE H) ----------
+    const driverBoardGroup = new THREE.Group();
+  
     const pcb = box(1.05, 0.07, 0.85, 0xb5281f, 0.45, 0.15);
     pcb.position.set(0.75, CH_TOP_Y + 0.035, 0.04);
     addEdges(pcb, 0.45);
-    car.add(pcb);
+    driverBoardGroup.add(pcb);
   
     function terminal(x, z) {
       const t = box(0.28, 0.13, 0.18, 0x1f5fa8, 0.4, 0.2);
       t.position.set(x, CH_TOP_Y + 0.135, z);
-      car.add(t);
+      driverBoardGroup.add(t);
     }
   
     terminal(0.35, 0.28);
@@ -245,7 +284,10 @@ function createRobotViewer(container, options = {}) {
   
     const heatsink = box(0.18, 0.12, 0.2, 0x8a8f94, 0.3, 0.6);
     heatsink.position.set(1.1, CH_TOP_Y + 0.13, 0.04);
-    car.add(heatsink);
+    driverBoardGroup.add(heatsink);
+  
+    registerHotspot('ponteh', driverBoardGroup);
+    car.add(driverBoardGroup);
   
     // ---------- WIRES ----------
     car.add(wireTube(
@@ -410,6 +452,152 @@ function createRobotViewer(container, options = {}) {
       autoRotate = Boolean(value);
     }
   
+    // ---------- HOTSPOT HOVER (raycasting) ----------
+    const raycaster = new THREE.Raycaster();
+    const pointerNDC = new THREE.Vector2(-9999, -9999); // fora da tela até o 1º movimento
+    let pointerInsideCanvas = false;
+    let hoveredId = null;
+  
+    function projectPointToScreen(point3d) {
+      const v = point3d.clone().project(camera);
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: rect.left + (v.x * 0.5 + 0.5) * rect.width,
+        y: rect.top + (-v.y * 0.5 + 0.5) * rect.height
+      };
+    }
+  
+    // Guarda o material original de cada mesh para poder restaurar
+    // exatamente o visual anterior ao sair do hover, sem duplicar
+    // a criação de materiais nem perder as variações por peça.
+    const originalMaterials = new Map(); // mesh -> material original
+    const highlightMaterials = new Map(); // mesh -> material de destaque (cacheado)
+  
+    function getHighlightMaterial(mesh) {
+      if (highlightMaterials.has(mesh)) return highlightMaterials.get(mesh);
+  
+      const base = mesh.material;
+      const highlight = trackMaterial(base.clone());
+      highlight.emissive = new THREE.Color(0xd4af37);
+      highlight.emissiveIntensity = 0.85;
+      highlight.color = base.color ? base.color.clone().lerp(new THREE.Color(0xffe9a8), 0.35) : highlight.color;
+  
+      highlightMaterials.set(mesh, highlight);
+      return highlight;
+    }
+  
+    function setHotspotHighlighted(id, highlighted) {
+      const entry = hotspotRegistry.get(id);
+      if (!entry) return;
+  
+      entry.meshes.forEach((mesh) => {
+        if (highlighted) {
+          if (!originalMaterials.has(mesh)) originalMaterials.set(mesh, mesh.material);
+          mesh.material = getHighlightMaterial(mesh);
+        } else if (originalMaterials.has(mesh)) {
+          mesh.material = originalMaterials.get(mesh);
+        }
+      });
+    }
+  
+    let hoverEnterCallback = null;
+    let hoverLeaveCallback = null;
+    let hoverMoveCallback = null;
+  
+    function updateHover(clientX, clientY) {
+      const rect = canvas.getBoundingClientRect();
+      pointerNDC.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+      pointerNDC.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+    }
+  
+    function onPointerMoveHover(e) {
+      pointerInsideCanvas = true;
+      updateHover(e.clientX, e.clientY);
+    }
+  
+    function onPointerLeaveCanvas() {
+      pointerInsideCanvas = false;
+    }
+  
+    function resolveHotspotFromIntersection(object) {
+      let node = object;
+      while (node) {
+        if (node.userData && node.userData.hotspotId) return node.userData.hotspotId;
+        node = node.parent;
+      }
+      return null;
+    }
+  
+    // Centro estável de cada peça (em mundo), usado para ancorar o tooltip.
+    // Usar o centro do componente em vez do ponto exato do raio evita que
+    // o card "trema" seguindo cada pixel do mouse sobre a peça.
+    const hotspotCenterCache = new Map(); // id -> Vector3 (local ao objeto do hotspot)
+  
+    function getHotspotWorldCenter(id) {
+      const entry = hotspotRegistry.get(id);
+      if (!entry) return null;
+  
+      if (!hotspotCenterCache.has(id)) {
+        const box3 = new THREE.Box3().setFromObject(entry.object3d);
+        const localCenter = box3.getCenter(new THREE.Vector3());
+        entry.object3d.worldToLocal(localCenter);
+        hotspotCenterCache.set(id, localCenter);
+      }
+  
+      const center = hotspotCenterCache.get(id).clone();
+      entry.object3d.updateWorldMatrix(true, false);
+      return entry.object3d.localToWorld(center);
+    }
+  
+    function performHoverTest() {
+      // Durante o arraste de câmera, suspende o hover para não competir
+      // visualmente com a rotação e para manter os 60 FPS com folga.
+      if (dragging || !pointerInsideCanvas) {
+        if (hoveredId !== null) {
+          setHotspotHighlighted(hoveredId, false);
+          const prevId = hoveredId;
+          hoveredId = null;
+          canvas.style.cursor = dragging ? 'grabbing' : 'grab';
+          hoverLeaveCallback?.(prevId);
+        }
+        return;
+      }
+  
+      raycaster.setFromCamera(pointerNDC, camera);
+      const intersections = raycaster.intersectObject(car, true);
+  
+      let nextId = null;
+  
+      for (let i = 0; i < intersections.length; i++) {
+        const id = resolveHotspotFromIntersection(intersections[i].object);
+        if (id) {
+          nextId = id;
+          break;
+        }
+      }
+  
+      if (nextId !== hoveredId) {
+        if (hoveredId !== null) {
+          setHotspotHighlighted(hoveredId, false);
+          hoverLeaveCallback?.(hoveredId);
+        }
+        if (nextId !== null) {
+          setHotspotHighlighted(nextId, true);
+          hoverEnterCallback?.(nextId);
+        }
+        hoveredId = nextId;
+        canvas.style.cursor = nextId !== null ? 'pointer' : 'grab';
+      }
+  
+      if (nextId !== null) {
+        const worldCenter = getHotspotWorldCenter(nextId);
+        hoverMoveCallback?.(nextId, projectPointToScreen(worldCenter));
+      }
+    }
+  
+    canvas.addEventListener('pointermove', onPointerMoveHover);
+    canvas.addEventListener('pointerleave', onPointerLeaveCanvas);
+  
     // ---------- RESIZE ----------
     function resize() {
       const w = width();
@@ -435,6 +623,7 @@ function createRobotViewer(container, options = {}) {
       state.radius += (desired.radius - state.radius) * 0.09;
   
       updateCamera();
+      performHoverTest();
       renderer.render(scene, camera);
     }
   
@@ -447,18 +636,30 @@ function createRobotViewer(container, options = {}) {
       scene,
       camera,
       renderer,
+      canvas,
+      car,
       setView,
       resetView,
       setAutoRotate,
+      // Permite que um módulo externo (ex.: tooltip de hotspots) projete
+      // qualquer ponto 3D para coordenadas de tela do container atual.
+      projectToScreen: projectPointToScreen,
+      onHotspotEnter(cb) { hoverEnterCallback = cb; },
+      onHotspotLeave(cb) { hoverLeaveCallback = cb; },
+      onHotspotMove(cb) { hoverMoveCallback = cb; },
       dispose() {
         cancelAnimationFrame(rafId);
   
         canvas.removeEventListener('pointerdown', onPointerDown);
         canvas.removeEventListener('pointermove', onPointerMove);
+        canvas.removeEventListener('pointermove', onPointerMoveHover);
+        canvas.removeEventListener('pointerleave', onPointerLeaveCanvas);
         canvas.removeEventListener('wheel', onWheel);
         window.removeEventListener('pointerup', onPointerUp);
   
         resizeObserver.disconnect();
+  
+        highlightMaterials.forEach((m) => m.dispose?.());
   
         scene.traverse((obj) => {
           if (obj.geometry) obj.geometry.dispose?.();

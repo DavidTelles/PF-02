@@ -202,4 +202,113 @@ section.conquistas { position: relative; z-index: 1; padding: var(--spacing-3xl)
 #robot-viewer{
   width: 100%;
   height: 100%;
+  position: relative;
+}
+
+/* ==============================================
+   HOTSPOTS INTERATIVOS — Tooltip do carrinho 3D
+   Glassmorphism dourado, consistente com o
+   restante da identidade Dark Luxury Motorsport.
+============================================== */
+.hotspot-tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: max-content;
+  max-width: 280px;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  background: rgba(17, 17, 17, 0.62);
+  border: 1px solid var(--border-gold);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  opacity: 0;
+  pointer-events: none;
+  --hotspot-x: 0px;
+  --hotspot-y: 0px;
+  --hotspot-scale: 0.94;
+  transform: translate(var(--hotspot-x), var(--hotspot-y)) scale(var(--hotspot-scale));
+  transform-origin: top left;
+  transition:
+    opacity 0.28s var(--ease-out-expo),
+    transform 0.28s var(--ease-out-expo);
+  will-change: transform, opacity;
+}
+
+.hotspot-tooltip.is-visible {
+  opacity: 1;
+  --hotspot-scale: 1;
+}
+
+.hotspot-tooltip__icon,
+.hotspot-tooltip__body {
+  transition: opacity 0.2s var(--ease-out-expo);
+}
+
+.hotspot-tooltip__icon {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: rgba(201, 160, 48, 0.12);
+  border: 1px solid rgba(201, 160, 48, 0.25);
+  color: var(--gold-bright);
+}
+
+.hotspot-tooltip__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.hotspot-tooltip__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.hotspot-tooltip__name {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.hotspot-tooltip__desc {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .hotspot-tooltip {
+    max-width: 220px;
+    padding: 12px 14px;
+    gap: 10px;
+  }
+  .hotspot-tooltip__desc {
+    font-size: 11.5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hotspot-tooltip {
+    --hotspot-scale: 1;
+    transition: opacity 0.15s linear;
+  }
 }

@@ -648,11 +648,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <script src="src/scripts/robot-viewer.js"></script>
-  
+  <script src="src/scripts/hotspot-tooltip.js"></script>
+
   <script>
-  createRobotViewer(
-      document.getElementById("robot-viewer")
-  );
+  const robotViewerEl = document.getElementById("robot-viewer");
+  const robotViewer = createRobotViewer(robotViewerEl);
+  createHotspotTooltip(robotViewerEl, robotViewer);
   </script>
 </body>
 
