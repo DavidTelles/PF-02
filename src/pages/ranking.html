@@ -18,9 +18,7 @@
     .tab-btn{background:var(--surface-3);border:1px solid var(--border);color:var(--text-muted);padding:7px 16px;border-radius:var(--radius-sm);cursor:pointer;font-size:12px;transition:all .2s;font-family:var(--font-body)}
     .tab-btn.active{background:var(--gold-glow);border-color:var(--border-gold);color:var(--gold)}
     .runner-photo-sm{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border-gold)}
-    #toast-container{position:fixed;bottom:24px;right:24px;z-index:10000;display:flex;flex-direction:column;gap:10px}
-    .toast{background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 18px;font-size:13px;display:flex;align-items:center;gap:10px}
-    .toast.success{border-color:rgba(34,197,94,.4)}.toast.error{border-color:rgba(239,68,68,.4)}
+    /* Toast: estilos centralizados em style.css (.toast-container / .toast) */
     @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
   </style>
 </head>
@@ -99,9 +97,10 @@
     </div>
   </main>
 </div>
-<div id="toast-container"></div>
+<div id="toast-container" class="toast-container"></div>
 
 <script src="../scripts/auth.js"></script>
+<script src="../scripts/toast.js"></script>
 <script>
 const API = 'http://localhost:3002';
 checkAuth();
@@ -185,12 +184,7 @@ function renderPodium() {
 }
 
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function toast(msg,type='success'){
-  const c=document.getElementById('toast-container');
-  const t=document.createElement('div'); t.className=`toast ${type}`;
-  t.innerHTML=`<span>${type==='success'?'✓':'⚠'}</span> ${esc(msg)}`;
-  c.appendChild(t); setTimeout(()=>t.style.opacity='0',3000); setTimeout(()=>t.remove(),3400);
-}
+// toast(): implementação centralizada em scripts/toast.js
 
 document.getElementById('sidebarToggle').addEventListener('click',()=>{
   document.getElementById('sidebar').classList.toggle('mobile-open');

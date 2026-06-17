@@ -992,6 +992,172 @@ tbody td.td-gold {
 }
 
 /* ==============================================
+    TOAST NOTIFICATIONS
+    Componente único, reutilizado em todas as páginas
+    (login, cadastro, dashboard, corredores, ranking, estatísticas)
+============================================== */
+.toast-container {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+  max-width: min(380px, calc(100vw - 32px));
+}
+
+.toast {
+  --toast-accent: var(--gold);
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 260px;
+  max-width: 100%;
+  padding: 14px 18px 14px 16px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  pointer-events: auto;
+
+  /* Glassmorphism */
+  background: rgba(22, 22, 22, 0.72);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.45),
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  line-height: 1.45;
+
+  animation: toast-in 0.38s var(--ease-out) forwards;
+}
+
+.toast.toast-leaving {
+  animation: toast-out 0.32s ease forwards;
+}
+
+/* Barra vertical de status, ocupando toda a altura do badge */
+.toast::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--toast-accent);
+  box-shadow: 0 0 12px var(--toast-accent);
+}
+
+.toast .toast-icon {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--toast-accent);
+}
+
+.toast .toast-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.toast .toast-message {
+  flex: 1 1 auto;
+  padding-top: 1px;
+  word-break: break-word;
+}
+
+.toast .toast-close {
+  flex: 0 0 auto;
+  background: none;
+  border: none;
+  padding: 2px;
+  margin: -2px -2px 0 0;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 0;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.toast .toast-close:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.toast .toast-close svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+/* Variações por tipo */
+.toast.success {
+  --toast-accent: var(--green);
+}
+
+.toast.error {
+  --toast-accent: var(--red);
+}
+
+.toast.warning {
+  --toast-accent: var(--orange);
+}
+
+.toast.info {
+  --toast-accent: var(--blue);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(36px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    max-height: 100px;
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(36px) scale(0.96);
+  }
+}
+
+@media (max-width: 560px) {
+  .toast-container {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: none;
+  }
+
+  .toast {
+    min-width: 0;
+  }
+}
+
+/* ==============================================
     EMPTY PAGES PLACEHOLDER
 ============================================== */
 .empty-page {
