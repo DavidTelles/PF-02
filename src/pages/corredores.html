@@ -31,11 +31,7 @@
     .confirm-modal{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;width:400px;max-width:95vw;text-align:center}
     .confirm-modal h3{font-family:var(--font-display);font-size:18px;margin-bottom:10px}
     .confirm-modal p{color:var(--text-secondary);font-size:13px;margin-bottom:22px}
-    #toast-container{position:fixed;bottom:24px;right:24px;z-index:10000;display:flex;flex-direction:column;gap:10px}
-    .toast{background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 18px;font-size:13px;min-width:220px;animation:slideInRight .3s var(--ease);display:flex;align-items:center;gap:10px}
-    .toast.success{border-color:rgba(34,197,94,.4)}
-    .toast.error{border-color:rgba(239,68,68,.4)}
-    .toast .toast-icon{font-size:16px}
+    /* Toast: estilos centralizados em style.css (.toast-container / .toast) */
     .skeleton{background:linear-gradient(90deg,var(--surface-3) 25%,var(--surface-4) 50%,var(--surface-3) 75%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:4px;height:16px}
     @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
     @keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -249,9 +245,10 @@
   </div>
 </div>
 
-<div id="toast-container"></div>
+<div id="toast-container" class="toast-container"></div>
 
 <script src="../scripts/auth.js"></script>
+<script src="../scripts/toast.js"></script>
 <script>
   const API = 'http://localhost:3002';
   let allRunners = [];
@@ -326,15 +323,7 @@
     return `<span class="badge" style="background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.3);font-size:10px">Inativo</span>`;
   }
 
-  function toast(msg, type = 'success') {
-    const c = document.getElementById('toast-container');
-    const t = document.createElement('div');
-    t.className = `toast ${type}`;
-    t.innerHTML = `<span class="toast-icon">${type === 'success' ? '✓' : '⚠'}</span> ${esc(msg)}`;
-    c.appendChild(t);
-    setTimeout(() => t.style.opacity = '0', 3000);
-    setTimeout(() => t.remove(), 3400);
-  }
+  // toast(): implementação centralizada em scripts/toast.js
 
   function updateStats() {
     const ativos = allRunners.filter(r => r.status === 'Ativo').length;

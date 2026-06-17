@@ -68,6 +68,7 @@
 
   <div class="toast-container" id="toastContainer"></div>
 
+  <script src="../scripts/toast.js"></script>
   <script>
     // Se já estiver logado com token válido, redireciona direto ao dashboard
     (function () {
@@ -84,15 +85,6 @@
         }
       }
     })();
-
-    function showToast(msg, type = 'success') {
-      const c = document.getElementById('toastContainer');
-      const t = document.createElement('div');
-      t.className = `toast ${type}`;
-      t.innerHTML = `<span>${type === 'success' ? '✓' : '✕'}</span> ${msg}`;
-      c.appendChild(t);
-      setTimeout(() => t.remove(), 3800);
-    }
 
     document.getElementById('loginForm').addEventListener('submit', async e => {
       e.preventDefault();
