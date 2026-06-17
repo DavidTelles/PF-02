@@ -25,6 +25,7 @@
       <a class="nav-link-text" href="#features">Funcionalidades</a>
       <a class="nav-link-text" href="#sobre">Sobre</a>
       <a class="nav-link-text" href="#identidade">Nossa Equipe</a>
+      <a class="nav-link-text" href="#carro">Nosso Carro</a>
       <a class="nav-link-text" href="src/pages/login.html">Login</a>
       <a class="btn btn-primary btn-sm" href="src/pages/cadastro.html">Começar Agora</a>
     </div>
@@ -223,7 +224,7 @@
           </div>
           <!-- Logo -->
           <div class="identidade-item scroll-reveal">
-            <div class="identidade-visual"><img src="img/septem.jpeg"
+            <div class="identidade-visual"><img src="img/septem.png"
                 style="width:100%;max-width:280px;height:auto;object-fit:contain;display:block;margin:auto;" /></div>
             <div class="identidade-info">
               <h3>Logotipo Institucional</h3>
@@ -232,32 +233,6 @@
                 <li>Cor Primária: Ouro (#d4af37)</li>
                 <li>Cor Secundária: Preto (#050505)</li>
                 <li>Versão: Horizontal e vertical</li>
-              </ul>
-            </div>
-          </div>
-          <!-- Cores -->
-          <div class="identidade-item scroll-reveal">
-            <div class="identidade-visual color-palette">
-              <div class="color-swatch primary">
-                <span class="label">#050505</span>
-              </div>
-              <div class="color-swatch gold">
-                <span class="label">#d4af37</span>
-              </div>
-              <div class="color-swatch accent">
-                <span class="label">#f0ede6</span>
-              </div>
-              <div class="color-swatch dark">
-                <span class="label">#0f0f0f</span>
-              </div>
-            </div>
-            <div class="identidade-info">
-              <h3>Paleta de Cores</h3>
-              <p>Combinação de preto profundo com ouro luxuoso para transmitir poder e elegância.</p>
-              <ul class="specs">
-                <li>Primária: Preto Deep</li>
-                <li>Acentuação: Ouro Institucional</li>
-                <li>Complementar: Creme claro</li>
               </ul>
             </div>
           </div>
@@ -401,15 +376,12 @@
           <div class="member-card scroll-reveal">
             <div class="member-avatar">
               <div class="avatar-placeholder">
-                <img
-                  alt="Vitão"
-                  src="img/vitao.jpeg"
-                  style="width:100%;height:100%;object-fit:cover;object-position:center top;transform:scale(0.80);border-radius:50%;"
-                />
+                <img alt="Vitão" src="img/vitao.jpeg"
+                  style="width:100%;height:100%;object-fit:cover;object-position:center top;transform:scale(0.80);border-radius:50%;" />
               </div>
               <div class="member-role-badge">Automotive Engineer</div>
             </div>
-          
+
             <div class="member-info">
               <h3 class="member-name">Vitão</h3>
               <p class="member-title">Automotive Engineer</p>
@@ -417,20 +389,20 @@
                 Responsável pelo desenvolvimento, otimização e análise estrutural do veículo,
                 garantindo desempenho, segurança e eficiência em todas as etapas do projeto.
               </p>
-          
+
               <div class="member-skills">
                 <span class="skill-tag">CAD Design</span>
                 <span class="skill-tag">Vehicle Dynamics</span>
                 <span class="skill-tag">Structural Analysis</span>
               </div>
-          
+
               <div class="member-contact">
                 <span class="contact-item">São Paulo, BR</span>
                 <span class="contact-item">Equipe Septem Racing</span>
               </div>
             </div>
           </div>
-      </div>
+        </div>
     </section>
     <!-- ============================================== 
          ESTATÍSTICAS E CONQUISTAS
@@ -525,6 +497,23 @@
             <div class="stat-value">24/7</div>
             <div class="stat-label">Suporte Técnico</div>
             <p class="stat-desc">Equipe de especialistas sempre disponível</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="carro-section" id="carro">
+      <div class="container">
+
+        <div class="section-header scroll-reveal">
+          <span class="section-eyebrow">Protótipo</span>
+          <h2 class="section-title">
+            Conheça nosso
+            <span class="text-gold">Robô</span>
+          </h2>
+        </div>
+        <div class="carro-content">
+          <div class="carro-viewer scroll-reveal fade-right">
+            <div id="robot-viewer"></div>
           </div>
         </div>
       </div>
@@ -655,6 +644,15 @@
         ticking = true;
       }
     });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script src="src/scripts/robot-viewer.js"></script>
+  
+  <script>
+  createRobotViewer(
+      document.getElementById("robot-viewer")
+  );
   </script>
 </body>
 
