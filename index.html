@@ -4,199 +4,716 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Septem Racing — Motorsport Management System</title>
-  <link rel="stylesheet" href="src/styles/style.css">
+  <link rel="stylesheet" href="index.css">
 </head>
 <body class="landing-body">
 
-  <!-- NAV -->
   <nav class="landing-nav">
     <span class="landing-nav-brand">Septem Racing</span>
+    
+    <!-- Menu Hambúrguer para Mobile -->
+    <button class="nav-mobile-toggle" aria-label="Abrir menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
     <div class="landing-nav-links">
       <a href="#features" class="nav-link-text">Funcionalidades</a>
       <a href="#sobre" class="nav-link-text">Sobre</a>
+      <a href="#identidade" class="nav-link-text">Nossa Equipe</a>
       <a href="src/pages/login.html" class="nav-link-text">Login</a>
-      <a href="src/pages/cadastro.html" class="cta-btn btn">Começar Agora</a>
+      <a href="src/pages/cadastro.html" class="btn btn-primary btn-sm">Começar Agora</a>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-content">
-      <div class="hero-eyebrow">
-        <span>●</span> Sistema de Gestão Motorsport
-      </div>
-      <h1 class="hero-title">
-        Septem
-        <span class="line-gold">Racing</span>
-      </h1>
-      <p class="hero-subtitle">
-        Gerencie equipes, carros, corridas e pilotos com uma plataforma moderna e profissional desenvolvida para o mundo do automobilismo.
-      </p>
-      <div class="hero-cta">
-        <a href="src/pages/cadastro.html" class="btn btn-primary" style="padding:13px 32px;font-size:14px">
-          Entrar no Grid
-        </a>
-        <a href="src/pages/dashboard.html" class="btn btn-ghost" style="padding:13px 32px;font-size:14px">
-          Ver Dashboard
-        </a>
-      </div>
-      <div class="hero-stats">
-        <div class="hero-stat-item">
-          <div class="hero-stat-value" id="statTeams">0</div>
-          <div class="hero-stat-label">Equipes</div>
+  <main>
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <span>●</span> Sistema de Gestão Motorsport
         </div>
-        <div class="hero-stat-item">
-          <div class="hero-stat-value" id="statCars">0</div>
-          <div class="hero-stat-label">Carros</div>
+        <h1 class="hero-title">
+          Septem
+          <span class="line-gold">Racing</span>
+        </h1>
+        <p class="hero-subtitle">
+          Gerencie equipes, carros, corridas e pilotos com uma plataforma moderna e profissional desenvolvida para o mundo do automobilismo.
+        </p>
+        <div class="hero-cta">
+          <a href="src/pages/cadastro.html" class="btn btn-primary">
+            Entrar no Grid
+            <span class="btn-icon" aria-hidden="true">→</span>
+          </a>
+          <a href="src/pages/dashboard.html" class="btn btn-ghost">
+            Ver Dashboard
+            <span class="btn-icon" aria-hidden="true">→</span>
+          </a>
         </div>
-        <div class="hero-stat-item">
-          <div class="hero-stat-value" id="statRaces">0</div>
-          <div class="hero-stat-label">Corridas</div>
-        </div>
-        <div class="hero-stat-item">
-          <div class="hero-stat-value" id="statDrivers">0</div>
-          <div class="hero-stat-label">Pilotos</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURES -->
-  <section class="features" id="features">
-    <div class="section-header">
-      <span class="section-eyebrow">Funcionalidades</span>
-      <h2 class="section-title">Tudo que você precisa</h2>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">◈</div>
-        <h3 class="feature-title">Gestão de Carros</h3>
-        <p class="feature-desc">Cadastre e acompanhe todos os veículos da equipe, com especificações técnicas, status e histórico de performance.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">◎</div>
-        <h3 class="feature-title">Calendário de Corridas</h3>
-        <p class="feature-desc">Gerencie o calendário de corridas, resultados, tempos de volta e estatísticas em tempo real de cada GP.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">◇</div>
-        <h3 class="feature-title">Times e Pilotos</h3>
-        <p class="feature-desc">Organize equipes, atribua pilotos, acompanhe pontuações e monitore o desempenho individual de cada membro.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">⬡</div>
-        <h3 class="feature-title">Dashboard Analítico</h3>
-        <p class="feature-desc">Visualize métricas de corrida, tempos por setor, gap para o líder e progresso de corrida em tempo real.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">◑</div>
-        <h3 class="feature-title">Mapa do Circuito</h3>
-        <p class="feature-desc">Acompanhe a posição do carro no circuito com um mapa SVG animado e dados de velocidade por setor.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">▣</div>
-        <h3 class="feature-title">Relatórios Detalhados</h3>
-        <p class="feature-desc">Gere relatórios completos de performance com gráficos, tabelas e comparativos entre pilotos e equipes.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- PREVIEW -->
-  <section class="preview-section" id="sobre">
-    <div class="preview-inner">
-      <div class="preview-text">
-        <span class="section-eyebrow">Dashboard em tempo real</span>
-        <h2 class="section-title">Controle total na sua tela</h2>
-        <p>Acesse dados de corrida em tempo real diretamente do seu navegador. Monitoramento de telemetria, gaps, tempos de volta e muito mais em uma interface intuitiva e responsiva.</p>
-        <a href="src/pages/dashboard.html" class="btn btn-primary" style="display:inline-flex">
-          Ver Dashboard →
-        </a>
-      </div>
-      <div class="preview-mockup">
-        <div class="mockup-bar">
-          <div class="mockup-dot"></div>
-          <div class="mockup-dot"></div>
-          <div class="mockup-dot"></div>
-        </div>
-        <div class="mockup-body">
-          <div class="mockup-mini-stat">
-            <span style="font-size:10px;color:var(--text-muted);letter-spacing:2px">LAST LAP</span>
-            <span style="font-family:var(--font-display);color:var(--gold);font-size:16px;font-weight:700">1:09.814</span>
+        
+        <div class="hero-stats">
+          <div class="hero-stat-item">
+            <div class="hero-stat-value" id="statTeams" data-target="7">0</div>
+            <div class="hero-stat-label">Equipes</div>
           </div>
-          <div class="mockup-mini-bar"><div class="mockup-mini-bar-fill" style="width:75%"></div></div>
-          <div class="mockup-mini-stat" style="margin-top:12px">
-            <span style="font-size:10px;color:var(--text-muted);letter-spacing:2px">RACE PROGRESS</span>
-            <span style="font-family:var(--font-display);color:var(--text-primary);font-size:16px;font-weight:700">3/20</span>
+          <div class="hero-stat-item">
+            <div class="hero-stat-value" id="statCars" data-target="14">0</div>
+            <div class="hero-stat-label">Carros</div>
           </div>
-          <div class="mockup-mini-bar"><div class="mockup-mini-bar-fill" style="width:15%"></div></div>
-          <div style="margin-top:16px;background:var(--surface-3);border-radius:8px;padding:12px;border:1px solid var(--border)">
-            <svg viewBox="0 0 300 120" style="width:100%;height:80px">
-              <path d="M40,90 Q40,25 100,25 L200,25 Q260,25 260,60 Q260,90 200,90 Q160,90 160,70 Q160,50 130,50 Q80,50 80,70 Q80,90 40,90 Z"
-                fill="none" stroke="rgba(212,175,55,0.15)" stroke-width="12" stroke-linecap="round"/>
-              <path d="M40,90 Q40,25 100,25 L200,25 Q260,25 260,60 Q260,90 200,90 Q160,90 160,70 Q160,50 130,50 Q80,50 80,70 Q80,90 40,90 Z"
-                fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" opacity="0.8"
-                stroke-dasharray="800" stroke-dashoffset="0"/>
-              <circle cx="150" cy="25" r="4" fill="#d4af37"/>
-            </svg>
+          <div class="hero-stat-item">
+            <div class="hero-stat-value" id="statRaces" data-target="20">0</div>
+            <div class="hero-stat-label">Corridas</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-value" id="statDrivers" data-target="28">0</div>
+            <div class="hero-stat-label">Pilotos</div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+      <div class="hero-scroll-indicator" aria-hidden="true">
+        <span></span>
+      </div>
+    </section>
 
-  <!-- CTA -->
-  <section class="cta-section">
-    <span class="section-eyebrow">Entre no Grid</span>
-    <h2 class="section-title">Pronto para acelerar?</h2>
-    <p>Crie sua conta gratuitamente e comece a gerenciar sua equipe de corrida hoje.</p>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-      <a href="src/pages/cadastro.html" class="btn btn-primary" style="padding:13px 36px;font-size:14px">Criar Conta Gratuita</a>
-      <a href="src/pages/login.html"    class="btn btn-ghost"   style="padding:13px 36px;font-size:14px">Fazer Login</a>
-    </div>
-  </section>
+    <section class="features" id="features">
+      <div class="section-header scroll-reveal">
+        <span class="section-eyebrow">Funcionalidades</span>
+        <h2 class="section-title">Tecnologia de <span class="text-gold">ponta</span> na palma da mão</h2>
+      </div>
+      <div class="features-grid">
+        <!-- Feature Cards sem alteração estrutural -->
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon-wrapper">
+            <span class="feature-icon">◈</span>
+          </div>
+          <h3 class="feature-title">Gestão de Carros</h3>
+          <p class="feature-desc">Cadastre e acompanhe todos os veículos da equipe, com especificações técnicas, status e histórico de performance.</p>
+        </div>
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon-wrapper">
+            <span class="feature-icon">◎</span>
+          </div>
+          <h3 class="feature-title">Calendário de Corridas</h3>
+          <p class="feature-desc">Gerencie o calendário de corridas, resultados, tempos de volta e estatísticas em tempo real de cada GP.</p>
+        </div>
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon-wrapper">
+            <span class="feature-icon">◇</span>
+          </div>
+          <h3 class="feature-title">Times e Pilotos</h3>
+          <p class="feature-desc">Organize equipes, atribua pilotos, acompanhe pontuações e monitore o desempenho individual de cada membro.</p>
+        </div>
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon-wrapper">
+            <span class="feature-icon">⬡</span>
+          </div>
+          <h3 class="feature-title">Dashboard Analítico</h3>
+          <p class="feature-desc">Visualize métricas de corrida, tempos por setor, gap para o líder e progresso de corrida em tempo real.</p>
+        </div>
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon-wrapper">
+            <span class="feature-icon">◑</span>
+          </div>
+          <h3 class="feature-title">Mapa do Circuito</h3>
+          <p class="feature-desc">Acompanhe a posição do carro no circuito com um mapa SVG animado e dados de velocidade por setor.</p>
+        </div>
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon-wrapper">
+            <span class="feature-icon">▣</span>
+          </div>
+          <h3 class="feature-title">Relatórios Detalhados</h3>
+          <p class="feature-desc">Gere relatórios completos de performance com gráficos, tabelas e comparativos entre pilotos e equipes.</p>
+        </div>
+      </div>
+    </section>
 
-  <!-- FOOTER -->
+    <section class="preview-section" id="sobre">
+      <div class="preview-inner">
+        <div class="preview-text scroll-reveal fade-left">
+          <span class="section-eyebrow">Dashboard em tempo real</span>
+          <h2 class="section-title">Controle total na sua tela</h2>
+          <p>Acesse dados de corrida em tempo real diretamente do seu navegador. Monitoramento de telemetria, gaps, tempos de volta e muito mais em uma interface intuitiva e responsiva.</p>
+          <a href="src/pages/dashboard.html" class="btn btn-primary">
+            Ver Dashboard
+            <span class="btn-icon" aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div class="preview-mockup scroll-reveal fade-right">
+          <div class="mockup-bar">
+            <div class="mockup-dot"></div>
+            <div class="mockup-dot"></div>
+            <div class="mockup-dot"></div>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-mini-stat">
+              <span>LAST LAP</span>
+              <span class="mockup-value-gold">1:09.814</span>
+            </div>
+            <div class="progress-bar-wrapper">
+               <div class="progress-bar-fill" style="width:75%"></div>
+            </div>
+            
+            <div class="mockup-mini-stat" style="margin-top:24px">
+              <span>RACE PROGRESS</span>
+              <span class="mockup-value">3/20</span>
+            </div>
+            <div class="progress-bar-wrapper">
+               <div class="progress-bar-fill" style="width:15%"></div>
+            </div>
+
+            <div class="mockup-circuit">
+              <svg viewBox="0 0 300 120" preserveAspectRatio="xMidYMid meet">
+                <path class="circuit-bg" d="M40,90 Q40,25 100,25 L200,25 Q260,25 260,60 Q260,90 200,90 Q160,90 160,70 Q160,50 130,50 Q80,50 80,70 Q80,90 40,90 Z"
+                  fill="none" stroke="rgba(212,175,55,0.15)" stroke-width="12" stroke-linecap="round"/>
+                <path class="circuit-track" d="M40,90 Q40,25 100,25 L200,25 Q260,25 260,60 Q260,90 200,90 Q160,90 160,70 Q160,50 130,50 Q80,50 80,70 Q80,90 40,90 Z"
+                  fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round"/>
+                <circle class="circuit-dot" cx="150" cy="25" r="4" fill="#d4af37"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== 
+         IDENTIDADE VISUAL
+    ============================================== -->
+    <section class="identidade" id="identidade">
+      <div class="container">
+        <div class="section-header scroll-reveal">
+          <span class="section-eyebrow">Visual Identity</span>
+          <h2 class="section-title">Uniforme, Equipamentos e <span class="text-gold">Identidade</span></h2>
+        </div>
+
+        <div class="identidade-grid">
+          <!-- Uniforme -->
+          <div class="identidade-item scroll-reveal">
+            <div class="identidade-visual">
+              <div class="placeholder-uniform">
+                <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="uniformGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#050505;stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:1" />
+                    </linearGradient>
+                  </defs>
+                  <!-- Body -->
+                  <ellipse cx="150" cy="140" rx="60" ry="80" fill="url(#uniformGrad)" stroke="rgba(212, 175, 55, 0.4)" stroke-width="1.5"/>
+                  <!-- Sleeves -->
+                  <rect x="90" y="90" width="40" height="60" rx="5" fill="url(#uniformGrad)" stroke="rgba(212, 175, 55, 0.4)" stroke-width="1.5"/>
+                  <rect x="170" y="90" width="40" height="60" rx="5" fill="url(#uniformGrad)" stroke="rgba(212, 175, 55, 0.4)" stroke-width="1.5"/>
+                  <!-- Collar -->
+                  <circle cx="150" cy="65" r="20" fill="none" stroke="rgba(212, 175, 55, 0.6)" stroke-width="2"/>
+                  <!-- Logo -->
+                  <text x="150" y="145" text-anchor="middle" dy="0.3em" fill="rgba(212, 175, 55, 0.7)" font-size="24" font-weight="bold">⚡</text>
+                </svg>
+              </div>
+            </div>
+            <div class="identidade-info">
+              <h3>Uniforme Oficial</h3>
+              <p>Preto premium com detalhes em ouro. Desenvolvido para máximo conforto e visibilidade profissional em pistas.</p>
+              <ul class="specs">
+                <li>Material: Poliéster respirável 92%</li>
+                <li>Tecnologia: Anti-suor e anti-fade</li>
+                <li>Ajuste: Unissex ergonômico</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Capacete -->
+          <div class="identidade-item scroll-reveal">
+            <div class="identidade-visual">
+              <div class="placeholder-helmet">
+                <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Helmet Shell -->
+                  <path d="M100 80 Q100 60 150 60 Q200 60 200 80 L200 160 Q200 180 150 190 Q100 180 100 160 Z" fill="none" stroke="rgba(212, 175, 55, 0.6)" stroke-width="2"/>
+                  <!-- Visor -->
+                  <rect x="110" y="100" width="80" height="40" rx="5" fill="rgba(212, 175, 55, 0.2)" stroke="rgba(212, 175, 55, 0.4)" stroke-width="1.5"/>
+                  <!-- Racing stripe -->
+                  <line x1="150" y1="60" x2="150" y2="190" stroke="rgba(212, 175, 55, 0.8)" stroke-width="3"/>
+                  <!-- Chin bar -->
+                  <path d="M120 160 L120 180 L180 180 L180 160" fill="none" stroke="rgba(212, 175, 55, 0.5)" stroke-width="2"/>
+                  <text x="150" y="210" text-anchor="middle" fill="rgba(212, 175, 55, 0.5)" font-size="16" font-weight="bold">SR-24</text>
+                </svg>
+              </div>
+            </div>
+            <div class="identidade-info">
+              <h3>Capacete Oficial</h3>
+              <p>Design aerodinâmico certificado FIA com padrão de segurança internacional de ponta.</p>
+              <ul class="specs">
+                <li>Certificação: FIA 8860-2018</li>
+                <li>Peso: 1.2 kg</li>
+                <li>Pintura: Acrílica automotiva</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Logo -->
+          <div class="identidade-item scroll-reveal">
+            <div class="identidade-visual">
+              <div class="placeholder-logo">
+                <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Circle background -->
+                  <circle cx="150" cy="150" r="120" fill="none" stroke="rgba(212, 175, 55, 0.3)" stroke-width="2"/>
+                  <!-- Inner circle -->
+                  <circle cx="150" cy="150" r="100" fill="none" stroke="rgba(212, 175, 55, 0.5)" stroke-width="1.5"/>
+                  <!-- Lightning -->
+                  <path d="M150 60 L160 110 L140 110 L150 180 L120 140 L140 140 Z" fill="rgba(212, 175, 55, 0.8)" stroke="rgba(212, 175, 55, 0.3)" stroke-width="1"/>
+                  <!-- Text -->
+                  <text x="150" y="240" text-anchor="middle" fill="rgba(212, 175, 55, 0.6)" font-size="20" font-weight="bold" letter-spacing="2">SEPTEM RACING</text>
+                </svg>
+              </div>
+            </div>
+            <div class="identidade-info">
+              <h3>Logotipo Institucional</h3>
+              <p>Símbolo de raio representa velocidade, energia e inovação que definem nossa marca.</p>
+              <ul class="specs">
+                <li>Cor Primária: Ouro (#d4af37)</li>
+                <li>Cor Secundária: Preto (#050505)</li>
+                <li>Versão: Horizontal e vertical</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Cores -->
+          <div class="identidade-item scroll-reveal">
+            <div class="identidade-visual color-palette">
+              <div class="color-swatch primary">
+                <span class="label">#050505</span>
+              </div>
+              <div class="color-swatch gold">
+                <span class="label">#d4af37</span>
+              </div>
+              <div class="color-swatch accent">
+                <span class="label">#f0ede6</span>
+              </div>
+              <div class="color-swatch dark">
+                <span class="label">#0f0f0f</span>
+              </div>
+            </div>
+            <div class="identidade-info">
+              <h3>Paleta de Cores</h3>
+              <p>Combinação de preto profundo com ouro luxuoso para transmitir poder e elegância.</p>
+              <ul class="specs">
+                <li>Primária: Preto Deep</li>
+                <li>Acentuação: Ouro Institucional</li>
+                <li>Complementar: Creme claro</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== 
+         GALERIA DE MEMBROS
+    ============================================== -->
+    <section class="membros" id="membros">
+      <div class="container">
+        <div class="section-header scroll-reveal">
+          <span class="section-eyebrow">Profissionais</span>
+          <h2 class="section-title">Conheça a <span class="text-gold">Equipe</span></h2>
+        </div>
+
+        <div class="membros-grid">
+          <!-- Membro 1 -->
+          <div class="member-card scroll-reveal">
+            <div class="member-avatar">
+              <div class="avatar-placeholder">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="100" cy="80" r="35" fill="rgba(212, 175, 55, 0.3)"/>
+                  <path d="M50 180 Q50 140 100 140 Q150 140 150 180" fill="rgba(212, 175, 55, 0.2)"/>
+                </svg>
+              </div>
+              <div class="member-role-badge">CEO & Founder</div>
+            </div>
+            <div class="member-info">
+              <h3 class="member-name">Carlos Mendez</h3>
+              <p class="member-title">Chief Executive Officer</p>
+              <p class="member-desc">
+                Visionário e empreendedor apaixonado por motorsport. Lidera estratégia global com mais de 15 anos de experiência em tecnologia e negócios automotivos.
+              </p>
+              <div class="member-skills">
+                <span class="skill-tag">Liderança</span>
+                <span class="skill-tag">Estratégia</span>
+                <span class="skill-tag">Inovação</span>
+              </div>
+              <div class="member-contact">
+                <span class="contact-item">São Paulo, BR</span>
+                <span class="contact-item">Desde 2018</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Membro 2 -->
+          <div class="member-card scroll-reveal">
+            <div class="member-avatar">
+              <div class="avatar-placeholder">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="100" cy="80" r="35" fill="rgba(212, 175, 55, 0.3)"/>
+                  <path d="M50 180 Q50 140 100 140 Q150 140 150 180" fill="rgba(212, 175, 55, 0.2)"/>
+                </svg>
+              </div>
+              <div class="member-role-badge">CTO</div>
+            </div>
+            <div class="member-info">
+              <h3 class="member-name">Ana Silva</h3>
+              <p class="member-title">Chief Technology Officer</p>
+              <p class="member-desc">
+                Arquiteta de sistemas distribuídos. Especialista em cloud computing e segurança de dados com 12 anos em desenvolvimento de plataformas enterprise.
+              </p>
+              <div class="member-skills">
+                <span class="skill-tag">Backend</span>
+                <span class="skill-tag">Cloud</span>
+                <span class="skill-tag">Arquitetura</span>
+              </div>
+              <div class="member-contact">
+                <span class="contact-item">Rio de Janeiro, BR</span>
+                <span class="contact-item">Desde 2019</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Membro 3 -->
+          <div class="member-card scroll-reveal">
+            <div class="member-avatar">
+              <div class="avatar-placeholder">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="100" cy="80" r="35" fill="rgba(212, 175, 55, 0.3)"/>
+                  <path d="M50 180 Q50 140 100 140 Q150 140 150 180" fill="rgba(212, 175, 55, 0.2)"/>
+                </svg>
+              </div>
+              <div class="member-role-badge">Design Lead</div>
+            </div>
+            <div class="member-info">
+              <h3 class="member-name">Marina Costa</h3>
+              <p class="member-title">Lead UX/UI Designer</p>
+              <p class="member-desc">
+                Visionária em design de experiências. Criadora de interfaces intuitivas com prêmios internacionais e 10 anos de experiência em design de produto.
+              </p>
+              <div class="member-skills">
+                <span class="skill-tag">UX/UI</span>
+                <span class="skill-tag">Design Thinking</span>
+                <span class="skill-tag">Prototipagem</span>
+              </div>
+              <div class="member-contact">
+                <span class="contact-item">São Paulo, BR</span>
+                <span class="contact-item">Desde 2020</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Membro 4 -->
+          <div class="member-card scroll-reveal">
+            <div class="member-avatar">
+              <div class="avatar-placeholder">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="100" cy="80" r="35" fill="rgba(212, 175, 55, 0.3)"/>
+                  <path d="M50 180 Q50 140 100 140 Q150 140 150 180" fill="rgba(212, 175, 55, 0.2)"/>
+                </svg>
+              </div>
+              <div class="member-role-badge">Product Manager</div>
+            </div>
+            <div class="member-info">
+              <h3 class="member-name">Felipe Oliveira</h3>
+              <p class="member-title">Senior Product Manager</p>
+              <p class="member-desc">
+                Estrategista de produto com foco em roadmap e customer success. Ex-F1 engineer com 8 anos de experiência em product management.
+              </p>
+              <div class="member-skills">
+                <span class="skill-tag">Product Strategy</span>
+                <span class="skill-tag">Motorsport</span>
+                <span class="skill-tag">Data Analytics</span>
+              </div>
+              <div class="member-contact">
+                <span class="contact-item">Interlagos, BR</span>
+                <span class="contact-item">Desde 2019</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Membro 5 -->
+          <div class="member-card scroll-reveal">
+            <div class="member-avatar">
+              <div class="avatar-placeholder">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="100" cy="80" r="35" fill="rgba(212, 175, 55, 0.3)"/>
+                  <path d="M50 180 Q50 140 100 140 Q150 140 150 180" fill="rgba(212, 175, 55, 0.2)"/>
+                </svg>
+              </div>
+              <div class="member-role-badge">Frontend Lead</div>
+            </div>
+            <div class="member-info">
+              <h3 class="member-name">Rafael Santos</h3>
+              <p class="member-title">Frontend Engineer Lead</p>
+              <p class="member-desc">
+                Especialista em web performance e experiências interativas. Pioneiro em implementar tecnologias cutting-edge com 11 anos de experiência.
+              </p>
+              <div class="member-skills">
+                <span class="skill-tag">React/Vue</span>
+                <span class="skill-tag">Performance</span>
+                <span class="skill-tag">WebGL</span>
+              </div>
+              <div class="member-contact">
+                <span class="contact-item">Curitiba, BR</span>
+                <span class="contact-item">Desde 2020</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Membro 6 -->
+          <div class="member-card scroll-reveal">
+            <div class="member-avatar">
+              <div class="avatar-placeholder">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="100" cy="80" r="35" fill="rgba(212, 175, 55, 0.3)"/>
+                  <path d="M50 180 Q50 140 100 140 Q150 140 150 180" fill="rgba(212, 175, 55, 0.2)"/>
+                </svg>
+              </div>
+              <div class="member-role-badge">DevOps</div>
+            </div>
+            <div class="member-info">
+              <h3 class="member-name">Lucas Martins</h3>
+              <p class="member-title">DevOps & Infrastructure</p>
+              <p class="member-desc">
+                Arquiteto de infraestrutura em nuvem. Especialista em CI/CD e escalabilidade com 9 anos gerenciando sistemas em alta demanda.
+              </p>
+              <div class="member-skills">
+                <span class="skill-tag">Kubernetes</span>
+                <span class="skill-tag">AWS/GCP</span>
+                <span class="skill-tag">Automation</span>
+              </div>
+              <div class="member-contact">
+                <span class="contact-item">São Paulo, BR</span>
+                <span class="contact-item">Desde 2021</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== 
+         ESTATÍSTICAS E CONQUISTAS
+    ============================================== -->
+    <section class="conquistas" id="conquistas">
+      <div class="container">
+        <div class="section-header scroll-reveal">
+          <span class="section-eyebrow">Resultados</span>
+          <h2 class="section-title">Estatísticas e <span class="text-gold">Conquistas</span></h2>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-box scroll-reveal">
+            <div class="stat-icon">
+              <svg viewBox="0 0 64 64" fill="none">
+                <path d="M12 52h40M20 52V24M32 52V12M44 52V28" stroke="rgba(212, 175, 55, 0.8)" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="stat-value">200+</div>
+            <div class="stat-label">Equipes Globais</div>
+            <p class="stat-desc">Plataforma utilizada por times em 15 países</p>
+          </div>
+
+          <div class="stat-box scroll-reveal">
+            <div class="stat-icon">
+              <svg viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="24" stroke="rgba(212, 175, 55, 0.8)" stroke-width="2"/>
+                <path d="M32 20v24M32 44l8-8M32 44l-8-8" stroke="rgba(212, 175, 55, 0.8)" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="stat-value">5.2M</div>
+            <div class="stat-label">Eventos Gerenciados</div>
+            <p class="stat-desc">Corridas, treinos e competições coordenadas</p>
+          </div>
+
+          <div class="stat-box scroll-reveal">
+            <div class="stat-icon">
+              <svg viewBox="0 0 64 64" fill="none">
+                <path d="M24 36c-4 0-8-4-8-8s4-8 8-8 8 4 8 8-4 8-8 8zM40 44c-4 0-8-4-8-8s4-8 8-8 8 4 8 8-4 8-8 8z" stroke="rgba(212, 175, 55, 0.8)" stroke-width="2"/>
+                <path d="M32 28c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4z" fill="rgba(212, 175, 55, 0.3)"/>
+              </svg>
+            </div>
+            <div class="stat-value">10K+</div>
+            <div class="stat-label">Usuários Ativos</div>
+            <p class="stat-desc">Profissionais de motorsport conectados</p>
+          </div>
+
+          <div class="stat-box scroll-reveal">
+            <div class="stat-icon">
+              <svg viewBox="0 0 64 64" fill="none">
+                <path d="M32 12l8 16h18l-15 11 6 18-17-13-17 13 6-18-15-11h18z" stroke="rgba(212, 175, 55, 0.8)" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="stat-value">47</div>
+            <div class="stat-label">Prêmios Conquistados</div>
+            <p class="stat-desc">Reconhecimento em inovação e tech</p>
+          </div>
+
+          <div class="stat-box scroll-reveal">
+            <div class="stat-icon">
+              <svg viewBox="0 0 64 64" fill="none">
+                <rect x="16" y="20" width="32" height="24" rx="2" stroke="rgba(212, 175, 55, 0.8)" stroke-width="2"/>
+                <path d="M20 44h24M20 20v-4h24v4" stroke="rgba(212, 175, 55, 0.8)" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="stat-value">99.9%</div>
+            <div class="stat-label">Uptime Garantido</div>
+            <p class="stat-desc">Infraestrutura robusta e redundante</p>
+          </div>
+
+          <div class="stat-box scroll-reveal">
+            <div class="stat-icon">
+              <svg viewBox="0 0 64 64" fill="none">
+                <path d="M16 32c0-8 6-14 16-14s16 6 16 14M24 38c-2 0-4-2-4-4s2-4 4-4 4 2 4 4-2 4-4 4zM40 38c-2 0-4-2-4-4s2-4 4-4 4 2 4 4-2 4-4 4z" stroke="rgba(212, 175, 55, 0.8)" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="stat-value">6</div>
+            <div class="stat-label">Anos de Operação</div>
+            <p class="stat-desc">Desde fundação até hoje</p>
+          </div>
+
+          <div class="stat-box scroll-reveal">
+            <div class="stat-icon">
+              <svg viewBox="0 0 64 64" fill="none">
+                <path d="M32 16c-8 0-15 7-15 15s7 15 15 15 15-7 15-15-7-15-15-15z" stroke="rgba(212, 175, 55, 0.8)" stroke-width="2"/>
+                <path d="M32 22v14l10 6" stroke="rgba(212, 175, 55, 0.8)" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="stat-value">24/7</div>
+            <div class="stat-label">Suporte Técnico</div>
+            <p class="stat-desc">Equipe de especialistas sempre disponível</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="cta-inner scroll-reveal">
+          <span class="section-eyebrow">Entre no Grid</span>
+          <h2 class="section-title">Pronto para <span class="text-gold">acelerar</span>?</h2>
+          <p>Crie sua conta gratuitamente e comece a gerenciar sua equipe de corrida hoje.</p>
+          <div class="cta-actions">
+            <a href="src/pages/cadastro.html" class="btn btn-primary">Criar Conta Gratuita</a>
+            <a href="src/pages/login.html" class="btn btn-ghost">Fazer Login</a>
+          </div>
+      </div>
+    </section>
+  </main>
+
   <footer class="landing-footer">
-    <span class="brand">Septem Racing</span>
+    <span class="footer-brand">Septem Racing</span>
     <p>© 2026 Septem Racing. Todos os direitos reservados.</p>
-    <div style="display:flex;gap:16px">
-      <a href="src/pages/faq.html"     style="font-size:11px;letter-spacing:1px;color:var(--text-muted);text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">FAQ</a>
-      <a href="src/pages/login.html"   style="font-size:11px;letter-spacing:1px;color:var(--text-muted);text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Login</a>
+    <div class="footer-links">
+      <a href="src/pages/faq.html" class="footer-link">FAQ</a>
+      <a href="src/pages/login.html" class="footer-link">Login</a>
     </div>
   </footer>
 
   <script>
-    // Animated counters
-    function animateCounter(el, target, suffix='', duration=1800) {
+    // --- Animated Counters ---
+    function animateCounter(el) {
+      const target = parseInt(el.getAttribute('data-target'), 10);
+      if (isNaN(target)) return;
+      
       let start = 0;
+      const duration = 1800;
       const step = target / (duration / 16);
+      
       const timer = setInterval(() => {
         start = Math.min(start + step, target);
-        el.textContent = Math.floor(start) + suffix;
-        if (start >= target) clearInterval(timer);
+        el.textContent = Math.floor(start);
+        if (start >= target) {
+          clearInterval(timer);
+          el.textContent = target; // Garante o número final exato
+        }
       }, 16);
     }
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          animateCounter(document.getElementById('statTeams'),   7);
-          animateCounter(document.getElementById('statCars'),   14);
-          animateCounter(document.getElementById('statRaces'),  20);
-          animateCounter(document.getElementById('statDrivers'),28);
-          observer.disconnect();
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          document.querySelectorAll('.hero-stat-value').forEach(el => animateCounter(el));
+          statsObserver.disconnect(); // Anima apenas uma vez
         }
       });
-    });
-    observer.observe(document.querySelector('.hero-stats'));
+    }, { threshold: 0.5 });
+    
+    const statsEl = document.querySelector('.hero-stats');
+    if(statsEl) statsObserver.observe(statsEl);
 
-    // Smooth nav links
+    // --- Scroll Reveal Animation System ---
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Elemento entra na viewport - adiciona visible e remove hidden
+          entry.target.classList.remove('hidden');
+          entry.target.classList.add('visible');
+        } else {
+          // Elemento sai da viewport - adiciona hidden e remove visible
+          entry.target.classList.remove('visible');
+          entry.target.classList.add('hidden');
+        }
+      });
+    }, { 
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    // Observar todos os elementos com scroll-reveal
+    document.querySelectorAll('.scroll-reveal').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // --- Smooth Scroll for Internal Links ---
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
         e.preventDefault();
-        document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+        const targetId = a.getAttribute('href');
+        if (targetId === '#') return;
+        const target = document.querySelector(targetId);
+        if(target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       });
+    });
+
+    // --- Mobile Menu Toggle ---
+    const menuToggle = document.querySelector('.nav-mobile-toggle');
+    const navLinks = document.querySelector('.landing-nav-links');
+    
+    if (menuToggle && navLinks) {
+      menuToggle.addEventListener('click', () => {
+        const isExpanded = navLinks.classList.toggle('is-active');
+        menuToggle.setAttribute('aria-expanded', isExpanded);
+        document.body.classList.toggle('nav-open', isExpanded);
+      });
+
+      // Fecha o menu ao clicar em um link
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('is-active');
+          menuToggle.setAttribute('aria-expanded', 'false');
+          document.body.classList.remove('nav-open');
+        });
+      });
+    }
+
+    // --- Parallax Effect on Scroll ---
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrolled = window.pageYOffset;
+          const heroBg = document.querySelector('.hero-bg');
+          if (heroBg) {
+            heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     });
   </script>
 </body>
