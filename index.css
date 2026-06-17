@@ -39,9 +39,21 @@
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; font-size: 16px; }
-body { font-family: var(--font-body); background-color: var(--black); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
+html { scroll-behavior: smooth; font-size: 16px; background-color: var(--black); }
+body { font-family: var(--font-body); background-color: transparent; color: var(--text-primary); line-height: 1.6; overflow-x: hidden; position: relative; }
 a { text-decoration: none; color: inherit; }
+main { position: relative; z-index: 1; }
+
+/* Hidra 3D de fundo — fixa atrás de todo o conteúdo da landing page.
+   Permanece majoritariamente nas sombras e emerge sutilmente no scroll
+   (ver src/scripts/hydra-bg.js). Some completamente se o navegador
+   não suportar WebGL ou se prefers-reduced-motion estiver ativo. */
+#hydra-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+#hydra-bg canvas { display: block; width: 100% !important; height: 100% !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  #hydra-bg { opacity: 0.25; }
+}
 
 .container { max-width: 1280px; margin: 0 auto; padding: 0 var(--spacing-lg); }
 .text-gold { color: var(--gold); }
@@ -66,7 +78,7 @@ a { text-decoration: none; color: inherit; }
 .btn:hover .btn-icon { transform: translateX(5px); }
 
 /* Landing Nav */
-.landing-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 0 48px; height: 84px; background: rgba(5, 5, 5, 0.75); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-subtle); transition: background 0.4s ease, height 0.3s ease; }
+.landing-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 0 48px; height: 84px; background: rgba(5, 5, 5, 0.55); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-subtle); transition: background 0.4s ease, height 0.3s ease; }
 .landing-nav-brand { font-family: var(--font-display); font-size: 22px; font-weight: 800; letter-spacing: 1.5px; color: var(--text-primary); text-transform: uppercase; }
 .landing-nav-links { display: flex; align-items: center; gap: 36px; }
 .nav-link-text { position: relative; font-size: 13px; font-weight: 600; letter-spacing: 1.5px; color: var(--text-secondary); text-transform: uppercase; transition: color 0.3s; padding: 4px 0; }
@@ -76,7 +88,7 @@ a { text-decoration: none; color: inherit; }
 .nav-mobile-toggle span { display: block; width: 24px; height: 2px; background: var(--text-primary); transition: all 0.4s; }
 
 /* Hero */
-.hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 160px 24px 80px; text-align: center; overflow: hidden; background: var(--black); }
+.hero { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 160px 24px 80px; text-align: center; overflow: hidden; background: transparent; }
 .hero-bg { position: absolute; inset: 0; z-index: 0; background: radial-gradient(circle at 50% 0%, rgba(201, 160, 48, 0.12) 0%, transparent 60%); }
 .hero-content { position: relative; z-index: 1; max-width: 900px; width: 100%; animation: fadeInUp 0.8s var(--ease-out-expo) both; }
 .hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 8px 24px; background: rgba(201, 160, 48, 0.08); border: 1px solid var(--border-gold); border-radius: var(--radius-full); color: var(--gold); font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 36px; }
@@ -90,7 +102,7 @@ a { text-decoration: none; color: inherit; }
 .hero-stat-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-muted); }
 
 /* Features */
-.features { padding: 120px 24px; max-width: 1280px; margin: 0 auto; }
+.features { position: relative; z-index: 1; padding: 120px 24px; max-width: 1280px; margin: 0 auto; }
 .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
 .feature-card { background: var(--surface-2); border: 1px solid var(--border-default); border-radius: var(--radius-lg); padding: 48px 36px; transition: all 0.4s var(--ease-out-expo); position: relative; overflow: hidden; }
 .feature-card:hover { transform: translateY(-12px); border-color: var(--border-gold); box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5); }
@@ -104,7 +116,7 @@ a { text-decoration: none; color: inherit; }
 .section-title { font-family: var(--font-display); font-size: clamp(36px, 5vw, 56px); font-weight: 700; text-transform: uppercase; line-height: 1.1; color: var(--text-primary); }
 
 /* Identity */
-section.identidade { padding: var(--spacing-3xl) var(--spacing-lg); background: linear-gradient(180deg, transparent 0%, rgba(212, 175, 55, 0.03) 100%); }
+section.identidade { position: relative; z-index: 1; padding: var(--spacing-3xl) var(--spacing-lg); background: linear-gradient(180deg, transparent 0%, rgba(212, 175, 55, 0.03) 100%); }
 .identidade-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--spacing-3xl); }
 .identidade-visual { width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, var(--surface-2) 0%, var(--surface-1) 100%); border: 1px solid var(--border-default); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; overflow: hidden; transition: all 0.4s; }
 .identidade-visual:hover { border-color: var(--border-gold); transform: translateY(-4px); }
@@ -114,7 +126,7 @@ section.identidade { padding: var(--spacing-3xl) var(--spacing-lg); background: 
 .specs li::before { content: '✓'; position: absolute; left: 0; color: var(--gold); }
 
 /* Members */
-section.membros { padding: var(--spacing-3xl) var(--spacing-lg); background: linear-gradient(180deg, rgba(212, 175, 55, 0.03) 0%, transparent 100%); }
+section.membros { position: relative; z-index: 1; padding: var(--spacing-3xl) var(--spacing-lg); background: linear-gradient(180deg, rgba(212, 175, 55, 0.03) 0%, transparent 100%); }
 .membros-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--spacing-2xl); }
 .member-card { background: var(--surface-2); border: 1px solid var(--border-default); border-radius: var(--radius-lg); overflow: hidden; transition: all 0.4s var(--ease-out-expo); position: relative; display: flex; flex-direction: column; height: 100%; }
 .member-card:hover { background: var(--surface-3); border-color: var(--border-gold); transform: translateY(-12px); box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4); }
@@ -125,20 +137,20 @@ section.membros { padding: var(--spacing-3xl) var(--spacing-lg); background: lin
 .member-title { font-size: 13px; font-weight: 600; color: var(--gold); text-transform: uppercase; }
 
 /* Stats Landing */
-section.conquistas { padding: var(--spacing-3xl) var(--spacing-lg); background: linear-gradient(180deg, transparent 0%, rgba(212, 175, 55, 0.03) 100%); }
+section.conquistas { position: relative; z-index: 1; padding: var(--spacing-3xl) var(--spacing-lg); background: linear-gradient(180deg, transparent 0%, rgba(212, 175, 55, 0.03) 100%); }
 .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--spacing-2xl); }
 .stat-box { background: var(--surface-2); border: 1px solid var(--border-default); border-radius: var(--radius-lg); padding: var(--spacing-2xl) var(--spacing-xl); text-align: center; transition: all 0.4s var(--ease-out-expo); position: relative; overflow: hidden; }
 .stat-box:hover { border-color: var(--border-gold); transform: translateY(-12px); }
 .stat-value { font-family: var(--font-display); font-size: 42px; font-weight: 800; color: var(--gold); margin-bottom: 8px; }
 
 /* Footer */
-.landing-footer { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 56px 24px; border-top: 1px solid var(--border-subtle); background: var(--black); text-align: center; }
+.landing-footer { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 56px 24px; border-top: 1px solid var(--border-subtle); background: rgba(5, 5, 5, 0.7); text-align: center; }
 .footer-brand { font-family: var(--font-display); font-size: 20px; font-weight: 800; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; }
 .footer-links { display: flex; gap: 32px; }
 .footer-link { font-size: 12px; font-weight: 600; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; transition: color 0.3s; }
 
 /* Preview Section */
-.preview-section { padding: 120px 24px; background: linear-gradient(180deg, var(--surface-1) 0%, var(--black) 100%); position: relative; overflow: hidden; }
+.preview-section { padding: 120px 24px; background: linear-gradient(180deg, rgba(10, 10, 10, 0.55) 0%, rgba(5, 5, 5, 0.75) 100%); position: relative; overflow: hidden; z-index: 1; }
 .preview-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: center; }
 .preview-mockup { background: var(--surface-1); border: 1px solid var(--border-default); border-radius: var(--radius-xl); box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7); overflow: hidden; animation: float 3s ease-in-out infinite; }
 .mockup-bar { display: flex; gap: 8px; padding: 18px 24px; background: var(--surface-3); border-bottom: 1px solid var(--border-default); }
@@ -146,7 +158,7 @@ section.conquistas { padding: var(--spacing-3xl) var(--spacing-lg); background: 
 .mockup-body { padding: 44px; background: var(--surface-2); }
 
 /* CTA Section */
-.cta-section { padding: 140px 24px; text-align: center; position: relative; background: var(--black); }
+.cta-section { padding: 140px 24px; text-align: center; position: relative; background: transparent; z-index: 1; }
 .cta-inner { max-width: 640px; margin: 0 auto; padding: 80px 56px; background: var(--surface-2); border: 1px solid var(--border-gold); border-radius: var(--radius-xl); box-shadow: 0 0 100px rgba(201, 160, 48, 0.04); position: relative; z-index: 1; transition: all 0.5s ease; }
 .cta-inner:hover { transform: translateY(-8px); box-shadow: 0 0 100px rgba(201, 160, 48, 0.1); }
 

@@ -7,10 +7,12 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>Septem Racing — Motorsport Management System</title>
   <link href="index.css" rel="stylesheet" />
-  <link rel="shortcut icon" href="img/septem.png" type="image/x-icon">
 </head>
 
 <body class="landing-body">
+  <!-- Hidra 3D de fundo — ver src/scripts/hydra-bg.js -->
+  <div id="hydra-bg" aria-hidden="true"></div>
+
   <nav class="landing-nav">
     <span class="landing-nav-brand">Septem Racing</span>
     <!-- Menu Hambúrguer para Mobile -->
@@ -221,7 +223,7 @@
           </div>
           <!-- Logo -->
           <div class="identidade-item scroll-reveal">
-            <div class="identidade-visual"><img src="img/septem.png"
+            <div class="identidade-visual"><img src="img/septem.jpeg"
                 style="width:100%;max-width:280px;height:auto;object-fit:contain;display:block;margin:auto;" /></div>
             <div class="identidade-info">
               <h3>Logotipo Institucional</h3>
@@ -547,6 +549,8 @@
       <a class="footer-link" href="src/pages/login.html">Login</a>
     </div>
   </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="src/scripts/hydra-bg.js"></script>
   <script>
     // --- Animated Counters ---
     function animateCounter(el) {
